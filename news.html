@@ -1,7 +1,7 @@
 <html><head><base href="." />
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Africa Mono | We are Humanity</title>
+<title>Optimized Video Player</title>
 
 <style>
 #fullscreen-container {
@@ -21,7 +21,7 @@
     position: relative;
     width: 100%;
     height: 0;
-    padding-bottom: 56.25%;
+    padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
 }
 
 video {
@@ -40,32 +40,32 @@ video {
     left: 50%;
     transform: translate(-50%, -50%);
     z-index: 10;
-    width: 80px;
-    height: 80px;
+    padding: 15px 30px;
+    font-size: 18px;
     cursor: pointer;
     border: none;
-    border-radius: 50%;
-    background-color: rgba(0, 0, 0, 0.7);
+    border-radius: 50px;
+    background-color: rgba(255, 76, 76, 0.9);
     color: white;
     transition: all 0.3s;
-    opacity: 0;
-    display: none;
-}
-
-#playButton::before {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: 55%;
-    transform: translate(-50%, -50%);
-    border-style: solid;
-    border-width: 15px 0 15px 25px;
-    border-color: transparent transparent transparent white;
+    opacity: 0.9;
 }
 
 #playButton:hover {
-    background-color: rgba(0, 0, 0, 0.9);
+    background-color: rgba(228, 62, 62, 1);
     transform: translate(-50%, -50%) scale(1.1);
+}
+
+#status-indicator {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    font-size: 14px;
+    color: white;
+    background-color: rgba(0, 0, 0, 0.7);
+    padding: 5px 10px;
+    border-radius: 4px;
+    z-index: 10;
 }
 
 #quality-indicator {
@@ -81,11 +81,8 @@ video {
 
 @media (max-width: 480px) {
     #playButton {
-        width: 60px;
-        height: 60px;
-    }
-    #playButton::before {
-        border-width: 12px 0 12px 20px;
+        padding: 10px 20px;
+        font-size: 16px;
     }
 }
 </style>
@@ -94,9 +91,9 @@ video {
 
 <div id="fullscreen-container" onclick="toggleFullScreen()">
     <div class="video-wrapper">
-        <video id="meuVideo" playsinline preload="auto" autoplay></video>
-        <button id="playButton"></button>
-        
+      
+        <video id="meuVideo" playsinline preload="auto"></video>
+        <button id="playButton">Play</button>
     </div>
 </div>
 
@@ -125,8 +122,10 @@ const videoSources = {
 const videoDurations = [2000, 2000, 2000, 2000, 2000, 2000, 2000, 2000, 2000, 2000, 2000, 2000];
 const videoPlayer = document.getElementById('meuVideo');
 const playButton = document.getElementById('playButton');
+const statusIndicator = document.getElementById('status-indicator');
 const qualityIndicator = document.getElementById('quality-indicator');
 let currentQuality = 'high';
+let isStreaming = false;
 let currentIndex = 0;
 
 async function testConnectionSpeed() {
@@ -176,29 +175,21 @@ function updateVideoSource() {
     qualityIndicator.textContent = videoSources[currentQuality][index].quality;
 }
 
-videoPlayer.addEventListener('loadeddata', () => {
-    videoPlayer.play().catch(error => {
-        console.error('Autoplay failed:', error);
-        playButton.style.display = 'block';
-        playButton.style.opacity = '1';
-    });
-});
-
-videoPlayer.addEventListener('ended', () => {
-    currentIndex = (currentIndex + 1) % videoSources[currentQuality].length;
-    videoPlayer.src = videoSources[currentQuality][currentIndex].url;
-    videoPlayer.play();
-    qualityIndicator.textContent = videoSources[currentQuality][currentIndex].quality;
-});
-
 playButton.addEventListener('click', function(e) {
     e.stopPropagation();
-    videoPlayer.play().then(() => {
-        playButton.style.opacity = '0';
-        setTimeout(() => { playButton.style.display = 'none'; }, 300);
-    }).catch(error => {
-        console.error('Error playing video:', error);
-    });
+    if (videoPlayer.paused) {
+        videoPlayer.play().then(() => {
+            playButton.style.opacity = '0';
+            setTimeout(() => { playButton.style.display = 'none'; }, 300);
+        }).catch(error => {
+            console.error('Error playing video:', error);
+        });
+    }
+});
+
+videoPlayer.addEventListener('pause', () => {
+    playButton.style.display = 'block';
+    setTimeout(() => { playButton.style.opacity = '0.9'; }, 0);
 });
 
 function toggleFullScreen() {
