@@ -1,117 +1,37 @@
-<html><head><base href="." /><title>Africa Mono Music | We are Humanity</title><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<html><head><base href="." />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Optimized Video Player</title>
+
 <style>
-* {margin: 0; padding: 0; box-sizing: border-box; font-family: 'Arial', sans-serif;}
-
-body {
-    display: flex;
-    justify-content: center;
-    align-items: center; 
-    min-height: 100vh;
-    background-color: #000000;
-    overflow: hidden;
-}
-
-#app-container {
+#fullscreen-container {
     display: flex;
     flex-direction: column;
-    justify-content: flex-start;
     align-items: center;
+    justify-content: center;
     width: 100%;
-    height: 100%;
+    max-width: 100%;
+    padding: 5px;
+    border-radius: 8px;
+    box-shadow: 0 0px 0px rgba(0, 0, 0, 0.3);
     position: relative;
+}
+
+.video-wrapper {
+    position: relative;
+    width: 100%;
+    height: 0;
+    padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
 }
 
 video {
-    width: 100%;
-    height: 100%;
-    background-color: black;
-    outline: none;
-    position: relative;
-}
-
-#controls {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 15px;
-    width: 100%;
-    max-width: 400px;
-    padding: 20px;
-    position: fixed;
-    bottom: 20px;
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 10;
-    background: rgba(20, 20, 20, 0.85);
-    backdrop-filter: blur(10px);
-    border-radius: 25px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-#controls.hidden {
-    opacity: 0;
-    transform: translateX(-50%) translateY(100px);
-    pointer-events: none;
-}
-
-.button {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 60px;
-    height: 60px;
-    border-radius: 15px;
-    background: linear-gradient(145deg, rgba(255,255,255,0.1), rgba(255,255,255,0.05));
-    backdrop-filter: blur(5px);
-    border: 1px solid rgba(255,255,255,0.1);
-    color: #fff;
-    font-size: 24px;
-    text-decoration: none;
-    transition: all 0.3s ease;
-    margin: auto;
-}
-
-.button:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-    border: 1px solid rgba(255,255,255,0.2);
-}
-
-.button:active {
-    transform: scale(0.95);
-}
-
-.logo {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    object-fit: contain;
-    z-index: 5;
-}
-
-.logo.hidden {display: none;}
-
-#loadingSpinner {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 50px;
-    height: 50px;
-    border: 4px solid rgba(255,255,255,0.1);
-    border-top: 4px solid #fff;
-    border-radius: 50%;
-    animation: spin 1s linear infinite;
-    z-index: 10;
-}
-
-#loadingSpinner.hidden {display: none;}
-
-@keyframes spin {
-    0% {transform: translate(-50%, -50%) rotate(0deg);}
-    100% {transform: translate(-50%, -50%) rotate(360deg);}
+    background-color: #000;
+    object-fit: cover;
 }
 
 #playButton {
@@ -119,160 +39,174 @@ video {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 80px;
-    height: 80px;
-    font-size: 40px;
-    background: rgba(255,255,255,0.15);
-    border-radius: 50%;
-    z-index: 20;
-    border: none;
-    color: white;
+    z-index: 10;
+    padding: 15px 30px;
+    font-size: 18px;
     cursor: pointer;
-    transition: all 0.3s ease;
-    backdrop-filter: blur(5px);
+    border: none;
+    border-radius: 50px;
+    background-color: rgba(255, 76, 76, 0.9);
+    color: white;
+    transition: all 0.3s;
+    opacity: 0.9;
 }
 
 #playButton:hover {
+    background-color: rgba(228, 62, 62, 1);
     transform: translate(-50%, -50%) scale(1.1);
-    background: rgba(255,255,255,0.25);
+}
+
+#status-indicator {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    font-size: 14px;
+    color: white;
+    background-color: rgba(0, 0, 0, 0.7);
+    padding: 5px 10px;
+    border-radius: 4px;
+    z-index: 10;
+}
+
+#quality-indicator {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    color: white;
+    background-color: rgba(0, 0, 0, 0.7);
+    padding: 5px 10px;
+    border-radius: 4px;
+    z-index: 10;
 }
 
 @media (max-width: 480px) {
-    #controls {
-        grid-template-columns: repeat(4, 1fr);
-        gap: 10px;
-        padding: 15px;
-        bottom: 10px;
-        max-width: 320px;
-    }
-    
-    .button {
-        width: 50px;
-        height: 50px;
-        font-size: 20px;
+    #playButton {
+        padding: 10px 20px;
+        font-size: 16px;
     }
 }
-
-.fa-film {color: #FF6347; text-shadow: 0 0 10px rgba(255,99,71,0.5);}
-.fa-music {color: #1E90FF; text-shadow: 0 0 10px rgba(30,144,255,0.5);}
-.fa-users {color: #32CD32; text-shadow: 0 0 10px rgba(50,205,50,0.5);}
-.fa-newspaper-o {color: #FFD700; text-shadow: 0 0 10px rgba(255,215,0,0.5);}
-.fa-futbol {color: #FF4500; text-shadow: 0 0 10px rgba(255,69,0,0.5);}
-.fa-child {color: #8A2BE2; text-shadow: 0 0 10px rgba(138,43,226,0.5);}
-.fa-church {color: #8B0000; text-shadow: 0 0 10px rgba(139,0,0,0.5);}
-.fa-cogs {color: #20B2AA; text-shadow: 0 0 10px rgba(32,178,170,0.5);}
 </style>
 </head>
 <body>
-    <div id="app-container" onclick="toggleFullScreen()">
-<img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjn9pJnGeQGq9reoOHQYC508tVRdJGJC2sb-hCF8WRVZxBbpjroueUZvHDMl6hOTJAEuaveSsK3Qbf_C1B08_1YZfSDV4P5dItDYCOkZe7wdGagvdLVzFmvG2T_Z9HqlA17CKr__TkMI24TOoDTx_Fuw8GFIXoU6AOCGPDEZHGdxmRhdaJoiMqhk2Hwz1U/s1600/Cine%202.png" alt="Logo" id="logo" class="logo hidden">
 
+<div id="fullscreen-container" onclick="toggleFullScreen()">
+    <div class="video-wrapper">
+        <div id="status-indicator"></div>
+        <div id="quality-indicator"></div>
         <video id="meuVideo" playsinline preload="auto"></video>
-        <div id="loadingSpinner"></div>
-        <div id="controls" class="hidden">
-            <a href="cine.html" class="button"><i class="fa fa-film"></i></a>
-            <a href="index.html" class="button"><i class="fa fa-music"></i></a>
-            <a href="kuduro.html" class="button"><i class="fa fa-users"></i></a>
-            <a href="news.html" class="button"><i class="fa fa-newspaper-o"></i></a>
-            <a href="sport.html" class="button"><i class="fas fa-futbol"></i></a>
-            <a href="kids.html" class="button"><i class="fas fa-child"></i></a>
-            <a href="igreja.html" class="button"><i class="fas fa-church"></i></a>
-            <a href="index.html" class="button"><i class="fas fa-cogs"></i></a>
-        </div>
-        <button id="playButton" class="button">
-            <i class="fas fa-play"></i>
-        </button>
+        <button id="playButton">Play</button>
     </div>
+</div>
 
-    <script>
-      
-            const videoSources = [
-        'https://seed126.bitchute.com/8A8gTUgMoXYR/CPNTfxdc7PHx.mp4',
-            'https://zb10-7gsop1v78.bitchute.com/8A8gTUgMoXYR/LJm5Aj2WCd94.mp4',
-	     'https://seedxvj21.bitchute.com/8A8gTUgMoXYR/_8eUHEfTA64.mp4'
-            
-		
-        ];
+<script>
+const rawVideoSources = [
+    'https://seed163.bitchute.com/OkD3fEQ7n2eI/mQtYcSY4zeg1.mp4',
+    'https://seed128.bitchute.com/OkD3fEQ7n2eI/AFYNhCCIw6HG.mp4',
+    'https://zb10-7gsop1v78.bitchute.com/OkD3fEQ7n2eI/AYlCKdMmSMCI.mp4',
+    'https://seed163.bitchute.com/OkD3fEQ7n2eI/YMtjrcIP0rX3.mp4',
+    'https://seed167.bitchute.com/OkD3fEQ7n2eI/vY1azvISNqC8.mp4',
+    'https://seed163.bitchute.com/OkD3fEQ7n2eI/LkldJDexZkl4.mp4',
+    'https://seed125.bitchute.com/OkD3fEQ7n2eI/HLuM7tXxXnAY.mp4',
+    'https://seed306.bitchute.com/OkD3fEQ7n2eI/I302uTpVd6oI.mp4',
+    'https://seed306.bitchute.com/OkD3fEQ7n2eI/sSDc7whrv5ao.mp4',
+    'https://seed132.bitchute.com/OkD3fEQ7n2eI/irs3ZfOClBFI.mp4',
+    'https://seed307.bitchute.com/OkD3fEQ7n2eI/5VHtakgY3E5z.mp4',
+    'https://zggg98sgwbg1gh.bitchute.com/OkD3fEQ7n2eI/MBiqM5WcRddU.mp4'
+];
 
-        const videoDurations = [2000, 2000, 2000];
+const videoSources = {
+    high: rawVideoSources.map(src => ({ url: src, quality: '1080p' })),
+    medium: rawVideoSources.map(src => ({ url: src.replace('.mp4', '_720p.mp4'), quality: '720p' })),
+    low: rawVideoSources.map(src => ({ url: src.replace('.mp4', '_480p.mp4'), quality: '480p' }))
+};
 
-        const videoPlayer = document.getElementById('meuVideo');
-        const playButton = document.getElementById('playButton');
-        const controls = document.getElementById('controls');
-        const appContainer = document.getElementById('app-container');
-        const loadingSpinner = document.getElementById('loadingSpinner');
-        const logo = document.getElementById('logo');
-        let currentIndex = 0;
+const videoDurations = [2000, 2000, 2000, 2000, 2000, 2000, 2000, 2000, 2000, 2000, 2000, 2000];
+const videoPlayer = document.getElementById('meuVideo');
+const playButton = document.getElementById('playButton');
+const statusIndicator = document.getElementById('status-indicator');
+const qualityIndicator = document.getElementById('quality-indicator');
+let currentQuality = 'high';
+let isStreaming = false;
+let currentIndex = 0;
 
-        window.addEventListener('load', () => {
-            const { index, startTime } = getSyncedVideoAndTime();
-            changeVideo(index, startTime);
+async function testConnectionSpeed() {
+    const startTime = performance.now();
+    const response = await fetch('https://www.google.com/favicon.ico');
+    const endTime = performance.now();
+    const duration = endTime - startTime;
+    
+    if (duration < 100) return 'high';
+    if (duration < 300) return 'medium';
+    return 'low';
+}
+
+async function adjustVideoQuality() {
+    const quality = await testConnectionSpeed();
+    if (quality !== currentQuality) {
+        currentQuality = quality;
+        const currentTime = videoPlayer.currentTime;
+        videoPlayer.src = videoSources[quality][currentIndex].url;
+        videoPlayer.currentTime = currentTime;
+        qualityIndicator.textContent = videoSources[quality][currentIndex].quality;
+    }
+}
+
+setInterval(adjustVideoQuality, 10000);
+
+function getSyncedVideoAndTime() {
+    const now = Math.floor(Date.now() / 1000);
+    const totalDuration = videoDurations.reduce((a, b) => a + b, 0);
+    const syncedTime = now % totalDuration;
+
+    let accumulatedTime = 0;
+    for (let i = 0; i < videoSources[currentQuality].length; i++) {
+        if (syncedTime < accumulatedTime + videoDurations[i]) {
+            return { index: i, startTime: syncedTime - accumulatedTime };
+        }
+        accumulatedTime += videoDurations[i];
+    }
+    return { index: 0, startTime: 0 };
+}
+
+function updateVideoSource() {
+    const { index, startTime } = getSyncedVideoAndTime();
+    currentIndex = index;
+    videoPlayer.src = videoSources[currentQuality][index].url;
+    videoPlayer.currentTime = startTime;
+    qualityIndicator.textContent = videoSources[currentQuality][index].quality;
+}
+
+playButton.addEventListener('click', function(e) {
+    e.stopPropagation();
+    if (videoPlayer.paused) {
+        videoPlayer.play().then(() => {
+            playButton.style.opacity = '0';
+            setTimeout(() => { playButton.style.display = 'none'; }, 300);
+        }).catch(error => {
+            console.error('Error playing video:', error);
         });
+    }
+});
 
-        function getSyncedVideoAndTime() {
-            const now = Math.floor(Date.now() / 1000);
-            const totalDuration = videoDurations.reduce((a, b) => a + b, 0);
-            const syncedTime = now % totalDuration;
+videoPlayer.addEventListener('pause', () => {
+    playButton.style.display = 'block';
+    setTimeout(() => { playButton.style.opacity = '0.9'; }, 0);
+});
 
-            let accumulatedTime = 0;
-            for (let i = 0; i < videoSources.length; i++) {
-                if (syncedTime < accumulatedTime + videoDurations[i]) {
-                    return { index: i, startTime: syncedTime - accumulatedTime };
-                }
-                accumulatedTime += videoDurations[i];
-            }
-            return { index: 0, startTime: 0 };
-        }
-
-        function changeVideo(index, startTime) {
-            videoPlayer.src = videoSources[index];
-            videoPlayer.currentTime = startTime;
-            videoPlayer.play().catch(error => console.error('Erro ao reproduzir vídeo:', error));
-        }
-
-        playButton.addEventListener('click', () => {
-            if (videoPlayer.paused) {
-                videoPlayer.play().catch(error => console.error('Erro ao reproduzir vídeo:', error));
-                playButton.style.display = 'none';
-            } else {
-                videoPlayer.pause();
-                playButton.innerHTML = '<i class="fas fa-play"></i>';
-            }
+function toggleFullScreen() {
+    if (!document.fullscreenElement) {
+        document.getElementById('fullscreen-container').requestFullscreen().catch(err => {
+            console.error(`Error enabling fullscreen: ${err.message}`);
         });
+    } else {
+        document.exitFullscreen();
+    }
+}
 
-        videoPlayer.addEventListener('ended', () => {
-            currentIndex = (currentIndex + 1) % videoSources.length;
-            changeVideo(currentIndex, 0);
-        });
-
-        function showControls() {
-            controls.classList.remove('hidden');
-            setTimeout(() => controls.classList.add('hidden'), 15000);
-        }
-
-        document.addEventListener('mousemove', showControls);
-        document.addEventListener('touchstart', showControls);
-
-        function toggleFullScreen() {
-            if (!document.fullscreenElement) {
-                appContainer.requestFullscreen().catch(err => console.error('Erro ao habilitar tela cheia:', err));
-            } else {
-                document.exitFullscreen();
-            }
-        }
-
-        function showLoadingSpinner() {
-            loadingSpinner.classList.remove('hidden');
-            if(logo) logo.classList.add('hidden');
-        }
-
-        function hideLoadingSpinner() {
-            loadingSpinner.classList.add('hidden');
-            if(logo) logo.classList.remove('hidden');
-        }
-
-        videoPlayer.addEventListener('waiting', showLoadingSpinner);
-        videoPlayer.addEventListener('playing', hideLoadingSpinner);
-        videoPlayer.addEventListener('canplay', hideLoadingSpinner);
-    </script>
-</body></html>
+window.addEventListener('load', function() {
+    updateVideoSource();
+    adjustVideoQuality();
+});
+</script>
+</body>
+</html>
