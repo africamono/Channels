@@ -1,119 +1,148 @@
-
 <div id="fullscreen-container" onclick="toggleFullScreen()">
-    <div class="video-wrapper">
-      
-        <video id="meuVideo" playsinline preload="auto"></video>
-        <button id="playButton">Play</button>
-    </div>
+
+    <video id="meuVideo" playsinline preload="auto"></video>
+    <button id="playButton" class="play-button">Play</button>
 </div>
 
-<script>
-const rawVideoSources = [
-    'https://seed163.bitchute.com/OkD3fEQ7n2eI/mQtYcSY4zeg1.mp4',
-    'https://seed128.bitchute.com/OkD3fEQ7n2eI/AFYNhCCIw6HG.mp4',
-    'https://zb10-7gsop1v78.bitchute.com/OkD3fEQ7n2eI/AYlCKdMmSMCI.mp4',
-    'https://seed163.bitchute.com/OkD3fEQ7n2eI/YMtjrcIP0rX3.mp4',
-    'https://seed167.bitchute.com/OkD3fEQ7n2eI/vY1azvISNqC8.mp4',
-    'https://seed163.bitchute.com/OkD3fEQ7n2eI/LkldJDexZkl4.mp4',
-    'https://seed125.bitchute.com/OkD3fEQ7n2eI/HLuM7tXxXnAY.mp4',
-    'https://seed306.bitchute.com/OkD3fEQ7n2eI/I302uTpVd6oI.mp4',
-    'https://seed306.bitchute.com/OkD3fEQ7n2eI/sSDc7whrv5ao.mp4',
-    'https://seed132.bitchute.com/OkD3fEQ7n2eI/irs3ZfOClBFI.mp4',
-    'https://seed307.bitchute.com/OkD3fEQ7n2eI/5VHtakgY3E5z.mp4',
-    'https://zggg98sgwbg1gh.bitchute.com/OkD3fEQ7n2eI/MBiqM5WcRddU.mp4'
-];
-
-const videoSources = {
-    high: rawVideoSources.map(src => ({ url: src, quality: '1080p' })),
-    medium: rawVideoSources.map(src => ({ url: src.replace('.mp4', '_720p.mp4'), quality: '720p' })),
-    low: rawVideoSources.map(src => ({ url: src.replace('.mp4', '_480p.mp4'), quality: '480p' }))
-};
-
-const videoDurations = [2000, 2000, 2000, 2000, 2000, 2000, 2000, 2000, 2000, 2000, 2000, 2000];
-const videoPlayer = document.getElementById('meuVideo');
-const playButton = document.getElementById('playButton');
-const statusIndicator = document.getElementById('status-indicator');
-const qualityIndicator = document.getElementById('quality-indicator');
-let currentQuality = 'high';
-let isStreaming = false;
-let currentIndex = 0;
-
-async function testConnectionSpeed() {
-    const startTime = performance.now();
-    const response = await fetch('https://www.google.com/favicon.ico');
-    const endTime = performance.now();
-    const duration = endTime - startTime;
-    
-    if (duration < 100) return 'high';
-    if (duration < 300) return 'medium';
-    return 'low';
-}
-
-async function adjustVideoQuality() {
-    const quality = await testConnectionSpeed();
-    if (quality !== currentQuality) {
-        currentQuality = quality;
-        const currentTime = videoPlayer.currentTime;
-        videoPlayer.src = videoSources[quality][currentIndex].url;
-        videoPlayer.currentTime = currentTime;
-        qualityIndicator.textContent = videoSources[quality][currentIndex].quality;
+<style>
+    #fullscreen-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        max-width: 100%;
+        padding: 5px;
+        border-radius: 8px;
+        box-shadow: 0 0px 0px rgba(0, 0, 0, 0.3);
+        position: relative;
     }
-}
 
-setInterval(adjustVideoQuality, 10000);
+    video {
+        width: 100%;
+        height: auto;
+        aspect-ratio: 16 / 9;
+        background-color: #000;
+        object-fit: cover;
+    }
 
-function getSyncedVideoAndTime() {
-    const now = Math.floor(Date.now() / 1000);
-    const totalDuration = videoDurations.reduce((a, b) => a + b, 0);
-    const syncedTime = now % totalDuration;
+    #status-indicator {
+        position: fixed;
+        top: 10px;
+        left: 10px;
+        z-index: 9999;
+        color: white;
+        background: rgba(0, 0, 0, 0.7);
+        padding: 5px 10px;
+        border-radius: 5px;
+        font-size: 14px;
+    }
 
-    let accumulatedTime = 0;
-    for (let i = 0; i < videoSources[currentQuality].length; i++) {
-        if (syncedTime < accumulatedTime + videoDurations[i]) {
-            return { index: i, startTime: syncedTime - accumulatedTime };
+    .play-button {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        padding: 15px 30px;
+        font-size: 18px;
+        font-weight: bold;
+        color: white;
+        background-color: rgba(255, 76, 76, 0.8);
+        border: none;
+        border-radius: 50px;
+        cursor: pointer;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+        transition: all 0.3s ease;
+        z-index: 10;
+    }
+
+    .play-button:hover {
+        background-color: rgba(228, 62, 62, 0.9);
+        transform: translate(-50%, -50%) scale(1.1);
+    }
+
+    .play-button.hidden {
+        display: none;
+    }
+
+    @media (max-width: 480px) {
+        video {
+            max-height: 30vh;
         }
-        accumulatedTime += videoDurations[i];
+        .play-button {
+            font-size: 16px;
+            padding: 10px 20px;
+        }
     }
-    return { index: 0, startTime: 0 };
-}
+</style>
 
-function updateVideoSource() {
-    const { index, startTime } = getSyncedVideoAndTime();
-    currentIndex = index;
-    videoPlayer.src = videoSources[currentQuality][index].url;
-    videoPlayer.currentTime = startTime;
-    qualityIndicator.textContent = videoSources[currentQuality][index].quality;
-}
+<script>
+    const videoSources = [
+        'https://seed163.bitchute.com/OkD3fEQ7n2eI/mQtYcSY4zeg1.mp4',
+        'https://seed128.bitchute.com/OkD3fEQ7n2eI/AFYNhCCIw6HG.mp4'
+    ];
 
-playButton.addEventListener('click', function(e) {
-    e.stopPropagation();
-    if (videoPlayer.paused) {
-        videoPlayer.play().then(() => {
-            playButton.style.opacity = '0';
-            setTimeout(() => { playButton.style.display = 'none'; }, 300);
-        }).catch(error => {
-            console.error('Error playing video:', error);
+    const videoDurations = [30000, 45000];
+    const videoPlayer = document.getElementById('meuVideo');
+    const playButton = document.getElementById('playButton');
+    const statusIndicator = document.getElementById('status-indicator');
+
+    let currentIndex = 0;
+
+    function getSyncedVideoAndTime() {
+        const now = Math.floor(Date.now() / 1000);
+        const totalDuration = videoDurations.reduce((a, b) => a + b, 0) / 1000;
+        const syncedTime = now % totalDuration;
+
+        let accumulatedTime = 0;
+        for (let i = 0; i < videoSources.length; i++) {
+            const videoDuration = videoDurations[i] / 1000;
+            if (syncedTime < accumulatedTime + videoDuration) {
+                return { index: i, startTime: syncedTime - accumulatedTime };
+            }
+            accumulatedTime += videoDuration;
+        }
+    }
+
+    function changeVideo(index, startTime) {
+        videoPlayer.src = videoSources[index];
+        videoPlayer.currentTime = startTime;
+        videoPlayer.load();
+        videoPlayer.play().catch(error => {
+            console.error('Erro ao reproduzir vídeo:', error);
         });
     }
-});
 
-videoPlayer.addEventListener('pause', () => {
-    playButton.style.display = 'block';
-    setTimeout(() => { playButton.style.opacity = '0.9'; }, 0);
-});
+    window.addEventListener('load', function () {
+        const { index, startTime } = getSyncedVideoAndTime();
+        changeVideo(index, startTime);
+    });
 
-function toggleFullScreen() {
-    if (!document.fullscreenElement) {
-        document.getElementById('fullscreen-container').requestFullscreen().catch(err => {
-            console.error(`Error enabling fullscreen: ${err.message}`);
-        });
-    } else {
-        document.exitFullscreen();
+    videoPlayer.addEventListener('play', function () {
+        playButton.classList.add('hidden'); // Esconde o botão ao iniciar o vídeo
+    });
+
+    videoPlayer.addEventListener('pause', function () {
+        playButton.classList.remove('hidden'); // Mostra o botão ao pausar o vídeo
+    });
+
+    playButton.addEventListener('click', function () {
+        if (videoPlayer.paused) {
+            videoPlayer.play().catch(error => {
+                console.error('Erro ao iniciar o vídeo:', error);
+            });
+        } else {
+            videoPlayer.pause();
+        }
+    });
+
+    function toggleFullScreen() {
+        if (!document.fullscreenElement) {
+            document.getElementById('fullscreen-container').requestFullscreen().catch(err => {
+                console.error(`Erro ao ativar tela cheia: ${err.message}`);
+            });
+        } else {
+            document.exitFullscreen();
+        }
     }
-}
-
-window.addEventListener('load', function() {
-    updateVideoSource();
-    adjustVideoQuality();
-});
 </script>
