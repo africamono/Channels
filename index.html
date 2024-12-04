@@ -1,6 +1,5 @@
-<div id="fullscreen-container" onclick="toggleFullScreen()"> <!-- Adicionando evento de clique no container -->
- 
-    <video id="meuVideo" playsinline preload="auto"></video> <!-- Removido o atributo controls -->
+<div id="fullscreen-container" onclick="toggleFullScreen()">
+    <video id="meuVideo" playsinline preload="auto"></video>
     <div id="button-container">
         <button id="playButton" class="button">Play</button>
     </div>
@@ -76,25 +75,15 @@
 </style>
 
 <script>
-  const videoSources = [
-            'https://seed163.bitchute.com/OkD3fEQ7n2eI/mQtYcSY4zeg1.mp4',
-            'https://seed128.bitchute.com/OkD3fEQ7n2eI/AFYNhCCIw6HG.mp4',
-            'https://zb10-7gsop1v78.bitchute.com/OkD3fEQ7n2eI/AYlCKdMmSMCI.mp4',
-            'https://seed163.bitchute.com/OkD3fEQ7n2eI/YMtjrcIP0rX3.mp4',
-            'https://seed167.bitchute.com/OkD3fEQ7n2eI/vY1azvISNqC8.mp4',
-            'https://seed163.bitchute.com/OkD3fEQ7n2eI/LkldJDexZkl4.mp4',
-            'https://seed125.bitchute.com/OkD3fEQ7n2eI/HLuM7tXxXnAY.mp4',
-            'https://seed306.bitchute.com/OkD3fEQ7n2eI/I302uTpVd6oI.mp4',
-            'https://seed306.bitchute.com/OkD3fEQ7n2eI/sSDc7whrv5ao.mp4',
-            'https://seed132.bitchute.com/OkD3fEQ7n2eI/irs3ZfOClBFI.mp4',
-            'https://seed307.bitchute.com/OkD3fEQ7n2eI/5VHtakgY3E5z.mp4',
-            'https://zggg98sgwbg1gh.bitchute.com/OkD3fEQ7n2eI/MBiqM5WcRddU.mp4'
-        ];
+    const videoSources = [
+        'https://seed163.bitchute.com/OkD3fEQ7n2eI/mQtYcSY4zeg1.mp4',
+        'https://seed128.bitchute.com/OkD3fEQ7n2eI/AFYNhCCIw6HG.mp4',
+        'https://zb10-7gsop1v78.bitchute.com/OkD3fEQ7n2eI/AYlCKdMmSMCI.mp4'
+    ];
 
-        const videoDurations = [2000, 2000, 2000, 2000, 2000, 2000, 2000, 2000, 2000, 2000, 2000, 2000];
+    const videoDurations = [2000, 2000, 2000];
     const videoPlayer = document.getElementById('meuVideo');
     const playButton = document.getElementById('playButton');
-    const statusIndicator = document.getElementById('status-indicator');
     const streamingUrl = 'https://edge1-us-newyork.picarto.tv/stream/golive%2bafricamono.mp4';
 
     let isStreaming = false;
@@ -115,19 +104,18 @@
     }
 
     function changeVideo(index, startTime) {
+        console.log(`Trocando para vídeo: ${videoSources[index]} a partir de ${startTime}s`);
         videoPlayer.src = videoSources[index];
         videoPlayer.currentTime = startTime;
-        videoPlayer.load(); // Assegura que o vídeo será carregado
+        videoPlayer.load();
         videoPlayer.play().catch(error => {
             console.error('Erro ao reproduzir vídeo:', error);
         });
-        updateStatusIndicator(false);
     }
 
     function autoplayNextVideo() {
         currentIndex = (currentIndex + 1) % videoSources.length;
-        const { startTime } = getSyncedVideoAndTime();
-        changeVideo(currentIndex, startTime);
+        changeVideo(currentIndex, 0);
     }
 
     videoPlayer.addEventListener('ended', autoplayNextVideo);
@@ -139,30 +127,24 @@
 
     function startStreaming() {
         if (!isStreaming) {
+            console.log('Iniciando streaming...');
             videoPlayer.pause();
             videoPlayer.src = streamingUrl;
-            videoPlayer.load(); // Assegura que o streaming será carregado
+            videoPlayer.load();
             videoPlayer.play().catch(error => {
                 console.error('Erro ao iniciar streaming:', error);
             });
             isStreaming = true;
-            updateStatusIndicator(true);
         }
     }
 
     function stopStreaming() {
         if (isStreaming) {
-            const { index, startTime } = getSyncedVideoAndTime();
-            videoPlayer.pause();
-            changeVideo(index, startTime);
+            console.log('Parando streaming. Retomando lista de reprodução.');
             isStreaming = false;
-            updateStatusIndicator(false);
+            const { index, startTime } = getSyncedVideoAndTime();
+            changeVideo(index, startTime);
         }
-    }
-
-    function updateStatusIndicator(isLive) {
-        statusIndicator.style.display = 'block';
-        statusIndicator.textContent = isLive ? 'Live' : 'Recorded Programs';
     }
 
     function checkStreaming() {
@@ -189,11 +171,7 @@
                 console.error('Erro ao iniciar o vídeo:', error);
             });
         }
-        playButton.style.display = 'none'; // Esconde o botão de play após clicar
-    });
-
-    videoPlayer.addEventListener('dblclick', function () {
-        toggleFullScreen();
+        playButton.style.display = 'none';
     });
 
     function toggleFullScreen() {
