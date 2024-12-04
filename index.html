@@ -1,189 +1,82 @@
-<html><head><base href="." /><title>Africa Mono Music | We are Humanity</title><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-<style>
-* {margin: 0; padding: 0; box-sizing: border-box; font-family: 'Arial', sans-serif;}
-
-body {
-    display: flex;
-    justify-content: center;
-    align-items: center; 
-    min-height: 100vh;
-    background-color: #000000;
-    overflow: hidden;
-}
-
-#app-container {
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: center;
-    width: 100%;
-    height: 100%;
-    position: relative;
-}
-
-video {
-    width: 100%;
-    height: 100%;
-    background-color: black;
-    outline: none;
-    position: relative;
-}
-
-#controls {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 15px;
-    width: 100%;
-    max-width: 400px;
-    padding: 20px;
-    position: fixed;
-    bottom: 20px;
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 10;
-    background: rgba(20, 20, 20, 0.85);
-    backdrop-filter: blur(10px);
-    border-radius: 25px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-#controls.hidden {
-    opacity: 0;
-    transform: translateX(-50%) translateY(100px);
-    pointer-events: none;
-}
-
-.button {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 60px;
-    height: 60px;
-    border-radius: 15px;
-    background: linear-gradient(145deg, rgba(255,255,255,0.1), rgba(255,255,255,0.05));
-    backdrop-filter: blur(5px);
-    border: 1px solid rgba(255,255,255,0.1);
-    color: #fff;
-    font-size: 24px;
-    text-decoration: none;
-    transition: all 0.3s ease;
-    margin: auto;
-}
-
-.button:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-    border: 1px solid rgba(255,255,255,0.2);
-}
-
-.button:active {
-    transform: scale(0.95);
-}
-
-.logo {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-    z-index: 5;
-}
-
-.logo.hidden {display: none;}
-
-#loadingSpinner {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 50px;
-    height: 50px;
-    border: 4px solid rgba(255,255,255,0.1);
-    border-top: 4px solid #fff;
-    border-radius: 50%;
-    animation: spin 1s linear infinite;
-    z-index: 10;
-}
-
-#loadingSpinner.hidden {display: none;}
-
-@keyframes spin {
-    0% {transform: translate(-50%, -50%) rotate(0deg);}
-    100% {transform: translate(-50%, -50%) rotate(360deg);}
-}
-
-#playButton {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 80px;
-    height: 80px;
-    font-size: 40px;
-    background: rgba(255,255,255,0.15);
-    border-radius: 50%;
-    z-index: 20;
-    border: none;
-    color: white;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    backdrop-filter: blur(5px);
-}
-
-#playButton:hover {
-    transform: translate(-50%, -50%) scale(1.1);
-    background: rgba(255,255,255,0.25);
-}
-
-@media (max-width: 480px) {
-    #controls {
-        grid-template-columns: repeat(4, 1fr);
-        gap: 10px;
-        padding: 15px;
-        bottom: 10px;
-        max-width: 320px;
-    }
-    
-    .button {
-        width: 50px;
-        height: 50px;
-        font-size: 20px;
-    }
-}
-
-.fa-film {color: #FF6347; text-shadow: 0 0 10px rgba(255,99,71,0.5);}
-.fa-music {color: #1E90FF; text-shadow: 0 0 10px rgba(30,144,255,0.5);}
-.fa-users {color: #32CD32; text-shadow: 0 0 10px rgba(50,205,50,0.5);}
-.fa-newspaper-o {color: #FFD700; text-shadow: 0 0 10px rgba(255,215,0,0.5);}
-.fa-futbol {color: #FF4500; text-shadow: 0 0 10px rgba(255,69,0,0.5);}
-.fa-child {color: #8A2BE2; text-shadow: 0 0 10px rgba(138,43,226,0.5);}
-.fa-church {color: #8B0000; text-shadow: 0 0 10px rgba(139,0,0,0.5);}
-.fa-cogs {color: #20B2AA; text-shadow: 0 0 10px rgba(32,178,170,0.5);}
-</style>
-</head>
-<body>
-    <div id="app-container" onclick="toggleFullScreen()">
-        <video id="meuVideo" playsinline preload="auto"></video>
-        <div id="loadingSpinner"></div>
-        <div id="controls" class="hidden">
-            <a href="cine.html" class="button"><i class="fa fa-film"></i></a>
-            <a href="index.html" class="button"><i class="fa fa-music"></i></a>
-            <a href="kuduro.html" class="button"><i class="fa fa-users"></i></a>
-            <a href="news.html" class="button"><i class="fa fa-newspaper-o"></i></a>
-            <a href="sport.html" class="button"><i class="fas fa-futbol"></i></a>
-            <a href="kids.html" class="button"><i class="fas fa-child"></i></a>
-            <a href="igreja.html" class="button"><i class="fas fa-church"></i></a>
-            <a href="index.html" class="button"><i class="fas fa-cogs"></i></a>
-        </div>
-        <button id="playButton" class="button">
-            <i class="fas fa-play"></i>
-        </button>
+<div id="fullscreen-container" onclick="toggleFullScreen()"> <!-- Adicionando evento de clique no container -->
+ 
+    <video id="meuVideo" playsinline preload="auto"></video> <!-- Removido o atributo controls -->
+    <div id="button-container">
+        <button id="playButton" class="button">Play</button>
     </div>
+</div>
 
-    <script>
-        const videoSources = [
+<style>
+    #fullscreen-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        max-width: 100%;
+        padding: 5px;
+        border-radius: 8px;
+        box-shadow: 0 0px 0px rgba(0, 0, 0, 0.3);
+        position: relative;
+    }
+
+    video {
+        width: 100%;
+        height: auto;
+        aspect-ratio: 16 / 9;
+        background-color: #000;
+        object-fit: cover;
+    }
+
+    #button-container {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+
+    .button {
+        padding: 15px 30px;
+        font-size: 20px;
+        cursor: pointer;
+        border: none;
+        border-radius: 5px;
+        background-color: #ff4c4c;
+        color: white;
+        transition: background-color 0.3s;
+        margin: 5px;
+    }
+
+    .button:hover {
+        background-color: #e43e3e;
+    }
+
+    @media (max-width: 480px) {
+        video {
+            max-height: 30vh;
+        }
+        .button {
+            font-size: 14px;
+            padding: 8px 16px;
+        }
+    }
+
+    #status-indicator {
+        position: absolute;
+        top: -30px;
+        left: 10px;
+        font-size: 14px;
+        font-style: italic;
+        font-weight: normal;
+        display: none;
+    }
+</style>
+
+<script>
+  const videoSources = [
             'https://seed163.bitchute.com/OkD3fEQ7n2eI/mQtYcSY4zeg1.mp4',
             'https://seed128.bitchute.com/OkD3fEQ7n2eI/AFYNhCCIw6HG.mp4',
             'https://zb10-7gsop1v78.bitchute.com/OkD3fEQ7n2eI/AYlCKdMmSMCI.mp4',
@@ -198,84 +91,118 @@ video {
             'https://zggg98sgwbg1gh.bitchute.com/OkD3fEQ7n2eI/MBiqM5WcRddU.mp4'
         ];
 
-        const videoDurations = [2000, 2000, 2000, 2000, 2000, 2000, 2000, 2000, 2000, 2000, 2000, 2000];
-        const videoPlayer = document.getElementById('meuVideo');
-        const playButton = document.getElementById('playButton');
-        const controls = document.getElementById('controls');
-        const appContainer = document.getElementById('app-container');
-        const loadingSpinner = document.getElementById('loadingSpinner');
-        const logo = document.getElementById('logo');
-        let currentIndex = 0;
+        const videoDurations = [42000, 22000, 52000, 52000, 12000, 42000, 32000, 52000, 12000, 42000, 2000, 2000];
+    const videoPlayer = document.getElementById('meuVideo');
+    const playButton = document.getElementById('playButton');
+    const statusIndicator = document.getElementById('status-indicator');
+    const streamingUrl = 'https://edge1-us-newyork.picarto.tv/stream/golive%2bafricamono.mp4';
 
-        window.addEventListener('load', () => {
+    let isStreaming = false;
+    let currentIndex = 0;
+
+    function getSyncedVideoAndTime() {
+        const now = Math.floor(Date.now() / 1000);
+        const totalDuration = videoDurations.reduce((a, b) => a + b, 0);
+        const syncedTime = now % totalDuration;
+
+        let accumulatedTime = 0;
+        for (let i = 0; i < videoSources.length; i++) {
+            if (syncedTime < accumulatedTime + videoDurations[i]) {
+                return { index: i, startTime: syncedTime - accumulatedTime };
+            }
+            accumulatedTime += videoDurations[i];
+        }
+    }
+
+    function changeVideo(index, startTime) {
+        videoPlayer.src = videoSources[index];
+        videoPlayer.currentTime = startTime;
+        videoPlayer.load(); // Assegura que o vídeo será carregado
+        videoPlayer.play().catch(error => {
+            console.error('Erro ao reproduzir vídeo:', error);
+        });
+        updateStatusIndicator(false);
+    }
+
+    function autoplayNextVideo() {
+        currentIndex = (currentIndex + 1) % videoSources.length;
+        const { startTime } = getSyncedVideoAndTime();
+        changeVideo(currentIndex, startTime);
+    }
+
+    videoPlayer.addEventListener('ended', autoplayNextVideo);
+
+    window.addEventListener('load', function () {
+        const { index, startTime } = getSyncedVideoAndTime();
+        changeVideo(index, startTime);
+    });
+
+    function startStreaming() {
+        if (!isStreaming) {
+            videoPlayer.pause();
+            videoPlayer.src = streamingUrl;
+            videoPlayer.load(); // Assegura que o streaming será carregado
+            videoPlayer.play().catch(error => {
+                console.error('Erro ao iniciar streaming:', error);
+            });
+            isStreaming = true;
+            updateStatusIndicator(true);
+        }
+    }
+
+    function stopStreaming() {
+        if (isStreaming) {
             const { index, startTime } = getSyncedVideoAndTime();
+            videoPlayer.pause();
             changeVideo(index, startTime);
-        });
-
-        function getSyncedVideoAndTime() {
-            const now = Math.floor(Date.now() / 1000);
-            const totalDuration = videoDurations.reduce((a, b) => a + b, 0);
-            const syncedTime = now % totalDuration;
-
-            let accumulatedTime = 0;
-            for (let i = 0; i < videoSources.length; i++) {
-                if (syncedTime < accumulatedTime + videoDurations[i]) {
-                    return { index: i, startTime: syncedTime - accumulatedTime };
-                }
-                accumulatedTime += videoDurations[i];
-            }
-            return { index: 0, startTime: 0 };
+            isStreaming = false;
+            updateStatusIndicator(false);
         }
+    }
 
-        function changeVideo(index, startTime) {
-            videoPlayer.src = videoSources[index];
-            videoPlayer.currentTime = startTime;
-            videoPlayer.play().catch(error => console.error('Erro ao reproduzir vídeo:', error));
-        }
+    function updateStatusIndicator(isLive) {
+        statusIndicator.style.display = 'block';
+        statusIndicator.textContent = isLive ? 'Live' : 'Recorded Programs';
+    }
 
-        playButton.addEventListener('click', () => {
-            if (videoPlayer.paused) {
-                videoPlayer.play().catch(error => console.error('Erro ao reproduzir vídeo:', error));
-                playButton.style.display = 'none';
+    function checkStreaming() {
+        const xhr = new XMLHttpRequest();
+        xhr.open('HEAD', streamingUrl, true);
+        xhr.onload = function () {
+            if (xhr.status >= 200 && xhr.status < 400) {
+                startStreaming();
             } else {
-                videoPlayer.pause();
-                playButton.innerHTML = '<i class="fas fa-play"></i>';
+                stopStreaming();
             }
-        });
+        };
+        xhr.onerror = function () {
+            stopStreaming();
+        };
+        xhr.send();
+    }
 
-        videoPlayer.addEventListener('ended', () => {
-            currentIndex = (currentIndex + 1) % videoSources.length;
-            changeVideo(currentIndex, 0);
-        });
+    setInterval(checkStreaming, 1000);
 
-        function showControls() {
-            controls.classList.remove('hidden');
-            setTimeout(() => controls.classList.add('hidden'), 15000);
+    playButton.addEventListener('click', function () {
+        if (videoPlayer.paused) {
+            videoPlayer.play().catch(error => {
+                console.error('Erro ao iniciar o vídeo:', error);
+            });
         }
+        playButton.style.display = 'none'; // Esconde o botão de play após clicar
+    });
 
-        document.addEventListener('mousemove', showControls);
-        document.addEventListener('touchstart', showControls);
+    videoPlayer.addEventListener('dblclick', function () {
+        toggleFullScreen();
+    });
 
-        function toggleFullScreen() {
-            if (!document.fullscreenElement) {
-                appContainer.requestFullscreen().catch(err => console.error('Erro ao habilitar tela cheia:', err));
-            } else {
-                document.exitFullscreen();
-            }
+    function toggleFullScreen() {
+        if (!document.fullscreenElement) {
+            document.getElementById('fullscreen-container').requestFullscreen().catch(err => {
+                console.error(`Erro ao ativar tela cheia: ${err.message}`);
+            });
+        } else {
+            document.exitFullscreen();
         }
-
-        function showLoadingSpinner() {
-            loadingSpinner.classList.remove('hidden');
-            if(logo) logo.classList.add('hidden');
-        }
-
-        function hideLoadingSpinner() {
-            loadingSpinner.classList.add('hidden');
-            if(logo) logo.classList.remove('hidden');
-        }
-
-        videoPlayer.addEventListener('waiting', showLoadingSpinner);
-        videoPlayer.addEventListener('playing', hideLoadingSpinner);
-        videoPlayer.addEventListener('canplay', hideLoadingSpinner);
-    </script>
-</body></html>
+    }
+</script>
