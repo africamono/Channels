@@ -1,5 +1,6 @@
-<div id="fullscreen-container" onclick="toggleFullScreen()">
+<div id="fullscreen-container" onclick="toggleFullScreen()"> 
     <video id="meuVideo" playsinline preload="auto"></video>
+    <div id="progress-circle" class="hidden"></div> <!-- Progress Circle -->
     <div id="button-container">
         <button id="playButton" class="button">Play</button>
     </div>
@@ -53,6 +54,33 @@
         background-color: #e43e3e;
     }
 
+    #progress-circle {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 50px;
+        height: 50px;
+        border: 5px solid rgba(255, 255, 255, 0.3);
+        border-top: 5px solid #ff4c4c;
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+        z-index: 10;
+    }
+
+    .hidden {
+        display: none;
+    }
+
+    @keyframes spin {
+        0% {
+            transform: translate(-50%, -50%) rotate(0deg);
+        }
+        100% {
+            transform: translate(-50%, -50%) rotate(360deg);
+        }
+    }
+
     @media (max-width: 480px) {
         video {
             max-height: 30vh;
@@ -62,114 +90,124 @@
             padding: 8px 16px;
         }
     }
-
-    #status-indicator {
-        position: absolute;
-        top: -30px;
-        left: 10px;
-        font-size: 14px;
-        font-style: italic;
-        font-weight: normal;
-        display: none;
-    }
 </style>
 
 <script>
+    const streamUrl = 'https://edge1-us-newyork.picarto.tv/stream/golive%2bafricamono.mp4';
     const videoSources = [
         'https://seed163.bitchute.com/OkD3fEQ7n2eI/mQtYcSY4zeg1.mp4',
         'https://seed128.bitchute.com/OkD3fEQ7n2eI/AFYNhCCIw6HG.mp4',
         'https://zb10-7gsop1v78.bitchute.com/OkD3fEQ7n2eI/AYlCKdMmSMCI.mp4'
     ];
+    const playlistStartTime = Date.UTC(2024, 11, 1, 0, 0, 0) / 1000; // Fixed UTC start time
+    const videoPlayer = document.getElementById("meuVideo");
+    const playButton = document.getElementById("playButton");
+    const progressCircle = document.getElementById("progress-circle");
+    let videoDurations = [];
 
-    const videoDurations = [2000, 2000, 2000];
-    const videoPlayer = document.getElementById('meuVideo');
-    const playButton = document.getElementById('playButton');
-    const streamingUrl = 'https://edge1-us-newyork.picarto.tv/stream/golive%2bafricamono.mp4';
-
-    let isStreaming = false;
-    let currentIndex = 0;
-
-    function getSyncedVideoAndTime() {
-        const now = Math.floor(Date.now() / 1000);
-        const totalDuration = videoDurations.reduce((a, b) => a + b, 0);
-        const syncedTime = now % totalDuration;
-
-        let accumulatedTime = 0;
-        for (let i = 0; i < videoSources.length; i++) {
-            if (syncedTime < accumulatedTime + videoDurations[i]) {
-                return { index: i, startTime: syncedTime - accumulatedTime };
+    async function getCurrentUTCTime() {
+        try {
+            const response = await fetch('https://worldtimeapi.org/api/timezone/Etc/UTC');
+            if (response.ok) {
+                const data = await response.json();
+                return data.unixtime;
             }
-            accumulatedTime += videoDurations[i];
+        } catch (error) {
+            console.warn("Failed to fetch UTC time, using local time as fallback.");
         }
+        return Math.floor(Date.now() / 1000);
     }
 
-    function changeVideo(index, startTime) {
-        console.log(`Trocando para vídeo: ${videoSources[index]} a partir de ${startTime}s`);
-        videoPlayer.src = videoSources[index];
-        videoPlayer.currentTime = startTime;
-        videoPlayer.load();
-        videoPlayer.play().catch(error => {
-            console.error('Erro ao reproduzir vídeo:', error);
+    function calculateVideoPosition(elapsedTime) {
+        const totalDuration = videoDurations.reduce((a, b) => a + b, 0);
+        const elapsedInPlaylist = elapsedTime % totalDuration;
+        let accumulatedTime = 0;
+
+        for (let i = 0; i < videoSources.length; i++) {
+            accumulatedTime += videoDurations[i];
+            if (elapsedInPlaylist < accumulatedTime) {
+                const startTime = videoDurations[i] - (accumulatedTime - elapsedInPlaylist);
+                return { index: i, startTime };
+            }
+        }
+
+        return { index: 0, startTime: 0 };
+    }
+
+    async function syncPlayback() {
+        const currentUTC = await getCurrentUTCTime();
+        const elapsedTime = currentUTC - playlistStartTime;
+        if (elapsedTime < 0) {
+            console.error("Playlist has not started yet.");
+            return;
+        }
+
+        const { index, startTime } = calculateVideoPosition(elapsedTime);
+
+        if (videoPlayer.src !== videoSources[index]) {
+            videoPlayer.src = videoSources[index];
+            videoPlayer.load();
+        }
+
+        videoPlayer.addEventListener("loadedmetadata", function onMetadataLoaded() {
+            videoPlayer.currentTime = startTime;
+            videoPlayer.play().catch(console.error);
+            videoPlayer.removeEventListener("loadedmetadata", onMetadataLoaded);
         });
     }
 
-    function autoplayNextVideo() {
-        currentIndex = (currentIndex + 1) % videoSources.length;
-        changeVideo(currentIndex, 0);
-    }
+    async function preloadDurations() {
+        for (let i = 0; i < videoSources.length; i++) {
+            const tempVideo = document.createElement("video");
+            tempVideo.src = videoSources[i];
 
-    videoPlayer.addEventListener('ended', autoplayNextVideo);
-
-    window.addEventListener('load', function () {
-        const { index, startTime } = getSyncedVideoAndTime();
-        changeVideo(index, startTime);
-    });
-
-    function startStreaming() {
-        if (!isStreaming) {
-            console.log('Iniciando streaming...');
-            videoPlayer.pause();
-            videoPlayer.src = streamingUrl;
-            videoPlayer.load();
-            videoPlayer.play().catch(error => {
-                console.error('Erro ao iniciar streaming:', error);
+            await new Promise(resolve => {
+                tempVideo.addEventListener("loadedmetadata", () => {
+                    videoDurations[i] = tempVideo.duration;
+                    resolve();
+                });
             });
-            isStreaming = true;
+        }
+
+        console.log("Video durations loaded:", videoDurations);
+        syncPlayback();
+    }
+
+    async function checkStreamAvailability() {
+        try {
+            const response = await fetch(streamUrl, { method: 'HEAD' });
+            return response.ok;
+        } catch {
+            return false;
         }
     }
 
-    function stopStreaming() {
-        if (isStreaming) {
-            console.log('Parando streaming. Retomando lista de reprodução.');
-            isStreaming = false;
-            const { index, startTime } = getSyncedVideoAndTime();
-            changeVideo(index, startTime);
-        }
-    }
-
-    function checkStreaming() {
-        const xhr = new XMLHttpRequest();
-        xhr.open('HEAD', streamingUrl, true);
-        xhr.onload = function () {
-            if (xhr.status >= 200 && xhr.status < 400) {
-                startStreaming();
-            } else {
-                stopStreaming();
+    async function syncStreamOrPlaylist() {
+        const isStreamAvailable = await checkStreamAvailability();
+        if (isStreamAvailable) {
+            if (videoPlayer.src !== streamUrl) {
+                videoPlayer.src = streamUrl;
+                videoPlayer.load();
+                videoPlayer.play().catch(console.error);
             }
-        };
-        xhr.onerror = function () {
-            stopStreaming();
-        };
-        xhr.send();
+        } else {
+            syncPlayback();
+        }
     }
 
-    setInterval(checkStreaming, 1000);
-
-    playButton.addEventListener('click', function () {
+    playButton.addEventListener("click", function () {
         if (videoPlayer.paused) {
-            videoPlayer.play().catch(error => {
-                console.error('Erro ao iniciar o vídeo:', error);
-            });
+            progressCircle.classList.remove("hidden");
+            videoPlayer.play()
+                .then(() => {
+                    videoPlayer.addEventListener("playing", () => {
+                        progressCircle.classList.add("hidden");
+                    });
+                })
+                .catch(error => {
+                    console.error("Erro ao iniciar o vídeo:", error);
+                    progressCircle.classList.add("hidden");
+                });
         }
         playButton.style.display = 'none';
     });
@@ -183,4 +221,11 @@
             document.exitFullscreen();
         }
     }
+
+    window.addEventListener("load", async () => {
+        await preloadDurations();
+        syncStreamOrPlaylist();
+    });
+
+    setInterval(syncStreamOrPlaylist, 5000);
 </script>
