@@ -373,7 +373,59 @@
         await syncStreamOrPlaylist();
         hideLoading();
     });
+let visibilityTimeout; // Rastrea o tempo que a página ficou oculta
 
+    // Função para mostrar o botão "Play" e escondê-lo após 5 segundos
+    function showPlayButton() {
+        playButton.style.display = 'block'; // Mostra o botão
+        setTimeout(() => {
+            if (!videoPlayer.paused) { // Se o vídeo não estiver pausado, o botão desaparece
+                playButton.style.display = 'none';
+            }
+        }, 5000); // Após 5 segundos, esconde o botão
+    }
+
+    // Evento para detectar quando o usuário minimiza ou retorna à página
+    document.addEventListener("visibilitychange", () => {
+        if (document.visibilityState === "hidden") {
+            // Inicia um temporizador de 10 segundos ao minimizar
+            visibilityTimeout = setTimeout(() => {
+                location.reload(); // Atualiza a página após 10 segundos minimizada
+            }, 10000);
+        } else if (document.visibilityState === "visible") {
+            // Cancela o temporizador se o usuário retornar antes de 10 segundos
+            clearTimeout(visibilityTimeout);
+            showPlayButton(); // Mostra o botão por 5 segundos ao retornar
+        }
+    });
+
+    // Evento para carregar o comportamento ao iniciar a página
+    window.addEventListener("load", async () => {
+        showLoading();
+        await preloadDurations();
+        await syncStreamOrPlaylist();
+        hideLoading();
+
+        // Exibe o botão por 5 segundos no carregamento
+        showPlayButton();
+    });
+
+    // Comportamento do botão "Play"
+    playButton.addEventListener("click", function () {
+        if (videoPlayer.paused) {
+            showLoading();
+            videoPlayer.play()
+                .then(() => {
+                    videoPlayer.addEventListener("playing", () => hideLoading());
+                    videoPlayer.addEventListener("waiting", () => showLoading());
+                })
+                .catch(error => {
+                    console.error("Erro ao iniciar o vídeo:", error);
+                    hideLoading();
+                });
+        }
+        playButton.style.display = 'none'; // Esconde o botão imediatamente após o clique
+    });
     setInterval(syncStreamOrPlaylist, 60000);
 </script>
 </body>
