@@ -104,17 +104,14 @@
     </style>
 </head>
 <body>
-   <div id="fullscreen-container" onclick="toggleFullScreen()">  
+  <div id="fullscreen-container" onclick="toggleFullScreen()">   
     <video id="meuVideo" playsinline preload="auto"></video>
-    <div id="progress-circle" class="hidden"></div> <!-- Progress Circle -->
-    <div id="loading-message" class="hidden">A conectar o Satélite...</div> <!-- Mensagem de carregamento -->
+    <div id="progress-circle" class="hidden"></div>
+    <div id="loading-message" class="hidden">A conectar o sinal...</div>
     <div id="button-container">
-        <i id="playButton" class="fas fa-play" style="font-size: 70px; color: white; cursor: pointer; display: none;"></i>
+        <i id="playButton" class="fas fa-play"></i>
     </div>
 </div>
-
-<!-- Link para Font Awesome -->
-<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet" />
 
 <style>
     #fullscreen-container {
@@ -149,12 +146,29 @@
     }
 
     #playButton {
+        font-size: 50px;
+        color: white;
         cursor: pointer;
         transition: transform 0.3s;
+        opacity: 0;
+        display: none;
+    }
+
+    #playButton.visible {
+        display: block;
+        opacity: 1;
+        animation: fadeInOut 5s forwards;
+    }
+
+    @keyframes fadeInOut {
+        0% { opacity: 0; }
+        10% { opacity: 1; }
+        90% { opacity: 1; }
+        100% { opacity: 0; display: none; }
     }
 
     #playButton:hover {
-        transform: scale(1.1); /* Aumenta o ícone ao passar o mouse */
+        transform: scale(1.1);
     }
 
     #progress-circle {
@@ -165,7 +179,7 @@
         width: 50px;
         height: 50px;
         border: 5px solid rgba(255, 255, 255, 0.3);
-        border-top: 5px solid #2bc3ff;
+        border-top: 5px solid #ff4c4c;
         border-radius: 50%;
         animation: spin 1s linear infinite;
         z-index: 10;
@@ -173,27 +187,23 @@
 
     #loading-message {
         position: absolute;
-        top: calc(50% + 50px); /* Ajusta para ficar abaixo do círculo */
+        top: calc(50% + 40px);
         left: 50%;
         transform: translate(-50%, -50%);
-        font-size: 12px;
-        color: #2bc3ff;
+        font-size: 16px;
+        color: white;
         font-family: Arial, sans-serif;
         text-align: center;
         z-index: 10;
     }
 
     .hidden {
-        display: none;
+        display: none !important;
     }
 
     @keyframes spin {
-        0% {
-            transform: translate(-50%, -50%) rotate(0deg);
-        }
-        100% {
-            transform: translate(-50%, -50%) rotate(360deg);
-        }
+        0% { transform: translate(-50%, -50%) rotate(0deg); }
+        100% { transform: translate(-50%, -50%) rotate(360deg); }
     }
 
     @media (max-width: 480px) {
@@ -204,7 +214,7 @@
             font-size: 40px;
         }
         #loading-message {
-            font-size: 14px; /* Diminui o texto em dispositivos móveis */
+            font-size: 14px;
         }
     }
 </style>
@@ -212,8 +222,7 @@
 <script>
     const streamUrl = 'https://edge1-us-newyork.picarto.tv/stream/golive%2bafricamono.mp4';
     const videoSources = [
-        
-            'https://seed128.bitchute.com/OkD3fEQ7n2eI/AFYNhCCIw6HG.mp4',
+         'https://seed128.bitchute.com/OkD3fEQ7n2eI/AFYNhCCIw6HG.mp4',
             'https://zb10-7gsop1v78.bitchute.com/OkD3fEQ7n2eI/AYlCKdMmSMCI.mp4',
             'https://seed163.bitchute.com/OkD3fEQ7n2eI/YMtjrcIP0rX3.mp4',
             'https://seed167.bitchute.com/OkD3fEQ7n2eI/vY1azvISNqC8.mp4',
@@ -232,6 +241,8 @@
     const progressCircle = document.getElementById("progress-circle");
     const loadingMessage = document.getElementById("loading-message");
     let videoDurations = [];
+    let playButtonTimeout;
+    let isVideoPlaying = false;
 
     async function getCurrentUTCTime() {
         try {
@@ -244,6 +255,15 @@
             console.warn("Failed to fetch UTC time, using local time as fallback.");
         }
         return Math.floor(Date.now() / 1000);
+    }
+
+    function showPlayButton() {
+        if (!isVideoPlaying) {
+            playButton.classList.add('visible');
+            playButtonTimeout = setTimeout(() => {
+                playButton.classList.remove('visible');
+            }, 5000);
+        }
     }
 
     function calculateVideoPosition(elapsedTime) {
@@ -273,6 +293,8 @@
 
         if (videoPlayer.src !== videoSources[index]) {
             videoPlayer.src = videoSources[index];
+            playButton.classList.remove('visible');
+            clearTimeout(playButtonTimeout);
             videoPlayer.load();
         }
 
@@ -307,8 +329,20 @@
         }
     }
 
+    function showLoading() {
+        if (!isVideoPlaying) {
+            progressCircle.classList.remove("hidden");
+            loadingMessage.classList.remove("hidden");
+        }
+    }
+
+    function hideLoading() {
+        progressCircle.classList.add("hidden");
+        loadingMessage.classList.add("hidden");
+    }
+
     async function syncStreamOrPlaylist() {
-        showLoading();
+        if (!isVideoPlaying) showLoading();
         const isStreamAvailable = await checkStreamAvailability();
         if (isStreamAvailable) {
             if (videoPlayer.src !== streamUrl) {
@@ -322,40 +356,41 @@
         hideLoading();
     }
 
-    function showLoading() {
-        progressCircle.classList.remove("hidden");
-        loadingMessage.classList.remove("hidden");
-    }
+    videoPlayer.addEventListener("playing", () => {
+        isVideoPlaying = true;
+        hideLoading();
+    });
 
-    function hideLoading() {
-        progressCircle.classList.add("hidden");
-        loadingMessage.classList.add("hidden");
-    }
+    videoPlayer.addEventListener("pause", () => {
+        isVideoPlaying = false;
+    });
 
     videoPlayer.addEventListener("loadedmetadata", function() {
         hideLoading();
-        playButton.style.display = 'block';
+        showPlayButton();
     });
 
-    playButton.addEventListener("click", function () {
+    playButton.addEventListener("click", function(e) {
+        e.stopPropagation();
         if (videoPlayer.paused) {
             showLoading();
             videoPlayer.play()
                 .then(() => {
-                    videoPlayer.addEventListener("playing", () => hideLoading());
-                    videoPlayer.addEventListener("waiting", () => showLoading());
+                    isVideoPlaying = true;
+                    playButton.classList.remove('visible');
+                    clearTimeout(playButtonTimeout);
                 })
                 .catch(error => {
                     console.error("Erro ao iniciar o vídeo:", error);
                     hideLoading();
                 });
         }
-        playButton.style.display = 'none';
     });
 
     videoPlayer.addEventListener("loadeddata", hideLoading);
-    videoPlayer.addEventListener("waiting", showLoading);
-    videoPlayer.addEventListener("playing", hideLoading);
+    videoPlayer.addEventListener("waiting", () => {
+        if (!isVideoPlaying) showLoading();
+    });
 
     function toggleFullScreen() {
         if (!document.fullscreenElement) {
@@ -371,66 +406,9 @@
         showLoading();
         await preloadDurations();
         await syncStreamOrPlaylist();
-        hideLoading();
-    });
-   let visibilityTimeout; // Controla o temporizador ao minimizar
-    let playButtonTimeout; // Controla o desaparecimento do botão "Play"
-
-    // Função para mostrar o botão "Play" e escondê-lo após 5 segundos
-    function showPlayButton() {
-        playButton.style.display = 'block'; // Mostra o botão
-        clearTimeout(playButtonTimeout); // Cancela qualquer temporizador anterior
-        playButtonTimeout = setTimeout(() => {
-            playButton.style.display = 'none'; // Esconde o botão após 5 segundos
-        }, 5000); // Define o temporizador para 5 segundos
-    }
-
-    // Evento para detectar quando o usuário minimiza ou retorna à página
-    document.addEventListener("visibilitychange", () => {
-        if (document.visibilityState === "hidden") {
-            // Inicia um temporizador de 10 segundos ao minimizar
-            visibilityTimeout = setTimeout(() => {
-                location.reload(); // Atualiza a página após 10 segundos minimizada
-            }, 10000);
-        } else if (document.visibilityState === "visible") {
-            // Cancela o temporizador se o usuário retornar antes de 10 segundos
-            clearTimeout(visibilityTimeout);
-            showPlayButton(); // Mostra o botão por 5 segundos ao retornar
-        }
+        if (!isVideoPlaying) hideLoading();
     });
 
-    // Evento para carregar o comportamento ao iniciar a página
-    window.addEventListener("load", async () => {
-        showLoading();
-        await preloadDurations();
-        await syncStreamOrPlaylist();
-        hideLoading();
-
-        // Exibe o botão "Play" inicialmente por 5 segundos
-        showPlayButton();
-    });
-
-    // Comportamento do botão "Play"
-    playButton.addEventListener("click", function () {
-        if (videoPlayer.paused) {
-            showLoading();
-            videoPlayer.play()
-                .then(() => {
-                    videoPlayer.addEventListener("playing", () => hideLoading());
-                    videoPlayer.addEventListener("waiting", () => showLoading());
-                })
-                .catch(error => {
-                    console.error("Erro ao iniciar o vídeo:", error);
-                    hideLoading();
-                });
-        }
-        playButton.style.display = 'none'; // Esconde o botão imediatamente após o clique
-    });
-
-    // Adiciona evento para garantir que o botão desapareça após o vídeo carregar
-    videoPlayer.addEventListener("loadeddata", () => {
-        showPlayButton(); // Mostra o botão por 5 segundos após o carregamento
-    });
     setInterval(syncStreamOrPlaylist, 60000);
 </script>
 </body>
