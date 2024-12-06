@@ -1,119 +1,27 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Africa Mono Music | We are Humanity</title>
-    <!-- Link para Font Awesome -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet" />
-    <style>
-        html, body {
-            margin: 0;
-            padding: 0;
-            height: 100%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            background-color: #000000;
-        }
-
-        #main-container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            width: 100%;
-            height: 100%;
-        }
-
-        #fullscreen-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            width: 100%;
-            max-width: 100%;
-            padding: 5px;
-            border-radius: 8px;
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
-            position: relative;
-            background: #000;
-        }
-
-        video {
-            width: 100%;
-            height: auto;
-            aspect-ratio: 16 / 9;
-            background-color: #000;
-            object-fit: cover;
-        }
-
-        #button-container {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            display: flex;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
-
-        #playButton {
-            cursor: pointer;
-            transition: transform 0.3s;
-        }
-
-        #playButton:hover {
-            transform: scale(1.1); /* Aumenta o ícone ao passar o mouse */
-        }
-
-        #progress-circle {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 50px;
-            height: 50px;
-            border: 5px solid rgba(255, 255, 255, 0.3);
-            border-top: 5px solid #fc8a38;
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-            z-index: 10;
-        }
-
-        .hidden {
-            display: none;
-        }
-
-        @keyframes spin {
-            0% {
-                transform: translate(-50%, -50%) rotate(0deg);
-            }
-            100% {
-                transform: translate(-50%, -50%) rotate(360deg);
-            }
-        }
-
-        @media (max-width: 480px) {
-            video {
-                max-height: 30vh;
-            }
-            #playButton {
-                font-size: 40px;
-            }
-        }
-    </style>
-</head>
-<body>
-  <div id="fullscreen-container" onclick="toggleFullScreen()">   
-    <video id="meuVideo" playsinline preload="auto"></video>
-    <div id="progress-circle" class="hidden"></div>
-    <div id="loading-message" class="hidden">A ligar o Satélite | Aguarde 1 minuto...</div>
-    <div id="button-container">
-        <i id="playButton" class="fas fa-play"></i>
-    </div>
-</div>
-
+<html><head><base href="/" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Africa Mono Music | We are Humanity</title>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet" />
 <style>
+    html, body {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: #000000;
+    }
+
+    #main-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        height: 100%;
+    }
+
     #fullscreen-container {
         display: flex;
         flex-direction: column;
@@ -125,6 +33,7 @@
         border-radius: 8px;
         box-shadow: 0 0px 0px rgba(0, 0, 0, 0.3);
         position: relative;
+        background: #000;
     }
 
     video {
@@ -158,6 +67,30 @@
         display: block;
         opacity: 1;
         animation: fadeInOut 5s forwards;
+    }
+
+    /* Updated satellite message styles */
+    #satellite-message {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background: rgba(0, 0, 0, 0.8);
+        color: white;
+        padding: 20px;
+        border-radius: 10px;
+        font-family: Arial, sans-serif;
+        z-index: 100;
+        opacity: 0;
+        transition: opacity 0.5s;
+        pointer-events: none;
+        text-align: center;
+        font-size: 16px;
+        min-width: 200px;
+    }
+
+    #satellite-message.show {
+        opacity: 1;
     }
 
     @keyframes fadeInOut {
@@ -218,23 +151,35 @@
         }
     }
 </style>
+</head>
+<body>
+    <div id="fullscreen-container" onclick="toggleFullScreen()">   
+        <video id="meuVideo" playsinline preload="auto"></video>
+        <div id="progress-circle" class="hidden"></div>
+        <div id="loading-message" class="hidden">A ligar o Satélite | Aguarde 1 minuto...</div>
+        <div id="satellite-message">Adjusting Satellite Signal...</div>
+        <div id="button-container">
+            <i id="playButton" class="fas fa-play"></i>
+        </div>
+    </div>
 
 <script>
     const streamUrl = 'https://edge1-us-newyork.picarto.tv/stream/golive%2bafricamono.mp4';
     const videoSources = [
-         'https://seed128.bitchute.com/OkD3fEQ7n2eI/AFYNhCCIw6HG.mp4',
-            'https://zb10-7gsop1v78.bitchute.com/OkD3fEQ7n2eI/AYlCKdMmSMCI.mp4',
-            'https://seed163.bitchute.com/OkD3fEQ7n2eI/YMtjrcIP0rX3.mp4',
-            'https://seed167.bitchute.com/OkD3fEQ7n2eI/vY1azvISNqC8.mp4',
-            'https://seed163.bitchute.com/OkD3fEQ7n2eI/LkldJDexZkl4.mp4',
-            'https://seed125.bitchute.com/OkD3fEQ7n2eI/HLuM7tXxXnAY.mp4',
-            'https://seed306.bitchute.com/OkD3fEQ7n2eI/I302uTpVd6oI.mp4',
-            'https://seed306.bitchute.com/OkD3fEQ7n2eI/sSDc7whrv5ao.mp4',
-            'https://seed132.bitchute.com/OkD3fEQ7n2eI/irs3ZfOClBFI.mp4',
-            'https://seed307.bitchute.com/OkD3fEQ7n2eI/5VHtakgY3E5z.mp4',
-	    'https://seed163.bitchute.com/OkD3fEQ7n2eI/mQtYcSY4zeg1.mp4',
-            'https://zggg98sgwbg1gh.bitchute.com/OkD3fEQ7n2eI/MBiqM5WcRddU.mp4'
+        'https://seed128.bitchute.com/OkD3fEQ7n2eI/AFYNhCCIw6HG.mp4',
+        'https://zb10-7gsop1v78.bitchute.com/OkD3fEQ7n2eI/AYlCKdMmSMCI.mp4',
+        'https://seed163.bitchute.com/OkD3fEQ7n2eI/YMtjrcIP0rX3.mp4',
+        'https://seed167.bitchute.com/OkD3fEQ7n2eI/vY1azvISNqC8.mp4',
+        'https://seed163.bitchute.com/OkD3fEQ7n2eI/LkldJDexZkl4.mp4',
+        'https://seed125.bitchute.com/OkD3fEQ7n2eI/HLuM7tXxXnAY.mp4',
+        'https://seed306.bitchute.com/OkD3fEQ7n2eI/I302uTpVd6oI.mp4',
+        'https://seed306.bitchute.com/OkD3fEQ7n2eI/sSDc7whrv5ao.mp4',
+        'https://seed132.bitchute.com/OkD3fEQ7n2eI/irs3ZfOClBFI.mp4',
+        'https://seed307.bitchute.com/OkD3fEQ7n2eI/5VHtakgY3E5z.mp4',
+        'https://seed163.bitchute.com/OkD3fEQ7n2eI/mQtYcSY4zeg1.mp4',
+        'https://zggg98sgwbg1gh.bitchute.com/OkD3fEQ7n2eI/MBiqM5WcRddU.mp4'
     ];
+
     const playlistStartTime = Date.UTC(2024, 11, 1, 0, 0, 0) / 1000;
     const videoPlayer = document.getElementById("meuVideo");
     const playButton = document.getElementById("playButton");
@@ -243,6 +188,16 @@
     let videoDurations = [];
     let playButtonTimeout;
     let isVideoPlaying = false;
+
+    function showSatelliteMessage() {
+        const message = document.getElementById('satellite-message');
+        message.classList.add('show');
+    }
+
+    function hideSatelliteMessage() {
+        const message = document.getElementById('satellite-message');
+        message.classList.remove('show');
+    }
 
     async function getCurrentUTCTime() {
         try {
@@ -292,6 +247,7 @@
         const { index, startTime } = calculateVideoPosition(elapsedTime);
 
         if (videoPlayer.src !== videoSources[index]) {
+            showSatelliteMessage(); // Show message when video changes
             videoPlayer.src = videoSources[index];
             playButton.classList.remove('visible');
             clearTimeout(playButtonTimeout);
@@ -346,6 +302,7 @@
         const isStreamAvailable = await checkStreamAvailability();
         if (isStreamAvailable) {
             if (videoPlayer.src !== streamUrl) {
+                showSatelliteMessage(); // Show message when switching to stream
                 videoPlayer.src = streamUrl;
                 videoPlayer.load();
                 videoPlayer.play().catch(console.error);
@@ -359,6 +316,7 @@
     videoPlayer.addEventListener("playing", () => {
         isVideoPlaying = true;
         hideLoading();
+        hideSatelliteMessage(); // Hide message only when video starts playing
     });
 
     videoPlayer.addEventListener("pause", () => {
