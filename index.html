@@ -190,6 +190,8 @@
     let isVideoPlaying = false;
 
     function showSatelliteMessage() {
+        hideLoading(); // Hide loading elements
+        playButton.classList.remove('visible'); // Hide play button
         const message = document.getElementById('satellite-message');
         message.classList.add('show');
     }
@@ -197,6 +199,32 @@
     function hideSatelliteMessage() {
         const message = document.getElementById('satellite-message');
         message.classList.remove('show');
+    }
+
+    function showLoading() {
+        if (!isVideoPlaying) {
+            progressCircle.classList.remove("hidden");
+            loadingMessage.classList.remove("hidden");
+            // Hide other elements
+            playButton.classList.remove('visible');
+            hideSatelliteMessage();
+        }
+    }
+
+    function hideLoading() {
+        progressCircle.classList.add("hidden");
+        loadingMessage.classList.add("hidden");
+    }
+
+    function showPlayButton() {
+        if (!isVideoPlaying) {
+            hideLoading(); // Hide loading elements
+            hideSatelliteMessage(); // Hide satellite message
+            playButton.classList.add('visible');
+            playButtonTimeout = setTimeout(() => {
+                playButton.classList.remove('visible');
+            }, 5000);
+        }
     }
 
     async function getCurrentUTCTime() {
@@ -210,15 +238,6 @@
             console.warn("Failed to fetch UTC time, using local time as fallback.");
         }
         return Math.floor(Date.now() / 1000);
-    }
-
-    function showPlayButton() {
-        if (!isVideoPlaying) {
-            playButton.classList.add('visible');
-            playButtonTimeout = setTimeout(() => {
-                playButton.classList.remove('visible');
-            }, 5000);
-        }
     }
 
     function calculateVideoPosition(elapsedTime) {
@@ -285,24 +304,17 @@
         }
     }
 
-    function showLoading() {
-        if (!isVideoPlaying) {
-            progressCircle.classList.remove("hidden");
-            loadingMessage.classList.remove("hidden");
-        }
-    }
-
-    function hideLoading() {
-        progressCircle.classList.add("hidden");
-        loadingMessage.classList.add("hidden");
-    }
-
     async function syncStreamOrPlaylist() {
-        if (!isVideoPlaying) showLoading();
+        if (!isVideoPlaying) {
+            showLoading();
+            playButton.classList.remove('visible');
+            hideSatelliteMessage();
+        }
         const isStreamAvailable = await checkStreamAvailability();
         if (isStreamAvailable) {
             if (videoPlayer.src !== streamUrl) {
-                showSatelliteMessage(); // Show message when switching to stream
+                hideLoading();
+                showSatelliteMessage();
                 videoPlayer.src = streamUrl;
                 videoPlayer.load();
                 videoPlayer.play().catch(console.error);
@@ -316,7 +328,11 @@
     videoPlayer.addEventListener("playing", () => {
         isVideoPlaying = true;
         hideLoading();
-        hideSatelliteMessage(); // Hide message only when video starts playing
+        playButton.classList.remove('visible');
+        // Only hide satellite message after video starts playing
+        setTimeout(() => {
+            hideSatelliteMessage();
+        }, 500); // Small delay to ensure smooth transition
     });
 
     videoPlayer.addEventListener("pause", () => {
@@ -324,8 +340,11 @@
     });
 
     videoPlayer.addEventListener("loadedmetadata", function() {
-        hideLoading();
-        showPlayButton();
+        if (!isVideoPlaying) {
+            hideLoading();
+            hideSatelliteMessage();
+            showPlayButton();
+        }
     });
 
     playButton.addEventListener("click", function(e) {
