@@ -69,7 +69,6 @@
         animation: fadeInOut 5s forwards;
     }
 
-    /* Updated satellite message styles */
     #satellite-message {
         position: absolute;
         top: 50%;
@@ -87,10 +86,22 @@
         text-align: center;
         font-size: 16px;
         min-width: 200px;
+        animation: slideIn 0.5s ease-out;
     }
 
     #satellite-message.show {
         opacity: 1;
+    }
+
+    @keyframes slideIn {
+        from {
+            transform: translate(-50%, -60%);
+            opacity: 0;
+        }
+        to {
+            transform: translate(-50%, -50%);
+            opacity: 1;
+        }
     }
 
     @keyframes fadeInOut {
@@ -128,6 +139,13 @@
         font-family: Arial, sans-serif;
         text-align: center;
         z-index: 10;
+        animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+        0% { opacity: 0.6; }
+        50% { opacity: 1; }
+        100% { opacity: 0.6; }
     }
 
     .hidden {
@@ -153,10 +171,10 @@
 </style>
 </head>
 <body>
-    <div id="fullscreen-container" onclick="toggleFullScreen()">   
+    <div id="fullscreen-container">   
         <video id="meuVideo" playsinline preload="auto"></video>
         <div id="progress-circle" class="hidden"></div>
-        <div id="loading-message" class="hidden">A ligar o Satélite | Aguarde 1 minuto...</div>
+        <div id="loading-message" class="hidden">Check the connection...</div>
         <div id="satellite-message">Adjusting Satellite Signal...</div>
         <div id="button-container">
             <i id="playButton" class="fas fa-play"></i>
@@ -189,9 +207,34 @@
     let playButtonTimeout;
     let isVideoPlaying = false;
 
+    // Define the toggleFullScreen function
+    function toggleFullScreen() {
+        const container = document.getElementById('fullscreen-container');
+        if (!document.fullscreenElement) {
+            if (container.requestFullscreen) {
+                container.requestFullscreen();
+            } else if (container.webkitRequestFullscreen) { // Safari
+                container.webkitRequestFullscreen();
+            } else if (container.msRequestFullscreen) { // IE11
+                container.msRequestFullscreen();
+            }
+        } else {
+            if (document.exitFullscreen) {
+                document.exitFullscreen();
+            } else if (document.webkitExitFullscreen) { // Safari
+                document.webkitExitFullscreen();
+            } else if (document.msExitFullscreen) { // IE11
+                document.msExitFullscreen();
+            }
+        }
+    }
+
+    // Add click event listener for fullscreen
+    document.getElementById('fullscreen-container').addEventListener('click', toggleFullScreen);
+
     function showSatelliteMessage() {
-        hideLoading(); // Hide loading elements
-        playButton.classList.remove('visible'); // Hide play button
+        hideLoading();
+        playButton.classList.remove('visible');
         const message = document.getElementById('satellite-message');
         message.classList.add('show');
     }
@@ -205,7 +248,6 @@
         if (!isVideoPlaying) {
             progressCircle.classList.remove("hidden");
             loadingMessage.classList.remove("hidden");
-            // Hide other elements
             playButton.classList.remove('visible');
             hideSatelliteMessage();
         }
@@ -218,8 +260,8 @@
 
     function showPlayButton() {
         if (!isVideoPlaying) {
-            hideLoading(); // Hide loading elements
-            hideSatelliteMessage(); // Hide satellite message
+            hideLoading();
+            hideSatelliteMessage();
             playButton.classList.add('visible');
             playButtonTimeout = setTimeout(() => {
                 playButton.classList.remove('visible');
@@ -266,7 +308,7 @@
         const { index, startTime } = calculateVideoPosition(elapsedTime);
 
         if (videoPlayer.src !== videoSources[index]) {
-            showSatelliteMessage(); // Show message when video changes
+            showSatelliteMessage();
             videoPlayer.src = videoSources[index];
             playButton.classList.remove('visible');
             clearTimeout(playButtonTimeout);
@@ -329,10 +371,9 @@
         isVideoPlaying = true;
         hideLoading();
         playButton.classList.remove('visible');
-        // Only hide satellite message after video starts playing
         setTimeout(() => {
             hideSatelliteMessage();
-        }, 500); // Small delay to ensure smooth transition
+        }, 500);
     });
 
     videoPlayer.addEventListener("pause", () => {
@@ -368,16 +409,6 @@
     videoPlayer.addEventListener("waiting", () => {
         if (!isVideoPlaying) showLoading();
     });
-
-    function toggleFullScreen() {
-        if (!document.fullscreenElement) {
-            document.getElementById('fullscreen-container').requestFullscreen().catch(err => {
-                console.error(`Erro ao ativar tela cheia: ${err.message}`);
-            });
-        } else {
-            document.exitFullscreen();
-        }
-    }
 
     window.addEventListener("load", async () => {
         showLoading();
