@@ -1,292 +1,145 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Africa Mono Cine | We are Humanity</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <title>Ícones de Telefone</title>
     <style>
-        /* Estilos gerais */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Arial', sans-serif;
-        }
-
+        /* Estilo geral do tema escuro */
         body {
+            background-color: #121212;
+            color: #ffffff;
+            font-family: Arial, sans-serif;
             display: flex;
             justify-content: center;
             align-items: center;
-            min-height: 100vh;
-            background-color: #000000;
-            overflow: hidden;
+            height: 100vh;
+            margin: 0;
         }
 
-        #app-container {
-            display: flex;
-            flex-direction: column;
-            justify-content: flex-start;
-            align-items: center;
-            width: 100%;
-            height: 100%;
-            position: relative;
+        /* Container para o menu de ícones em grelha */
+        .icon-container {
+            display: grid;
+            grid-template-columns: repeat(3, 100px); /* 3 colunas */
+            gap: 15px;
+            text-align: center;
         }
 
-        video {
-            width: 100%;
-            height: 100%;
-            background-color: black;
-            outline: none;
-            position: relative;
-        }
-
-        #controls {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            width: 100%;
-            padding: 10px 0;
-            position: fixed;
-            bottom: 0;
-            z-index: 10;
-            opacity: 1;
-            transition: opacity 0.3s ease;
-        }
-
-        #controls.hidden {
-            opacity: 0;
-            pointer-events: none;
-        }
-
-        .button {
-            background: none;
-            border: none;
-            color: #fff;
-            font-size: 70px; /* Tamanho padrão dos ícones */
-            cursor: pointer;
-            transition: transform 0.2s;
-        }
-
-        .button:hover {
-            transform: scale(1.2);
-        }
-
-        .button:active {
-            transform: scale(1.1);
-        }
-
-        .logo {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            object-fit: contain;
-            z-index: 5;
-        }
-
-        .logo.hidden {
-            display: none;
-        }
-
-        #loadingSpinner {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 50px;
-            height: 50px;
-            border: 6px solid rgba(255, 255, 255, 0.2);
-            border-top: 6px solid #fff;
+        /* Estilos dos ícones como círculos */
+        .icon {
+            width: 80px;
+            height: 80px;
             border-radius: 50%;
-            animation: spin 1s linear infinite;
-            z-index: 10;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #1e1e1e; /* Fundo do círculo */
+            margin: 0 auto; /* Centraliza o ícone no container */
+            transition: transform 0.3s; /* Transição suave para o efeito de hover */
         }
 
-        #loadingSpinner.hidden {
-            display: none;
+        /* Efeito de movimento no hover */
+        .icon:hover {
+            transform: translateY(-5px); /* Move o ícone 5px para cima */
         }
 
-        @keyframes spin {
-            0% {
-                transform: translate(-50%, -50%) rotate(0deg);
-            }
-            100% {
-                transform: translate(-50%, -50%) rotate(360deg);
-            }
+        /* Estilo das imagens para preencher o círculo */
+        .icon img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
 
-        /* Centralizar o botão play no meio do player */
-        #playButton {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            font-size: 100px;
-            z-index: 20;
+        .icon-link {
+            text-decoration: none; /* Remove o sublinhado dos links */
+            color: inherit; /* Mantém a cor do tema escuro */
         }
 
-        /* Mídia queries para responsividade */
-        @media (max-width: 768px) {
-            #controls {
-                gap: 15px; /* Menor espaço entre os botões em telas menores */
-            }
-
-            .button {
-                font-size: 30px; /* Reduz o tamanho do ícone em telas médias (tablets) */
-            }
-
-            #playButton {
-                font-size: 80px; /* Reduz o tamanho do ícone do play */
-            }
-        }
-
-        @media (max-width: 480px) {
-            #controls {
-               
-                gap: 10px;
-            }
-
-            .button {
-                font-size: 25px; /* Tamanho ainda menor para telas pequenas */
-            }
-
-            #playButton {
-                font-size: 60px; /* Reduz o tamanho do ícone do play */
-            }
-        }
-
-        /* Cores para os ícones */
-        .fa-film {
-            color: #FF6347; /* Tomate */
-        }
-        .fa-music {
-            color: #1E90FF; /* Azul Dodger */
-        }
-        .fa-users {
-            color: #32CD32; /* Verde Lima */
-        }
-        .fa-newspaper-o {
-            color: #FFD700; /* Ouro */
-        }
-        .fa-futbol {
-            color: #FF4500; /* Laranja Vermelho */
-        }
-        .fa-child {
-            color: #8A2BE2; /* Azul Violeta */
-        }
-        .fa-church {
-            color: #8B0000; /* Vermelho Escuro */
-        }
-        .fa-cogs {
-            color: #20B2AA; /* Verde Claro */
+        .description {
+            font-size: 14px;
+            color: #cccccc;
+            margin-top: 5px;
         }
     </style>
 </head>
 <body>
-    <div id="app-container" onclick="toggleFullScreen()">
-          <video id="meuVideo" playsinline preload="auto"></video>
-        <div id="loadingSpinner"></div>
-        <div id="controls" class="hidden">
-            <!-- Removido o botão de play do menu -->
-            <a href="cine.html" class="button"><i class="fa fa-film"></i></a>
-            <a href="index.html" class="button"><i class="fa fa-music"></i></a>
-            <a href="kuduro.html" class="button"><i class="fa fa-users"></i></a>
-            <a href="news.html" class="button"><i class="fa fa-newspaper-o"></i></a>
-            <a href="sport.html" class="button"><i class="fas fa-futbol"></i></a>
-            <a href="kids.html" class="button"><i class="fas fa-child"></i></a>
-            <a href="igreja.html" class="button"><i class="fas fa-church"></i></a>
-            <a href="index.html" class="button"><i class="fas fa-cogs"></i></a>
-        </div>
-        <button id="playButton" class="button">
-            <i class="fas fa-play"></i>
-        </button>
+
+    <div class="icon-container">
+        <!-- Ícones de telefone com links e descrições separadas -->
+        <a href="https://africamono.github.io/app/igreja.html" class="icon-link" target="_blank">
+            <div class="icon">
+                <img src="Male_C2.jpg" alt="Ícone de Ligar">
+            </div>
+            <div class="description">IGREJA</div>
+        </a>
+        <a href="https://africamono.github.io/app/igreja.html" class="icon-link" target="_blank">
+            <div class="icon">
+                <img src="Male_C2.jpg" alt="Ícone de Celular">
+            </div>
+            <div class="description">IGREJA</div>
+        </a>
+        <a href="https://africamono.github.io/app/igreja.html" class="icon-link" target="_blank">
+            <div class="icon">
+                <img src="Male_C2.jpg" alt="Ícone de Pager">
+            </div>
+            <div class="description">IGREJA</div>
+        </a>
+        <a href="https://africamono.github.io/app/igreja.html" class="icon-link" target="_blank">
+            <div class="icon">
+                <img src="Male_C2.jpg" alt="Ícone de Contatos">
+            </div>
+            <div class="description">IGREJA</div>
+        </a>
+        <a href="https://africamono.github.io/app/igreja.html" class="icon-link" target="_blank">
+            <div class="icon">
+                <img src="Male_C2.jpg" alt="Ícone de Mensagens">
+            </div>
+            <div class="description">IGREJA</div>
+        </a>
+        <a href="https://africamono.github.io/app/igreja.html" class="icon-link" target="_blank">
+            <div class="icon">
+                <img src="Male_C2.jpg" alt="Ícone de Configurações">
+            </div>
+            <div class="description">IGREJA</div>
+        </a>
+        <a href="hhttps://africamono.github.io/app/igrejal.html" class="icon-link" target="_blank">
+            <div class="icon">
+                <img src="Male_C2.jpg" alt="Ícone de Galeria">
+            </div>
+            <div class="description">IGREJA</div>
+        </a>
+        <a href="https://africamono.github.io/app/igreja.html" class="icon-link" target="_blank">
+            <div class="icon">
+                <img src="Male_C2.jpg" alt="Ícone de Câmera">
+            </div>
+            <div class="description">IGREJA</div>
+        </a>
+        <a href="https://africamono.github.io/app/igreja.html" class="icon-link" target="_blank">
+            <div class="icon">
+                <img src="Male_C2.jpg" alt="Ícone de Música">
+            </div>
+            <div class="description">IGREJA</div>
+        </a>
+        <a href="https://africamono.github.io/app/igreja.html" class="icon-link" target="_blank">
+            <div class="icon">
+                <img src="Male_C2.jpg" alt="Ícone de Mapas">
+            </div>
+            <div class="description">IGREJA</div>
+        </a>
+        <a href="https://africamono.github.io/app/igreja.html" class="icon-link" target="_blank">
+            <div class="icon">
+                <img src="Male_C2.jpg" alt="Ícone de Clima">
+            </div>
+            <div class="description">IGREJA</div>
+        </a>
+        <a href="https://africamono.github.io/app/igreja.html"  class="icon-link" target="_blank">
+            <div class="icon">
+                <img src="Male_C2.jpg" alt="Ícone de Notas">
+            </div>
+            <div class="description">IGREJA</div>
+        </a>
     </div>
 
-    <script>
-        const videoSources = [
-            'https://seed132.bitchute.com/OkD3fEQ7n2eI/CZFkWCEZ0Een.mp4',
-            'https://seed132.bitchute.com/OkD3fEQ7n2eI/CZFkWCEZ0Een.mp4'
-        ];
-        const videoDurations = [2000, 2000];
-        const videoPlayer = document.getElementById('meuVideo');
-        const playButton = document.getElementById('playButton');
-        const controls = document.getElementById('controls');
-        const appContainer = document.getElementById('app-container');
-        const loadingSpinner = document.getElementById('loadingSpinner');
-        const logo = document.getElementById('logo');
-        let currentIndex = 0;
-
-        window.addEventListener('load', () => {
-            const { index, startTime } = getSyncedVideoAndTime();
-            changeVideo(index, startTime);
-        });
-
-        function getSyncedVideoAndTime() {
-            const now = Math.floor(Date.now() / 1000);
-            const totalDuration = videoDurations.reduce((a, b) => a + b, 0);
-            const syncedTime = now % totalDuration;
-
-            let accumulatedTime = 0;
-            for (let i = 0; i < videoSources.length; i++) {
-                if (syncedTime < accumulatedTime + videoDurations[i]) {
-                    return { index: i, startTime: syncedTime - accumulatedTime };
-                }
-                accumulatedTime += videoDurations[i];
-            }
-        }
-
-        function changeVideo(index, startTime) {
-            videoPlayer.src = videoSources[index];
-            videoPlayer.currentTime = startTime;
-            videoPlayer.play().catch(error => console.error('Erro ao reproduzir vídeo:', error));
-        }
-
-        playButton.addEventListener('click', () => {
-            if (videoPlayer.paused) {
-                videoPlayer.play().catch(error => console.error('Erro ao reproduzir vídeo:', error));
-                playButton.style.display = 'none'; // Esconde o botão de play
-            } else {
-                videoPlayer.pause();
-                playButton.innerHTML = '<i class="fas fa-play"></i>';
-            }
-        });
-
-        videoPlayer.addEventListener('ended', () => {
-            currentIndex = (currentIndex + 1) % videoSources.length;
-            changeVideo(currentIndex, 0);
-        });
-
-        function showControls() {
-            controls.classList.remove('hidden');
-            setTimeout(() => controls.classList.add('hidden'), 5000);
-        }
-
-        document.addEventListener('mousemove', showControls);
-        document.addEventListener('touchstart', showControls);
-
-        function toggleFullScreen() {
-            if (!document.fullscreenElement) {
-                appContainer.requestFullscreen().catch(err => console.error('Erro ao habilitar tela cheia:', err));
-            } else {
-                document.exitFullscreen();
-            }
-        }
-
-        function showLoadingSpinner() {
-            loadingSpinner.classList.remove('hidden');
-            logo.classList.add('hidden');
-        }
-
-        function hideLoadingSpinner() {
-            loadingSpinner.classList.add('hidden');
-            logo.classList.remove('hidden');
-        }
-
-        videoPlayer.addEventListener('waiting', showLoadingSpinner);
-        videoPlayer.addEventListener('playing', hideLoadingSpinner);
-        videoPlayer.addEventListener('canplay', hideLoadingSpinner);
-    </script>
 </body>
 </html>
