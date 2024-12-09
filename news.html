@@ -1,210 +1,663 @@
-<html><head><base href="." />
+<html><head><base href="/" />
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Africa Mono </title>
-
+<title>Africa Mono News | We are Humanity</title>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet" />
 <style>
-#fullscreen-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    max-width: 100%;
-    padding: 5px;
-    border-radius: 8px;
-    box-shadow: 0 0px 0px rgba(0, 0, 0, 0.3);
-    position: relative;
-}
+    @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
 
-.video-wrapper {
-    position: relative;
-    width: 100%;
-    height: 0;
-    padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
-}
-
-video {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: #000;
-    object-fit: cover;
-}
-
-#playButton {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    z-index: 10;
-    padding: 15px 30px;
-    font-size: 18px;
-    cursor: pointer;
-    border: none;
-    border-radius: 50px;
-    background-color: rgba(255, 76, 76, 0.9);
-    color: white;
-    transition: all 0.3s;
-    opacity: 0.9;
-}
-
-#playButton:hover {
-    background-color: rgba(228, 62, 62, 1);
-    transform: translate(-50%, -50%) scale(1.1);
-}
-
-#status-indicator {
-    position: absolute;
-    top: 10px;
-    left: 10px;
-    font-size: 14px;
-    color: white;
-    background-color: rgba(0, 0, 0, 0.7);
-    padding: 5px 10px;
-    border-radius: 4px;
-    z-index: 10;
-}
-
-#quality-indicator {
-    position: absolute;
-    bottom: 10px;
-    right: 10px;
-    color: white;
-    background-color: rgba(0, 0, 0, 0.7);
-    padding: 5px 10px;
-    border-radius: 4px;
-    z-index: 10;
-}
-
-@media (max-width: 480px) {
-    #playButton {
-        padding: 10px 20px;
-        font-size: 16px;
+    html, body {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        background-color: #000000;
+        font-family: Arial, sans-serif;
     }
-}
+
+    .nav-container {
+        width: 100%;
+        background: rgba(0, 0, 0, 0.9);
+        position: fixed;
+        top: 0;
+        z-index: 1000;
+    }
+
+    .navbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1rem;
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+
+    .logo {
+        display: none; /* Hide the logo */
+    }
+
+    .nav-menu {
+        display: flex;
+        list-style: none;
+        margin: 0;
+        padding: 0;
+    }
+
+    .nav-item {
+        margin-left: 2rem;
+        text-transform: uppercase;
+    }
+
+    .nav-link {
+        color: white;
+        text-decoration: none;
+        font-size: 1.2rem;
+        transition: color 0.3s;
+        font-family: 'Bebas Neue', sans-serif;
+        letter-spacing: 1px;
+    }
+
+    .nav-link:hover {
+        color: #fc8a38;
+    }
+
+    .hamburger {
+        display: none;
+        cursor: pointer;
+    }
+
+    .bar {
+        display: block;
+        width: 25px;
+        height: 3px;
+        margin: 5px auto;
+        transition: all 0.3s ease-in-out;
+        background-color: white;
+    }
+
+    @media (max-width: 768px) {
+        .hamburger {
+            display: block;
+        }
+
+        .hamburger.active .bar:nth-child(2) {
+            opacity: 0;
+        }
+
+        .hamburger.active .bar:nth-child(1) {
+            transform: translateY(8px) rotate(45deg);
+        }
+
+        .hamburger.active .bar:nth-child(3) {
+            transform: translateY(-8px) rotate(-45deg);
+        }
+
+        .nav-menu {
+            position: fixed;
+            left: -100%;
+            top: 70px;
+            gap: 0;
+            flex-direction: column;
+            background-color: rgba(0, 0, 0, 0.9);
+            width: 100%;
+            text-align: center;
+            transition: 0.3s;
+            padding: 20px 0;
+        }
+
+        .nav-item {
+            margin: 16px 0;
+        }
+
+        .nav-link {
+            font-size: 1.4rem;
+        }
+
+        .nav-menu.active {
+            left: 0;
+        }
+    }
+
+    #main-container {
+        margin-top: 0; /* Remove top margin */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        height: 100%;
+    }
+
+    #fullscreen-container {
+        position: relative;
+        width: 100%;
+        height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #000;
+        aspect-ratio: 16/9; /* Maintain 16:9 aspect ratio */
+    }
+
+    #fullscreen-container:fullscreen {
+        width: 100vw;
+        height: 100vh;
+        background: #000;
+    }
+
+    #fullscreen-container:fullscreen video {
+        width: 100vw;
+        height: 100vh;
+        object-fit: contain;
+    }
+
+    #fullscreen-container:-webkit-full-screen {
+        width: 100vw;
+        height: 100vh;
+        background: #000;
+    }
+
+    #fullscreen-container:-webkit-full-screen video {
+        width: 100vw;
+        height: 100vh;
+        object-fit: contain;
+    }
+
+    video {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        background-color: #000;
+        margin: 0;
+    }
+
+    #button-container {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+
+    #playButton {
+        font-size: 50px;
+        color: white;
+        cursor: pointer;
+        transition: transform 0.3s;
+        opacity: 0;
+        display: none;
+    }
+
+    #playButton.visible {
+        display: block;
+        opacity: 1;
+        animation: fadeInOut 5s forwards;
+    }
+
+    #satellite-message {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background: rgba(0, 0, 0, 0.8);
+        color: white;
+        padding: 20px;
+        border-radius: 10px;
+        font-family: Arial, sans-serif;
+        z-index: 100;
+        opacity: 0;
+        transition: opacity 0.5s;
+        pointer-events: none;
+        text-align: center;
+        font-size: 16px;
+        min-width: 200px;
+        animation: slideIn 0.5s ease-out;
+    }
+
+    #satellite-message.show {
+        opacity: 1;
+    }
+
+    @keyframes slideIn {
+        from {
+            transform: translate(-50%, -60%);
+            opacity: 0;
+        }
+        to {
+            transform: translate(-50%, -50%);
+            opacity: 1;
+        }
+    }
+
+    @keyframes fadeInOut {
+        0% { opacity: 0; }
+        10% { opacity: 1; }
+        90% { opacity: 1; }
+        100% { opacity: 0; display: none; }
+    }
+
+    #playButton:hover {
+        transform: scale(1.1);
+    }
+
+    #progress-circle {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 50px;
+        height: 50px;
+        border: 5px solid rgba(255, 255, 255, 0.3);
+        border-top: 5px solid #fc8a38;
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+        z-index: 10;
+    }
+
+    #loading-message {
+        position: absolute;
+        top: calc(50% + 60px);
+        left: 50%;
+        transform: translate(-50%, -50%);
+        font-size: 16px;
+        color: white;
+        font-family: Arial, sans-serif;
+        text-align: center;
+        z-index: 10;
+        animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+        0% { opacity: 0.6; }
+        50% { opacity: 1; }
+        100% { opacity: 0.6; }
+    }
+
+    .hidden {
+        display: none !important;
+    }
+
+    @keyframes spin {
+        0% { transform: translate(-50%, -50%) rotate(0deg); }
+        100% { transform: translate(-50%, -50%) rotate(360deg); }
+    }
+
+    @media (max-width: 480px) {
+        video {
+            width: 100%;
+            height: auto; /* Remove max-height constraint */
+        }
+        
+        #fullscreen-container {
+            padding: 0;
+        }
+    }
+
+    #logo-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%; /* Take full width of the container */
+        height: 100%; /* Take full height of the container */
+        object-fit: contain; /* Maintain aspect ratio while fitting container */
+        opacity: 0;
+        transition: opacity 0.3s ease;
+        z-index: 100;
+        pointer-events: none;
+    }
+
+    #logo-overlay.visible {
+        opacity: 1;
+    }
+
+    @media (max-width: 768px) {
+        #logo-overlay {
+            width: 100%;
+            height: 100%;
+        }
+    }
 </style>
 </head>
 <body>
+    <nav class="nav-container">
+        <div class="navbar">
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="https://africamono.it.ao" class="nav-link">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a href="https://africamono.it.ao/music.html" class="nav-link">Music</a>
+                </li>
+                <li class="nav-item">
+                    <a href="https://africamono.it.ao/kuduro.html" class="nav-link">Kuduro</a>
+                </li>
+                <li class="nav-item">
+                    <a href="https://africamono.it.ao/cine.html" class="nav-link">Cine</a>
+                </li>
 
-<div id="fullscreen-container" onclick="toggleFullScreen()">
-    <div class="video-wrapper">
-            <video id="meuVideo" playsinline preload="auto"></video>
-        <button id="playButton">Play</button>
+                <li class="nav-item">
+                    <a href="https://africamono.it.ao/igreja.html" class="nav-link">Gospel</a>
+                </li>
+                <li class="nav-item">
+                    <a href="https://africamono.it.ao/kids.html" class="nav-link">Kids</a>
+                </li>
+                <li class="nav-item">
+                    <a href="https://africamono.it.ao/news.html" class="nav-link">News</a>
+                <li class="nav-item">
+                    <a href="https://africamono.it.ao/sport.html" class="nav-link">Sport</a>
+                <li class="nav-item">
+                    <a href="https://africamono.it.ao/music.htm" class="nav-link">About</a>
+                </li>
+                </li>
+
+                </li>
+            </ul>
+            
+            <div class="hamburger">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </div>
+    </nav>
+
+    <div id="fullscreen-container">   
+        <video id="meuVideo" playsinline preload="auto"></video>
+        <img id="logo-overlay" 
+             src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEj2TfPhI9UbsF2AWP-0yxcP9vKVvyqOFKstUZMMSI4jhWjd2GTBcJtlDxZbKIl4xVO2K8OepIX6E3-Qmukmc-EOCwy4y5VFJQfJlg_UwGfct3tBEo0ZmXTp3vj4DrR9VUtysCZ_OcapLWU28x-e466kdh83skrg_NgqzNbYnl8dg16cpSB6l0KD_ohgSC0/s1600/Cine%201.png" 
+             alt="Logo">
+        <div id="progress-circle" class="hidden"></div>
+        <div id="loading-message" class="hidden">Checking the connection...</div>
+        <div id="satellite-message">Adjusting the signal on the satellite...</div>
+        <div id="button-container">
+            <i id="playButton" class="fas fa-play"></i>
+        </div>
     </div>
-</div>
 
 <script>
-const rawVideoSources = [
-    'https://seed163.bitchute.com/OkD3fEQ7n2eI/mQtYcSY4zeg1.mp4',
-    'https://seed128.bitchute.com/OkD3fEQ7n2eI/AFYNhCCIw6HG.mp4',
-    'https://zb10-7gsop1v78.bitchute.com/OkD3fEQ7n2eI/AYlCKdMmSMCI.mp4',
-    'https://seed163.bitchute.com/OkD3fEQ7n2eI/YMtjrcIP0rX3.mp4',
-    'https://seed167.bitchute.com/OkD3fEQ7n2eI/vY1azvISNqC8.mp4',
-    'https://seed163.bitchute.com/OkD3fEQ7n2eI/LkldJDexZkl4.mp4',
-    'https://seed125.bitchute.com/OkD3fEQ7n2eI/HLuM7tXxXnAY.mp4',
-    'https://seed306.bitchute.com/OkD3fEQ7n2eI/I302uTpVd6oI.mp4',
-    'https://seed306.bitchute.com/OkD3fEQ7n2eI/sSDc7whrv5ao.mp4',
-    'https://seed132.bitchute.com/OkD3fEQ7n2eI/irs3ZfOClBFI.mp4',
-    'https://seed307.bitchute.com/OkD3fEQ7n2eI/5VHtakgY3E5z.mp4',
-    'https://zggg98sgwbg1gh.bitchute.com/OkD3fEQ7n2eI/MBiqM5WcRddU.mp4'
-];
+    const hamburger = document.querySelector(".hamburger");
+    const navMenu = document.querySelector(".nav-menu");
 
-const videoSources = {
-    high: rawVideoSources.map(src => ({ url: src, quality: '1080p' })),
-    medium: rawVideoSources.map(src => ({ url: src.replace('.mp4', '_720p.mp4'), quality: '720p' })),
-    low: rawVideoSources.map(src => ({ url: src.replace('.mp4', '_480p.mp4'), quality: '480p' }))
-};
+    hamburger.addEventListener("click", () => {
+        hamburger.classList.toggle("active");
+        navMenu.classList.toggle("active");
+    });
 
-const videoDurations = [2000, 2000, 2000, 2000, 2000, 2000, 2000, 2000, 2000, 2000, 2000, 2000];
-const videoPlayer = document.getElementById('meuVideo');
-const playButton = document.getElementById('playButton');
-const statusIndicator = document.getElementById('status-indicator');
-const qualityIndicator = document.getElementById('quality-indicator');
-let currentQuality = 'high';
-let isStreaming = false;
-let currentIndex = 0;
+    document.querySelectorAll(".nav-link").forEach(n => n.addEventListener("click", () => {
+        hamburger.classList.remove("active");
+        navMenu.classList.remove("active");
+    }));
 
-async function testConnectionSpeed() {
-    const startTime = performance.now();
-    const response = await fetch('https://www.google.com/favicon.ico');
-    const endTime = performance.now();
-    const duration = endTime - startTime;
-    
-    if (duration < 100) return 'high';
-    if (duration < 300) return 'medium';
-    return 'low';
-}
+    const streamUrl = 'https://edge1-us-newyork.picarto.tv/stream/golive%2bafricamono.mp4';
+    const videoSources = [
+            'https://seed177.bitchute.com/OaKaSr1oCqQd/DYAalrWJCbmM.mp4'
+    ];
 
-async function adjustVideoQuality() {
-    const quality = await testConnectionSpeed();
-    if (quality !== currentQuality) {
-        currentQuality = quality;
-        const currentTime = videoPlayer.currentTime;
-        videoPlayer.src = videoSources[quality][currentIndex].url;
-        videoPlayer.currentTime = currentTime;
-        qualityIndicator.textContent = videoSources[quality][currentIndex].quality;
-    }
-}
+    const playlistStartTime = Date.UTC(2024, 11, 1, 0, 0, 0) / 1000;
+    const videoPlayer = document.getElementById("meuVideo");
+    const playButton = document.getElementById("playButton");
+    const progressCircle = document.getElementById("progress-circle");
+    const loadingMessage = document.getElementById("loading-message");
+    const logoOverlay = document.getElementById('logo-overlay');
+    let videoDurations = [];
+    let playButtonTimeout;
+    let isVideoPlaying = false;
 
-setInterval(adjustVideoQuality, 10000);
-
-function getSyncedVideoAndTime() {
-    const now = Math.floor(Date.now() / 1000);
-    const totalDuration = videoDurations.reduce((a, b) => a + b, 0);
-    const syncedTime = now % totalDuration;
-
-    let accumulatedTime = 0;
-    for (let i = 0; i < videoSources[currentQuality].length; i++) {
-        if (syncedTime < accumulatedTime + videoDurations[i]) {
-            return { index: i, startTime: syncedTime - accumulatedTime };
+    function toggleFullScreen() {
+        const container = document.getElementById('fullscreen-container');
+        if (!document.fullscreenElement && !document.webkitFullscreenElement) {
+            if (container.requestFullscreen) {
+                container.requestFullscreen().catch(err => {
+                    console.log(`Error attempting to enable fullscreen: ${err.message}`);
+                });
+            } else if (container.webkitRequestFullscreen) {
+                container.webkitRequestFullscreen();
+            }
+        } else {
+            if (document.exitFullscreen) {
+                document.exitFullscreen();
+            } else {
+                document.webkitExitFullscreen();
+            }
         }
-        accumulatedTime += videoDurations[i];
     }
-    return { index: 0, startTime: 0 };
-}
 
-function updateVideoSource() {
-    const { index, startTime } = getSyncedVideoAndTime();
-    currentIndex = index;
-    videoPlayer.src = videoSources[currentQuality][index].url;
-    videoPlayer.currentTime = startTime;
-    qualityIndicator.textContent = videoSources[currentQuality][index].quality;
-}
+    document.getElementById('fullscreen-container').addEventListener('click', toggleFullScreen);
 
-playButton.addEventListener('click', function(e) {
-    e.stopPropagation();
-    if (videoPlayer.paused) {
-        videoPlayer.play().then(() => {
-            playButton.style.opacity = '0';
-            setTimeout(() => { playButton.style.display = 'none'; }, 300);
-        }).catch(error => {
-            console.error('Error playing video:', error);
+    function showSatelliteMessage() {
+        hideLoading();
+        playButton.classList.remove('visible');
+        const message = document.getElementById('satellite-message');
+        message.classList.add('show');
+        // Add timeout to hide message after 3 seconds
+        setTimeout(hideSatelliteMessage, 3000);
+    }
+
+    function hideSatelliteMessage() {
+        const message = document.getElementById('satellite-message');
+        message.classList.remove('show');
+    }
+
+    function showLoading() {
+        if (!isVideoPlaying) {
+            progressCircle.classList.remove("hidden");
+            loadingMessage.classList.remove("hidden");
+            playButton.classList.remove('visible');
+            hideSatelliteMessage();
+        }
+    }
+
+    function hideLoading() {
+        progressCircle.classList.add("hidden");
+        loadingMessage.classList.add("hidden");
+    }
+
+    function showPlayButton() {
+        if (!isVideoPlaying) {
+            hideLoading();
+            hideSatelliteMessage();
+            playButton.classList.add('visible');
+            playButtonTimeout = setTimeout(() => {
+                playButton.classList.remove('visible');
+            }, 5000);
+        }
+    }
+
+    async function getCurrentUTCTime() {
+        try {
+            const response = await fetch('https://worldtimeapi.org/api/timezone/Etc/UTC');
+            if (response.ok) {
+                const data = await response.json();
+                return data.unixtime;
+            }
+        } catch (error) {
+            console.warn("Failed to fetch UTC time, using local time as fallback.");
+        }
+        return Math.floor(Date.now() / 1000);
+    }
+
+    function calculateVideoPosition(elapsedTime) {
+        const totalDuration = videoDurations.reduce((a, b) => a + b, 0);
+        const elapsedInPlaylist = elapsedTime % totalDuration;
+        let accumulatedTime = 0;
+
+        for (let i = 0; i < videoSources.length; i++) {
+            accumulatedTime += videoDurations[i];
+            if (elapsedInPlaylist < accumulatedTime) {
+                const startTime = videoDurations[i] - (accumulatedTime - elapsedInPlaylist);
+                return { index: i, startTime };
+            }
+        }
+        return { index: 0, startTime: 0 };
+    }
+
+    async function syncPlayback() {
+        const currentUTC = await getCurrentUTCTime();
+        const elapsedTime = currentUTC - playlistStartTime;
+        if (elapsedTime < 0) {
+            console.error("Playlist has not started yet.");
+            return;
+        }
+
+        const { index, startTime } = calculateVideoPosition(elapsedTime);
+
+        if (videoPlayer.src !== videoSources[index]) {
+            showSatelliteMessage();
+            videoPlayer.src = videoSources[index];
+            playButton.classList.remove('visible');
+            clearTimeout(playButtonTimeout);
+            videoPlayer.load();
+        }
+
+        videoPlayer.addEventListener("loadedmetadata", function onMetadataLoaded() {
+            videoPlayer.currentTime = startTime;
+            videoPlayer.play().catch(console.error);
+            videoPlayer.removeEventListener("loadedmetadata", onMetadataLoaded);
         });
     }
-});
 
-videoPlayer.addEventListener('pause', () => {
-    playButton.style.display = 'block';
-    setTimeout(() => { playButton.style.opacity = '0.9'; }, 0);
-});
+    async function preloadDurations() {
+        for (let i = 0; i < videoSources.length; i++) {
+            const tempVideo = document.createElement("video");
+            tempVideo.src = videoSources[i];
 
-function toggleFullScreen() {
-    if (!document.fullscreenElement) {
-        document.getElementById('fullscreen-container').requestFullscreen().catch(err => {
-            console.error(`Error enabling fullscreen: ${err.message}`);
-        });
-    } else {
-        document.exitFullscreen();
+            await new Promise(resolve => {
+                tempVideo.addEventListener("loadedmetadata", () => {
+                    videoDurations[i] = tempVideo.duration;
+                    resolve();
+                });
+            });
+        }
+        syncPlayback();
     }
-}
 
-window.addEventListener('load', function() {
-    updateVideoSource();
-    adjustVideoQuality();
-});
+    async function checkStreamAvailability() {
+        try {
+            const response = await fetch(streamUrl, { method: 'HEAD' });
+            return response.ok;
+        } catch {
+            return false;
+        }
+    }
+
+    async function syncStreamOrPlaylist() {
+        if (!isVideoPlaying) {
+            showLoading();
+            playButton.classList.remove('visible');
+            hideSatelliteMessage();
+        }
+        const isStreamAvailable = await checkStreamAvailability();
+        if (isStreamAvailable) {
+            if (videoPlayer.src !== streamUrl) {
+                hideLoading();
+                showSatelliteMessage();
+                // Add timeout to hide satellite message after 3 seconds
+                setTimeout(hideSatelliteMessage, 3000);
+                videoPlayer.src = streamUrl;
+                videoPlayer.load();
+                videoPlayer.play().catch(console.error);
+            }
+        } else {
+            syncPlayback();
+        }
+        hideLoading();
+    }
+
+    videoPlayer.addEventListener("playing", () => {
+        isVideoPlaying = true;
+        hideLoading();
+        playButton.classList.remove('visible');
+        logoOverlay.classList.add('visible'); // Show logo
+        setTimeout(() => {
+            hideSatelliteMessage();
+        }, 500);
+    });
+
+    videoPlayer.addEventListener("pause", () => {
+        isVideoPlaying = false;
+        logoOverlay.classList.remove('visible'); // Hide logo
+    });
+
+    videoPlayer.addEventListener("ended", () => {
+        logoOverlay.classList.remove('visible'); // Hide logo
+    });
+
+    videoPlayer.addEventListener("loadedmetadata", function() {
+        if (!isVideoPlaying) {
+            hideLoading();
+            hideSatelliteMessage();
+            showPlayButton();
+        }
+    });
+
+    playButton.addEventListener("click", function(e) {
+        e.stopPropagation();
+        if (videoPlayer.paused) {
+            showLoading();
+            videoPlayer.play()
+                .then(() => {
+                    isVideoPlaying = true;
+                    playButton.classList.remove('visible');
+                    clearTimeout(playButtonTimeout);
+                })
+                .catch(error => {
+                    console.error("Error starting video:", error);
+                    hideLoading();
+                });
+        }
+    });
+
+    videoPlayer.addEventListener("loadeddata", hideLoading);
+    videoPlayer.addEventListener("waiting", () => {
+        if (!isVideoPlaying) showLoading();
+    });
+
+    window.addEventListener("load", async () => {
+        showLoading();
+        await preloadDurations();
+        await syncStreamOrPlaylist();
+        if (!isVideoPlaying) hideLoading();
+    });
+
+    setInterval(syncStreamOrPlaylist, 10000);
+    
+    // Add fullscreenchange event listener
+    document.addEventListener('fullscreenchange', function() {
+        const container = document.getElementById('fullscreen-container');
+        if (document.fullscreenElement) {
+            container.style.width = '100vw';
+            container.style.height = '100vh';
+            if (isVideoPlaying) {
+                logoOverlay.classList.add('visible');
+            }
+        } else {
+            container.style.width = '100%';
+            container.style.height = '100vh';
+            if (isVideoPlaying) {
+                logoOverlay.classList.add('visible');
+            }
+        }
+    });
+
+    // Add webkit fullscreenchange event listener
+    document.addEventListener('webkitfullscreenchange', function() {
+        const container = document.getElementById('fullscreen-container');
+        if (document.webkitFullscreenElement) {
+            container.style.width = '100vw';
+            container.style.height = '100vh';
+            if (isVideoPlaying) {
+                logoOverlay.classList.add('visible');
+            }
+        } else {
+            container.style.width = '100%';
+            container.style.height = '100vh';
+            if (isVideoPlaying) {
+                logoOverlay.classList.add('visible');
+            }
+        }
+    });
 </script>
 </body>
 </html>
