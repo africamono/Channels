@@ -4,17 +4,123 @@
 <title>Africa Mono Music | We are Humanity</title>
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet" />
 <style>
+    @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
+
     html, body {
         margin: 0;
         padding: 0;
         height: 100%;
         display: flex;
-        justify-content: center;
-        align-items: center;
+        flex-direction: column;
         background-color: #000000;
+        font-family: Arial, sans-serif;
+    }
+
+    .nav-container {
+        width: 100%;
+        background: rgba(0, 0, 0, 0.9);
+        position: fixed;
+        top: 0;
+        z-index: 1000;
+    }
+
+    .navbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1rem;
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+
+    .logo {
+        display: none; /* Hide the logo */
+    }
+
+    .nav-menu {
+        display: flex;
+        list-style: none;
+        margin: 0;
+        padding: 0;
+    }
+
+    .nav-item {
+        margin-left: 2rem;
+        text-transform: uppercase;
+    }
+
+    .nav-link {
+        color: white;
+        text-decoration: none;
+        font-size: 1.2rem;
+        transition: color 0.3s;
+        font-family: 'Bebas Neue', sans-serif;
+        letter-spacing: 1px;
+    }
+
+    .nav-link:hover {
+        color: #fc8a38;
+    }
+
+    .hamburger {
+        display: none;
+        cursor: pointer;
+    }
+
+    .bar {
+        display: block;
+        width: 25px;
+        height: 3px;
+        margin: 5px auto;
+        transition: all 0.3s ease-in-out;
+        background-color: white;
+    }
+
+    @media (max-width: 768px) {
+        .hamburger {
+            display: block;
+        }
+
+        .hamburger.active .bar:nth-child(2) {
+            opacity: 0;
+        }
+
+        .hamburger.active .bar:nth-child(1) {
+            transform: translateY(8px) rotate(45deg);
+        }
+
+        .hamburger.active .bar:nth-child(3) {
+            transform: translateY(-8px) rotate(-45deg);
+        }
+
+        .nav-menu {
+            position: fixed;
+            left: -100%;
+            top: 70px;
+            gap: 0;
+            flex-direction: column;
+            background-color: rgba(0, 0, 0, 0.9);
+            width: 100%;
+            text-align: center;
+            transition: 0.3s;
+            padding: 20px 0;
+        }
+
+        .nav-item {
+            margin: 16px 0;
+        }
+
+        .nav-link {
+            font-size: 1.4rem;
+        }
+
+        .nav-menu.active {
+            left: 0;
+        }
     }
 
     #main-container {
+        margin-top: 0; /* Remove top margin */
         display: flex;
         justify-content: center;
         align-items: center;
@@ -23,25 +129,46 @@
     }
 
     #fullscreen-container {
+        position: relative;
+        width: 100%;
+        height: 100vh;
         display: flex;
-        flex-direction: column;
         align-items: center;
         justify-content: center;
-        width: 100%;
-        max-width: 100%;
-        padding: 5px;
-        border-radius: 8px;
-        box-shadow: 0 0px 0px rgba(0, 0, 0, 0.3);
-        position: relative;
         background: #000;
+        aspect-ratio: 16/9; /* Maintain 16:9 aspect ratio */
+    }
+
+    #fullscreen-container:fullscreen {
+        width: 100vw;
+        height: 100vh;
+        background: #000;
+    }
+
+    #fullscreen-container:fullscreen video {
+        width: 100vw;
+        height: 100vh;
+        object-fit: contain;
+    }
+
+    #fullscreen-container:-webkit-full-screen {
+        width: 100vw;
+        height: 100vh;
+        background: #000;
+    }
+
+    #fullscreen-container:-webkit-full-screen video {
+        width: 100vw;
+        height: 100vh;
+        object-fit: contain;
     }
 
     video {
         width: 100%;
-        height: auto;
-        aspect-ratio: 16 / 9;
+        height: 100%;
+        object-fit: contain;
         background-color: #000;
-        object-fit: cover;
+        margin: 0;
     }
 
     #button-container {
@@ -159,20 +286,87 @@
 
     @media (max-width: 480px) {
         video {
-            max-height: 30vh;
+            width: 100%;
+            height: auto; /* Remove max-height constraint */
         }
-        #playButton {
-            font-size: 40px;
+        
+        #fullscreen-container {
+            padding: 0;
         }
-        #loading-message {
-            font-size: 14px;
+    }
+
+    #logo-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%; /* Take full width of the container */
+        height: 100%; /* Take full height of the container */
+        object-fit: contain; /* Maintain aspect ratio while fitting container */
+        opacity: 0;
+        transition: opacity 0.3s ease;
+        z-index: 100;
+        pointer-events: none;
+    }
+
+    #logo-overlay.visible {
+        opacity: 1;
+    }
+
+    @media (max-width: 768px) {
+        #logo-overlay {
+            width: 100%;
+            height: 100%;
         }
     }
 </style>
 </head>
 <body>
+    <nav class="nav-container">
+        <div class="navbar">
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="https://africamono.com" class="nav-link">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a href="https://africamono.it.ao/music.html" class="nav-link">Music</a>
+                </li>
+                <li class="nav-item">
+                    <a href="https://africamono.it.ao/kuduro.html" class="nav-link">Kuduro</a>
+                </li>
+                <li class="nav-item">
+                    <a href="https://africamono.it.ao/cine.html" class="nav-link">Cine</a>
+                </li>
+
+                <li class="nav-item">
+                    <a href="https://africamono.it.ao/igreja.html" class="nav-link">Gospel</a>
+                </li>
+                <li class="nav-item">
+                    <a href="https://africamono.it.ao/kids.html" class="nav-link">Kids</a>
+                </li>
+                <li class="nav-item">
+                    <a href="https://africamono.it.ao/news.html" class="nav-link">News</a>
+                <li class="nav-item">
+                    <a href="https://africamono.it.ao/sport.html" class="nav-link">Sport</a>
+                <li class="nav-item">
+                    <a href="https://africamono.it.ao/music.htm" class="nav-link">About</a>
+
+                </li>
+                </li>
+
+                </li>
+            </ul>
+            
+            <div class="hamburger">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </div>
+    </nav>
+
     <div id="fullscreen-container">   
         <video id="meuVideo" playsinline preload="auto"></video>
+      
         <div id="progress-circle" class="hidden"></div>
         <div id="loading-message" class="hidden">Checking the connection...</div>
         <div id="satellite-message">Adjusting the signal on the satellite...</div>
@@ -182,6 +376,19 @@
     </div>
 
 <script>
+    const hamburger = document.querySelector(".hamburger");
+    const navMenu = document.querySelector(".nav-menu");
+
+    hamburger.addEventListener("click", () => {
+        hamburger.classList.toggle("active");
+        navMenu.classList.toggle("active");
+    });
+
+    document.querySelectorAll(".nav-link").forEach(n => n.addEventListener("click", () => {
+        hamburger.classList.remove("active");
+        navMenu.classList.remove("active");
+    }));
+
     const streamUrl = 'https://edge1-us-newyork.picarto.tv/stream/golive%2bafricamono.mp4';
     const videoSources = [
         'https://seed128.bitchute.com/OkD3fEQ7n2eI/AFYNhCCIw6HG.mp4',
@@ -203,33 +410,30 @@
     const playButton = document.getElementById("playButton");
     const progressCircle = document.getElementById("progress-circle");
     const loadingMessage = document.getElementById("loading-message");
+    const logoOverlay = document.getElementById('logo-overlay');
     let videoDurations = [];
     let playButtonTimeout;
     let isVideoPlaying = false;
 
-    // Define the toggleFullScreen function
     function toggleFullScreen() {
         const container = document.getElementById('fullscreen-container');
-        if (!document.fullscreenElement) {
+        if (!document.fullscreenElement && !document.webkitFullscreenElement) {
             if (container.requestFullscreen) {
-                container.requestFullscreen();
-            } else if (container.webkitRequestFullscreen) { // Safari
+                container.requestFullscreen().catch(err => {
+                    console.log(`Error attempting to enable fullscreen: ${err.message}`);
+                });
+            } else if (container.webkitRequestFullscreen) {
                 container.webkitRequestFullscreen();
-            } else if (container.msRequestFullscreen) { // IE11
-                container.msRequestFullscreen();
             }
         } else {
             if (document.exitFullscreen) {
                 document.exitFullscreen();
-            } else if (document.webkitExitFullscreen) { // Safari
+            } else {
                 document.webkitExitFullscreen();
-            } else if (document.msExitFullscreen) { // IE11
-                document.msExitFullscreen();
             }
         }
     }
 
-    // Add click event listener for fullscreen
     document.getElementById('fullscreen-container').addEventListener('click', toggleFullScreen);
 
     function showSatelliteMessage() {
@@ -237,6 +441,8 @@
         playButton.classList.remove('visible');
         const message = document.getElementById('satellite-message');
         message.classList.add('show');
+        // Add timeout to hide message after 3 seconds
+        setTimeout(hideSatelliteMessage, 3000);
     }
 
     function hideSatelliteMessage() {
@@ -357,6 +563,8 @@
             if (videoPlayer.src !== streamUrl) {
                 hideLoading();
                 showSatelliteMessage();
+                // Add timeout to hide satellite message after 3 seconds
+                setTimeout(hideSatelliteMessage, 3000);
                 videoPlayer.src = streamUrl;
                 videoPlayer.load();
                 videoPlayer.play().catch(console.error);
@@ -371,6 +579,7 @@
         isVideoPlaying = true;
         hideLoading();
         playButton.classList.remove('visible');
+        logoOverlay.classList.add('visible'); // Show logo
         setTimeout(() => {
             hideSatelliteMessage();
         }, 500);
@@ -378,6 +587,11 @@
 
     videoPlayer.addEventListener("pause", () => {
         isVideoPlaying = false;
+        logoOverlay.classList.remove('visible'); // Hide logo
+    });
+
+    videoPlayer.addEventListener("ended", () => {
+        logoOverlay.classList.remove('visible'); // Hide logo
     });
 
     videoPlayer.addEventListener("loadedmetadata", function() {
@@ -399,7 +613,7 @@
                     clearTimeout(playButtonTimeout);
                 })
                 .catch(error => {
-                    console.error("Erro ao iniciar o vídeo:", error);
+                    console.error("Error starting video:", error);
                     hideLoading();
                 });
         }
@@ -417,7 +631,43 @@
         if (!isVideoPlaying) hideLoading();
     });
 
-    setInterval(syncStreamOrPlaylist, 60000);
+    setInterval(syncStreamOrPlaylist, 10000);
+    
+    // Add fullscreenchange event listener
+    document.addEventListener('fullscreenchange', function() {
+        const container = document.getElementById('fullscreen-container');
+        if (document.fullscreenElement) {
+            container.style.width = '100vw';
+            container.style.height = '100vh';
+            if (isVideoPlaying) {
+                logoOverlay.classList.add('visible');
+            }
+        } else {
+            container.style.width = '100%';
+            container.style.height = '100vh';
+            if (isVideoPlaying) {
+                logoOverlay.classList.add('visible');
+            }
+        }
+    });
+
+    // Add webkit fullscreenchange event listener
+    document.addEventListener('webkitfullscreenchange', function() {
+        const container = document.getElementById('fullscreen-container');
+        if (document.webkitFullscreenElement) {
+            container.style.width = '100vw';
+            container.style.height = '100vh';
+            if (isVideoPlaying) {
+                logoOverlay.classList.add('visible');
+            }
+        } else {
+            container.style.width = '100%';
+            container.style.height = '100vh';
+            if (isVideoPlaying) {
+                logoOverlay.classList.add('visible');
+            }
+        }
+    });
 </script>
 </body>
 </html>
