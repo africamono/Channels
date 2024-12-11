@@ -1,0 +1,315 @@
+<html><head><base href="https://africamono.it.ao">
+<style>
+body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    margin: 0;
+    padding: 20px;
+    background: #1a1a1a;
+    color: #ffffff;
+}
+
+.terms-container {
+    max-width: 800px;
+    margin: 0 auto;
+    background: #2d2d2d;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+}
+
+.terms-content {
+    max-height: 400px;
+    overflow-y: auto;
+    padding: 20px;
+    border: 1px solid #444;
+    border-radius: 4px;
+    margin-bottom: 20px;
+    background: #333;
+}
+
+.acceptance-section {
+    text-align: center;
+    padding: 20px;
+    background: #2a2a2a;
+    border-radius: 4px;
+}
+
+.accept-btn {
+    background: #ff6b00;
+    color: white;
+    padding: 12px 24px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background 0.3s;
+}
+
+.accept-btn:disabled {
+    background: #666666;
+    cursor: not-allowed;
+}
+
+.accept-btn:hover:not(:disabled) {
+    background: #ff8533;
+}
+
+.scroll-progress {
+    width: 100%;
+    height: 5px;
+    background: #444;
+    margin-bottom: 20px;
+}
+
+.scroll-progress-bar {
+    width: 0%;
+    height: 100%;
+    background: #ff6b00;
+    transition: width 0.3s;
+}
+
+.warning-message {
+    color: #ff4444;
+    margin-top: 10px;
+    display: none;
+}
+
+h1, h2, h3 {
+    color: #ff6b00;
+}
+
+h2 {
+    border-bottom: 2px solid #ff6b00;
+    padding-bottom: 10px;
+}
+
+.checkbox-container {
+    margin: 20px 0;
+    color: #ffffff;
+}
+
+.checkbox-container input[type="checkbox"] {
+    accent-color: #ff6b00;
+}
+
+.terms-content::-webkit-scrollbar {
+    width: 10px;
+}
+
+.terms-content::-webkit-scrollbar-track {
+    background: #2d2d2d;
+}
+
+.terms-content::-webkit-scrollbar-thumb {
+    background: #ff6b00;
+    border-radius: 5px;
+}
+
+.terms-content::-webkit-scrollbar-thumb:hover {
+    background: #ff8533;
+}
+
+a {
+    color: #ff6b00;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+.loading-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(26, 26, 26, 0.9);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.progress-circle {
+    width: 100px;
+    height: 100px;
+    border: 5px solid #333;
+    border-top: 5px solid #ff6b00;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.loading-text {
+    color: #ff6b00;
+    margin-top: 20px;
+    font-size: 18px;
+    text-align: center;
+}
+</style>
+</head>
+<body>
+<div class="terms-container">
+    <h1>Termos e Políticas</h1>
+    <div class="scroll-progress">
+        <div class="scroll-progress-bar" id="progress-bar"></div>
+    </div>
+    <div class="terms-content" id="terms-content">
+        <div class="policy-section">
+            <h2>Política de Privacidade da Aplicação</h2>
+            <p>Última atualização: 17 de Novembro de 2024</p>
+            
+            <p>Esta política de privacidade descreve como a Africa Mono coleta, usa, armazena e protege informações dos usuários. Nosso compromisso é garantir que seus dados pessoais sejam tratados com segurança e transparência.</p>
+            
+            <h3>1. Informações Coletadas</h3>
+            <p>Coletamos informações de diferentes formas para melhorar a experiência do usuário, que incluem:</p>
+            <p>Informações Pessoais: Nome, endereço de e-mail, e outros dados fornecidos pelo usuário ao criar uma conta ou preencher formulários.</p>
+            <p>Dados de Navegação: Informações coletadas automaticamente, como endereço IP, tipo de navegador, sistema operacional, páginas acessadas e tempo gasto.</p>
+            <p>Cookies e Tecnologias de Rastreamento: Usamos cookies para personalizar a experiência e entender como os usuários interagem com nossa aplicação.</p>
+
+            <h3>2. Uso das Informações</h3>
+            <p>Os dados coletados são utilizados para diversas finalidades, incluindo:</p>
+            <p>Para Operação da Aplicação: Manter e melhorar nossos serviços, resolver problemas técnicos, e personalizar o conteúdo.</p>
+            <p>Comunicações: Enviar notificações, atualizações sobre a aplicação, e responder a solicitações de suporte.</p>
+            <p>Análises e Pesquisas: Entender o comportamento do usuário para melhorar nossa aplicação e introduzir novos recursos.</p>
+
+            <h3>3. Compartilhamento de Informações</h3>
+            <p>A Africa Mono se compromete a não compartilhar, vender ou alugar informações pessoais a terceiros, exceto em situações como:</p>
+            <p>Com Fornecedores de Serviços: Parceiros que auxiliam na operação da aplicação (ex.: provedores de hospedagem) podem ter acesso aos dados para auxiliar em suas funções, mas não têm permissão para usá-los de outra forma.</p>
+            <p>Em Conformidade com a Lei: Podemos divulgar informações pessoais para cumprir obrigações legais, proteger direitos, e responder a solicitações de autoridades.</p>
+
+            <h3>4. Armazenamento e Segurança dos Dados</h3>
+            <p>A segurança dos dados é uma prioridade. Usamos práticas de segurança robustas, como criptografia e controles de acesso, para proteger as informações pessoais dos usuários contra perda, uso indevido, e acesso não autorizado. Apesar dos esforços, nenhuma tecnologia é completamente segura, e recomendamos que os usuários tomem medidas para proteger suas próprias contas.</p>
+
+            <h3>5. Retenção de Dados</h3>
+            <p>As informações pessoais são mantidas pelo período necessário para fornecer os serviços ou conforme exigido pela legislação aplicável. Quando as informações não são mais necessárias, elas são excluídas de maneira segura.</p>
+
+            <h3>6. Direitos dos Usuários</h3>
+            <p>Os usuários têm o direito de:</p>
+            <ul>
+                <li>Acessar as informações pessoais que mantemos sobre eles;</li>
+                <li>Solicitar a correção de dados incorretos;</li>
+                <li>Excluir suas informações pessoais, quando possível;</li>
+                <li>Limitar o processamento de dados ou revogar o consentimento, se aplicável.</li>
+            </ul>
+            <p>Para exercer esses direitos, entre em contato pelo e-mail: geral@africamono.it.ao</p>
+
+            <h3>7. Alterações na Política de Privacidade</h3>
+            <p>Podemos revisar esta política de tempos em tempos. Notificaremos os usuários sobre alterações importantes e aconselhamos que revisem a política regularmente.</p>
+
+            <h3>8. Contato</h3>
+            <p>Para dúvidas ou preocupações sobre esta política, entre em contato pelo e-mail: geral@africamono.it.ao</p>
+
+            <h2>Política de Destruição de Conteúdo Televisivo</h2>
+            <p>Esta política detalha o compromisso da Africa Mono com a proteção de direitos autorais e a destruição de conteúdo televisivo. Nosso objetivo é garantir que o uso de conteúdo de terceiros ocorra em total conformidade com as diretrizes de direitos autorais.</p>
+
+            <h3>1. Armazenamento Temporário e Exclusão de Conteúdo</h3>
+            <p>Todo conteúdo televisivo exibido na nossa aplicação é mantido apenas temporariamente para garantir a integridade da transmissão ao vivo e a experiência do usuário. Seguimos estas práticas:</p>
+            <ul>
+                <li>Armazenamento Temporário: O conteúdo é mantido em cache apenas durante o tempo necessário para exibição ao vivo.</li>
+                <li>Exclusão Automática: Após o período de transmissão, o conteúdo é automaticamente destruído de nossos servidores.</li>
+            </ul>
+
+            <h3>2. Requisição de Remoção e Conformidade com Direitos Autorais</h3>
+            <p>Comprometemo-nos a remover imediatamente qualquer conteúdo que infrinja direitos autorais. Se você é o detentor de direitos de um conteúdo e acredita que ele foi exibido sem autorização, entre em contato conosco. Nosso processo é o seguinte:</p>
+            <ul>
+                <li>Análise e Remoção Rápida: Após o recebimento de uma solicitação formal, o conteúdo será avaliado e, se necessário, removido em até 140 horas.</li>
+                <li>Comunicação: Notificaremos o solicitante sobre o status da remoção e as ações tomadas.</li>
+            </ul>
+            <p>Para enviar uma requisição de remoção, envie um e-mail para geral@africamono.it.ao com as informações detalhadas sobre o conteúdo e sua relação com os direitos autorais.</p>
+
+            <h3>3. Parcerias e Transparência</h3>
+            <p>Estamos comprometidos em agir de forma transparente com parceiros e detentores de direitos autorais, assegurando que:</p>
+            <ul>
+                <li>Não há redistribuição de conteúdo sem autorização;</li>
+                <li>Trabalhamos com parceiros e plataformas que respeitam a integridade e legalidade de conteúdo de terceiros.</li>
+            </ul>
+
+            <h3>4. Revisões na Política de Destruição de Conteúdo</h3>
+            <p>Esta política pode ser atualizada para refletir novas regulamentações ou mudanças na nossa aplicação. Recomendamos a verificação regular desta página para garantir que você esteja ciente de qualquer alteração.</p>
+
+            <h3>5. Contato para Consultas Legais</h3>
+            <p>Para dúvidas adicionais sobre esta política ou solicitações de exclusão, entre em contato com nosso departamento jurídico pelo e-mail: geral@africamono.it.ao.</p>
+        </div>
+    </div>
+    
+    <div class="acceptance-section">
+        <div class="warning-message" id="warning-message">
+            Por favor, leia todos os termos até o final antes de aceitar.
+        </div>
+        <div class="checkbox-container">
+            <label>
+                <input type="checkbox" id="accept-checkbox" disabled> 
+                Li e aceito os termos e políticas acima
+            </label>
+        </div>
+        <button id="accept-btn" class="accept-btn" disabled>Aceitar e Continuar</button>
+    </div>
+</div>
+
+<div class="loading-overlay" id="loading-overlay">
+    <div class="loading-container">
+        <div class="progress-circle"></div>
+        <div class="loading-text">Redirecionando...</div>
+    </div>
+</div>
+
+<script>
+const termsContent = document.getElementById('terms-content');
+const checkbox = document.getElementById('accept-checkbox');
+const acceptBtn = document.getElementById('accept-btn');
+const progressBar = document.getElementById('progress-bar');
+const warningMessage = document.getElementById('warning-message');
+let hasReachedBottom = false;
+
+termsContent.addEventListener('scroll', () => {
+    const scrollPercentage = (termsContent.scrollTop + termsContent.clientHeight) / termsContent.scrollHeight * 100;
+    progressBar.style.width = scrollPercentage + '%';
+    
+    if (scrollPercentage >= 98 && !hasReachedBottom) {
+        hasReachedBottom = true;
+        checkbox.disabled = false;
+        warningMessage.style.display = 'none';
+    }
+});
+
+checkbox.addEventListener('change', function() {
+    if (!hasReachedBottom) {
+        this.checked = false;
+        warningMessage.style.display = 'block';
+        return;
+    }
+    acceptBtn.disabled = !this.checked;
+    warningMessage.style.display = 'none';
+});
+
+acceptBtn.addEventListener('click', function() {
+    if (checkbox.checked && hasReachedBottom) {
+        localStorage.setItem('termsAccepted', 'true');
+        localStorage.setItem('termsAcceptedDate', new Date().toISOString());
+        
+        // Show loading overlay
+        const loadingOverlay = document.getElementById('loading-overlay');
+        loadingOverlay.style.display = 'flex';
+        
+        // Simulate loading time (you can adjust this)
+        setTimeout(() => {
+            window.location.href = 'https://africamono.it.ao/';
+        }, 2000);
+    }
+});
+
+window.addEventListener('load', function() {
+    if (localStorage.getItem('termsAccepted') === 'true') {
+        // Optional: Redirect if already accepted
+        // window.location.href = 'https://africamono.it.ao/';
+    }
+});
+</script>
+</body></html>
