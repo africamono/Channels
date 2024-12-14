@@ -1,6 +1,6 @@
 <html><head><base href="." />
 <meta charset="utf-8">
-<title>Africa Mono Music</title>
+<title>Africa Mono Music </title>
 <style>
   * {
     margin: 0;
@@ -13,18 +13,26 @@
     background: #000; /* Updated background to black */
   }
 
-  .sidebar {
-    width: 250px;
-    height: 100vh;
-    background: #000; /* Changed from #333 to black */
-    position: fixed;
-    left: 0;
-    top: 0;
-    padding: 30px;
-    color: white;
-    transition: 0.3s;
-    border-right: 1px solid #333; /* Added border for subtle separation */
-  }
+ .sidebar {
+  width: 250px;
+  height: 100vh;
+  background: #000;
+  position: fixed;
+  left: 0;
+  top: 0;
+  padding: 30px;
+  color: white;
+  transition: 0.3s;
+  border-right: 1px solid #333;
+  overflow-y: auto; /* Permite rolagem vertical */
+  scrollbar-width: none; /* Remove barra de rolagem no Firefox */
+  -ms-overflow-style: none; /* Remove barra de rolagem no IE/Edge */
+}
+
+.sidebar::-webkit-scrollbar {
+  display: none; /* Remove barra de rolagem no WebKit (Chrome/Safari) */
+}
+
 
   .sidebar.closed {
     left: -250px;
@@ -225,12 +233,12 @@
       </a>
     </li>
     <li>
-      <a href="https://africamono.it.ao/cine">
+      <a href="https://africamono.it.ao/kuduro">
         <i class="fas fa-tv menu-icon"></i> Kuduro
       </a>
 </li>
     <li>
-<a href="https://africamono.it.ao/igreja">
+<a href="https://africamono.it.ao/cine">
         <i class="fas fa-tv menu-icon"></i> Cine
       </a>
     </li>
