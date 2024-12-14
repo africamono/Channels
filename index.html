@@ -1,6 +1,6 @@
 <html><head><base href="." />
 <meta charset="utf-8">
-<title>Africa Mono Kids</title>
+<title>Africa Mono Music</title>
 <style>
   * {
     margin: 0;
@@ -13,52 +13,24 @@
     background: #000; /* Updated background to black */
   }
 
-/* Estilo geral do menu */
-.sidebar {
-  width: 250px; /* Largura padrão para desktop */
-  height: 100vh; /* Altura total da tela */
-  background: #000; /* Fundo preto */
+ .sidebar {
+  width: 250px;
+  height: 100vh;
+  background: #000;
   position: fixed;
   left: 0;
   top: 0;
   padding: 30px;
   color: white;
-  transition: 0.3s ease-in-out; /* Transição suave */
-  overflow-y: scroll; /* Habilitar rolagem */
-  -ms-overflow-style: none; /* Remove barra no IE */
-  scrollbar-width: none; /* Remove barra no Firefox */
+  transition: 0.3s;
+  border-right: 1px solid #333;
+  overflow-y: auto; /* Permite rolagem vertical */
+  scrollbar-width: none; /* Remove barra de rolagem no Firefox */
+  -ms-overflow-style: none; /* Remove barra de rolagem no IE/Edge */
 }
 
 .sidebar::-webkit-scrollbar {
-  display: none; /* Remove barra de rolagem nos navegadores WebKit */
-}
-
-/* Estilo do menu em dispositivos móveis */
-@media (max-width: 768px) {
-  .sidebar {
-    width: 40%; /* O menu ocupa 80% da largura da tela */
-    height: 100%; /* Altura total da tela */
-    padding: 10px; /* Ajuste do espaçamento interno */
-    font-size: 10px; /* Texto um pouco menor no modo responsivo */
-  }
-
-  .menu-list {
-    margin-top: 40px; /* Ajustar margem do conteúdo */
-    padding: 0 10px; /* Evitar cortes nos itens do menu */
-  }
-}
-
-/* Para telas ainda menores (ex: celulares pequenos) */
-@media (max-width: 480px) {
-  .sidebar {
-    width: 50%; /* O menu ocupa toda a largura da tela */
-    padding: 5px; /* Espaçamento interno reduzido */
-    font-size: 8px; /* Texto ainda menor */
-  }
-
-  .menu-list {
-    margin-top: 30px; /* Ajustar margem do conteúdo */
-  }
+  display: none; /* Remove barra de rolagem no WebKit (Chrome/Safari) */
 }
 
 
@@ -106,8 +78,8 @@
     display: flex;
     align-items: center;
     gap: 10px;
-    padding: 0px; /* Added padding */
-    border-radius: 0px; /* Added border radius */
+    padding: 7px; /* Added padding */
+    border-radius: 10px; /* Added border radius */
   }
 
   .menu-list a:hover {
@@ -261,12 +233,12 @@
       </a>
     </li>
     <li>
-      <a href="https://africamono.it.ao/cine">
+      <a href="https://africamono.it.ao/kuduro">
         <i class="fas fa-tv menu-icon"></i> Kuduro
       </a>
 </li>
     <li>
-<a href="https://africamono.it.ao/igreja">
+<a href="https://africamono.it.ao/cine">
         <i class="fas fa-tv menu-icon"></i> Cine
       </a>
     </li>
@@ -309,15 +281,11 @@
     </li>
   </ul>
 </nav>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 
 <main class="content">
   <div id="fullscreen-container">   
     <video id="meuVideo" playsinline preload="auto"></video>
-    <img id="logo-overlay" 
-         src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEijyKTTbXybFahBZeYcfVkuHDV8TWMAzU77jl8FnZkDydJuM2vtZjpGUkXXw0GcAxPWV3a-NQRRcoJaJNdWK2xUEjfM8q7hOof46xsqJ4R7T_-Ug27M07YFKcgPy0gAm6syTusQBOuLu9Y5wnBL7vJuHT42tuGxciuFTq0QtnYmdjdzlK8R-e1LuIONrElJ/s1600/Cine%205.png" 
-         alt="Logo">
+ 
     <div id="progress-circle" class="hidden"></div>
     <div id="loading-message" class="hidden">Checking the connection...</div>
     <div id="satellite-message">Adjusting the signal on the satellite...</div>
@@ -357,17 +325,18 @@ document.addEventListener('mousemove', () => {
 // Your original player code starts here
 const streamUrl = 'https://edge1-us-newyork.picarto.tv/stream/golive%2bafricamono.mp4';
 const videoSources = [
-    'https://seed307.bitchute.com/DEhpwyNnANCN/W0PBC3spNeuq.mp4',
-    'https://zggg98sgwbg1gh.bitchute.com/FKnHRMzeXs18/kxwqCTAnTCyP.mp4',
-    'https://seed128.bitchute.com/FKnHRMzeXs18/OIf2AJ7ihHT2.mp4',
-    'https://seed132.bitchute.com/nGbHlwuE5Of0/0ZFOEisWRT5K.mp4',
-    'https://seed125.bitchute.com/t1ZlIV7LYYB2/OO8Ngj6bfNEf.mp4',
-    'https://seed132.bitchute.com/Uk0CAFyGUobM/HmY2ypOHN7Ie.mp4',
-    'https://seed125.bitchute.com/DEhpwyNnANCN/fRFDKhXXSxjP.mp4',
-    'https://zggg98sgwbg1gh.bitchute.com/l73Qz4PUdGNw/1uhyZ57I31O0.mp4',
-    'https://seed307.bitchute.com/DEhpwyNnANCN/x907jd8HDLj4.mp4',
-    'https://seed132.bitchute.com/DEhpwyNnANCN/8S9s9ihKTkBD.mp4',
-    'https://seed191.bitchute.com/TPcpD4w2uRnY/MShEGXl6tiJv.mp4'
+   'https://seed128.bitchute.com/OkD3fEQ7n2eI/AFYNhCCIw6HG.mp4',
+        'https://zb10-7gsop1v78.bitchute.com/OkD3fEQ7n2eI/AYlCKdMmSMCI.mp4',
+        'https://seed163.bitchute.com/OkD3fEQ7n2eI/YMtjrcIP0rX3.mp4',
+        'https://seed167.bitchute.com/OkD3fEQ7n2eI/vY1azvISNqC8.mp4',
+        'https://seed163.bitchute.com/OkD3fEQ7n2eI/LkldJDexZkl4.mp4',
+        'https://seed125.bitchute.com/OkD3fEQ7n2eI/HLuM7tXxXnAY.mp4',
+        'https://seed306.bitchute.com/OkD3fEQ7n2eI/I302uTpVd6oI.mp4',
+        'https://seed306.bitchute.com/OkD3fEQ7n2eI/sSDc7whrv5ao.mp4',
+        'https://seed132.bitchute.com/OkD3fEQ7n2eI/irs3ZfOClBFI.mp4',
+        'https://seed307.bitchute.com/OkD3fEQ7n2eI/5VHtakgY3E5z.mp4',
+        'https://seed163.bitchute.com/OkD3fEQ7n2eI/mQtYcSY4zeg1.mp4',
+        'https://zggg98sgwbg1gh.bitchute.com/OkD3fEQ7n2eI/MBiqM5WcRddU.mp4'
 ];
 
 const playlistStartTime = Date.UTC(2024, 11, 1, 0, 0, 0) / 1000;
