@@ -1,145 +1,353 @@
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gospe Live</title>
-    <style>
-        /* Estilo geral do tema escuro */
-        body {
-            background-color: #121212;
-            color: #ffffff;
-            font-family: Arial, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-        }
+<html><head><base href="." />
+<meta charset="utf-8">
+<title>Africa Mono Kids </title>
+<style>
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
 
-        /* Container para o menu de ícones em grelha */
-        .icon-container {
-            display: grid;
-            grid-template-columns: repeat(3, 100px); /* 3 colunas */
-            gap: 15px;
-            text-align: center;
-        }
+  body {
+    font-family: Arial, sans-serif;
+    background: #000;
+  }
 
-        /* Estilos dos ícones como círculos */
-        .icon {
-            width: 80px;
-            height: 80px;
-            border-radius: 50%;
-            overflow: hidden;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            background-color: #1e1e1e; /* Fundo do círculo */
-            margin: 0 auto; /* Centraliza o ícone no container */
-            transition: transform 0.3s; /* Transição suave para o efeito de hover */
-        }
+.sidebar {
+  width: 250px;
+  height: 100vh;
+  background: #000;
+  position: fixed;
+  left: 0;
+  top: 0;
+  padding: 30px;
+  color: white;
+  transition: 0.3s;
+  border-right: 1px solid #333;
+  overflow-y: auto; /* Permite rolagem vertical */
+  scrollbar-width: none; /* Remove barra de rolagem no Firefox */
+  -ms-overflow-style: none; /* Remove barra de rolagem no IE/Edge */
+}
 
-        /* Efeito de movimento no hover */
-        .icon:hover {
-            transform: translateY(-5px); /* Move o ícone 5px para cima */
-        }
+.sidebar::-webkit-scrollbar {
+  display: none; /* Remove barra de rolagem no WebKit (Chrome/Safari) */
+}
 
-        /* Estilo das imagens para preencher o círculo */
-        .icon img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
 
-        .icon-link {
-            text-decoration: none; /* Remove o sublinhado dos links */
-            color: inherit; /* Mantém a cor do tema escuro */
-        }
+  .sidebar.closed {
+    left: -250px;
+  }
 
-        .description {
-            font-size: 14px;
-            color: #cccccc;
-            margin-top: 5px;
-        }
-    </style>
+  .menu-toggle {
+    position: fixed;
+    left: 20px;
+    top: 20px;
+    z-index: 999;
+    cursor: pointer;
+    background: none;
+    border: none;
+    color: #ff6b00; /* Changed to orange */
+    opacity: 1;
+    transition: opacity 0.3s;
+    font-size: 1.5rem; /* Tamanho da fonte maior */
+    padding: 10px 15px; /* Maior área de clique */
+  }
+
+  .menu-toggle.hidden {
+    opacity: 0;
+  }
+
+  .menu-toggle.menu-open {
+    color: #ff6b00; /* Changed to orange */
+  }
+
+  .menu-list {
+    list-style: none;
+    margin-top: 60px;
+  }
+
+  .menu-list li {
+    margin: 20px 0;
+  }
+
+  .menu-list a {
+    color: #fff;
+    text-decoration: none;
+    font-size: 17px;
+    transition: 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 7px; /* Added padding */
+    border-radius: 10px; /* Added border radius */
+  }
+
+  .menu-list a:hover {
+    background: rgba(255, 107, 0, 0.1); /* Add subtle orange background on hover */
+    color: #ff6b00; /* Changed from #00ff95 to orange */
+  }
+
+  .menu-list a:hover .menu-icon {
+    color: #ff6b00; /* Update icon color on hover */
+  }
+
+  .content {
+    margin-left: 250px;
+    transition: 0.3s;
+    background: #000;
+    min-height: 100vh;
+    padding: 20px;
+  }
+
+  .content.full-width {
+    margin-left: 0;
+  }
+
+  .grid-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 30px;
+    padding: 20px;
+  }
+
+  .grid-item {
+    position: relative;
+    overflow: hidden;
+    border-radius: 10px;
+    background: #111;
+    padding-bottom: 15px;
+  }
+
+  .grid-item a {
+    text-decoration: none;  /* Remove underline from links */
+  }
+
+  .grid-item img {
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+  }
+
+  .grid-item:hover img {
+    transform: scale(1.1);
+  }
+
+  .grid-item-content {
+    padding: 15px;
+    color: white;
+  }
+
+  .grid-item-title {
+    font-size: 16px;
+    font-weight: bold;
+    margin-bottom: 8px;
+    color: #ff6b00;
+  }
+
+  .grid-item-description {
+    font-size: 14px;
+    color: #ccc;
+    line-height: 1.4;
+  }
+
+  @media (max-width: 768px) {
+    .grid-container {
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    }
+  }
+</style>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 </head>
 <body>
 
-    <div class="icon-container">
-        <!-- Ícones de telefone com links e descrições separadas -->
-        <a href="https://africamono.github.io/app/igreja.html" class="icon-link" target="_blank">
-            <div class="icon">
-                <img src="Male_C2.jpg" alt="Ícone de Ligar">
-            </div>
-            <div class="description">IGREJA</div>
-        </a>
-        <a href="https://africamono.github.io/app/igreja.html" class="icon-link" target="_blank">
-            <div class="icon">
-                <img src="Male_C2.jpg" alt="Ícone de Celular">
-            </div>
-            <div class="description">IGREJA</div>
-        </a>
-        <a href="https://africamono.github.io/app/igreja.html" class="icon-link" target="_blank">
-            <div class="icon">
-                <img src="Male_C2.jpg" alt="Ícone de Pager">
-            </div>
-            <div class="description">IGREJA</div>
-        </a>
-        <a href="https://africamono.github.io/app/igreja.html" class="icon-link" target="_blank">
-            <div class="icon">
-                <img src="Male_C2.jpg" alt="Ícone de Contatos">
-            </div>
-            <div class="description">IGREJA</div>
-        </a>
-        <a href="https://africamono.github.io/app/igreja.html" class="icon-link" target="_blank">
-            <div class="icon">
-                <img src="Male_C2.jpg" alt="Ícone de Mensagens">
-            </div>
-            <div class="description">IGREJA</div>
-        </a>
-        <a href="https://africamono.github.io/app/igreja.html" class="icon-link" target="_blank">
-            <div class="icon">
-                <img src="Male_C2.jpg" alt="Ícone de Configurações">
-            </div>
-            <div class="description">IGREJA</div>
-        </a>
-        <a href="hhttps://africamono.github.io/app/igrejal.html" class="icon-link" target="_blank">
-            <div class="icon">
-                <img src="Male_C2.jpg" alt="Ícone de Galeria">
-            </div>
-            <div class="description">IGREJA</div>
-        </a>
-        <a href="https://africamono.github.io/app/igreja.html" class="icon-link" target="_blank">
-            <div class="icon">
-                <img src="Male_C2.jpg" alt="Ícone de Câmera">
-            </div>
-            <div class="description">IGREJA</div>
-        </a>
-        <a href="https://africamono.github.io/app/igreja.html" class="icon-link" target="_blank">
-            <div class="icon">
-                <img src="Male_C2.jpg" alt="Ícone de Música">
-            </div>
-            <div class="description">IGREJA</div>
-        </a>
-        <a href="https://africamono.github.io/app/igreja.html" class="icon-link" target="_blank">
-            <div class="icon">
-                <img src="Male_C2.jpg" alt="Ícone de Mapas">
-            </div>
-            <div class="description">IGREJA</div>
-        </a>
-        <a href="https://africamono.github.io/app/igreja.html" class="icon-link" target="_blank">
-            <div class="icon">
-                <img src="Male_C2.jpg" alt="Ícone de Clima">
-            </div>
-            <div class="description">IGREJA</div>
-        </a>
-        <a href="https://africamono.github.io/app/igreja.html"  class="icon-link" target="_blank">
-            <div class="icon">
-                <img src="Male_C2.jpg" alt="Ícone de Notas">
-            </div>
-            <div class="description">IGREJA</div>
-        </a>
+<button class="menu-toggle">
+  <i class="fas fa-bars menu-icon"></i>
+</button>
+<nav class="sidebar">
+  <ul class="menu-list">
+    <li>
+      <a href="https://africamono.it.ao/">
+        <i class="fas fa-home menu-icon"></i>
+        Home
+      </a>
+    </li>
+    <li>
+      <a href="https://africamono.it.ao/music">
+        <i class="fas fa-tv menu-icon"></i> Music
+      </a>
+    </li>
+    <li>
+      <a href="https://africamono.it.ao/kuduro">
+        <i class="fas fa-tv menu-icon"></i> Kuduro
+      </a>
+</li>
+    <li>
+<a href="https://africamono.it.ao/cine">
+        <i class="fas fa-tv menu-icon"></i> Cine
+      </a>
+    </li>
+    <li>
+      <a href="https://africamono.it.ao/igreja">
+        <i class="fas fa-tv menu-icon"></i> Gospel
+      </a>
+    </li>
+    <li>
+      <a href="https://africamono.it.ao/kids">
+        <i class="fas fa-tv menu-icon"></i>Kids
+      </a>
+   </li>
+    <li>
+      <a href="https://africamono.it.ao/news">
+        <i class="fas fa-tv menu-icon"></i> News
+      </a>
+    </li>
+ <li>
+      <a href="https://africamono.it.ao/sport">
+        <i class="fas fa-tv menu-icon"></i> Sport
+      </a>
+    </li>
+
+    <li>
+      <a href="https://youtube.com/playlist?list=PLhKiIzi_DlrNgNPVCaNl6eb4UIQvz3yIV&si=R-RqYWZBYj7GNeHH">
+        <i class="fas fa-tv menu-icon"></i>Hora da Igreja
+      </a>
+   </li>
+    <li>
+      <a href="https://youtube.com/playlist?list=PLhKiIzi_DlrNK-gm0mqLMqPcy0HdKsEFJ&si=DMfb9vUfIMRrdkL7">
+        <i class="fas fa-tv menu-icon"></i> No Palco
+      </a>
+    </li>
+    <li>
+      <a href="https://africamono.it.ao/Termos">
+        <i class="fas fa-cog menu-icon"></i>
+        Settings
+      </a>
+    </li>
+  </ul>
+</nav>
+
+<main class="content">
+  <div class="grid-container">
+    <div class="grid-item">
+      <a href="https://africamono.it.ao/player.html">
+        <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhkLaAv_SFZlqvgMRRwYLN9bw42U4GqkJdATPjPuzGv6fdJCJPJgiN1VF1x9XlRX3ilQ0xzlFDlI0_9vwUSufmQfgqn464znC0qOHGIypNOXsr_bWfrh4eBJMBuspRkTtlFHWLnS1F77lcAwuz0Qqyc9TcY5R53E9zbQfTMQdItvkjdmlG_HP-OX34Vttg/s1600/5974387491597305265_121.jpg" alt="Kids Content 1">
+        <div class="grid-item-content">
+          <h3 class="grid-item-title"> Igraja Palavra e Salvação</h3>
+          <p class="grid-item-description">Viana Ponte Partida junto a cantina amarela</p>
+        </div>
+      </a>
     </div>
+    <div class="grid-item">
+      <a href="https://africamono.it.ao/player.html">
+        <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjCxnoe6xKsea5A5xBwoTW9LtpEJQFp6sOQAZ_OMeKzvzThEz_BhfZlusT7sRtQHS3rEJhSFpaM2ZnPyLiZcZuXo-wIPkUqRgQuYux1_WmEj8xaT17tYEQ1j_vIsZTRjxTq_13gJGTZtpUrKsz4FXpaOmvStWmaJA9ggPlr0A0K0ukU7f5Pyh2kgDepJ-M/s591/Jesue%201.jpg" alt="Kids Content 2">
+        <div class="grid-item-content">
+          <h3 class="grid-item-title">Jesue Episode 2</h3>
+          <p class="grid-item-description">Continue a jornada com novas descobertas.</p>
+        </div>
+      </a>
+    </div>
+    <div class="grid-item">
+      <a href="https://africamono.it.ao/player.html">
+        <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjCxnoe6xKsea5A5xBwoTW9LtpEJQFp6sOQAZ_OMeKzvzThEz_BhfZlusT7sRtQHS3rEJhSFpaM2ZnPyLiZcZuXo-wIPkUqRgQuYux1_WmEj8xaT17tYEQ1j_vIsZTRjxTq_13gJGTZtpUrKsz4FXpaOmvStWmaJA9ggPlr0A0K0ukU7f5Pyh2kgDepJ-M/s591/Jesue%201.jpg" alt="Kids Content 3">
+        <div class="grid-item-content">
+          <h3 class="grid-item-title">Jesue Episode 3</h3>
+          <p class="grid-item-description">Mais aventuras emocionantes aguardam.</p>
+        </div>
+      </a>
+    </div>
+    <div class="grid-item">
+      <a href="https://africamono.it.ao/player.html">
+        <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjCxnoe6xKsea5A5xBwoTW9LtpEJQFp6sOQAZ_OMeKzvzThEz_BhfZlusT7sRtQHS3rEJhSFpaM2ZnPyLiZcZuXo-wIPkUqRgQuYux1_WmEj8xaT17tYEQ1j_vIsZTRjxTq_13gJGTZtpUrKsz4FXpaOmvStWmaJA9ggPlr0A0K0ukU7f5Pyh2kgDepJ-M/s591/Jesue%201.jpg" alt="Kids Content 4">
+        <div class="grid-item-content">
+          <h3 class="grid-item-title">Jesue Episode 4</h3>
+          <p class="grid-item-description">Uma nova missão começa.</p>
+        </div>
+      </a>
+    </div>
+    <div class="grid-item">
+      <a href="https://africamono.it.ao/player.html">
+        <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjCxnoe6xKsea5A5xBwoTW9LtpEJQFp6sOQAZ_OMeKzvzThEz_BhfZlusT7sRtQHS3rEJhSFpaM2ZnPyLiZcZuXo-wIPkUqRgQuYux1_WmEj8xaT17tYEQ1j_vIsZTRjxTq_13gJGTZtpUrKsz4FXpaOmvStWmaJA9ggPlr0A0K0ukU7f5Pyh2kgDepJ-M/s591/Jesue%201.jpg" alt="Kids Content 5">
+        <div class="grid-item-content">
+          <h3 class="grid-item-title">Jesue Episode 5</h3>
+          <p class="grid-item-description">Descubra novos mistérios.</p>
+        </div>
+      </a>
+    </div>
+    <div class="grid-item">
+      <a href="https://africamono.it.ao/player.html">
+        <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjCxnoe6xKsea5A5xBwoTW9LtpEJQFp6sOQAZ_OMeKzvzThEz_BhfZlusT7sRtQHS3rEJhSFpaM2ZnPyLiZcZuXo-wIPkUqRgQuYux1_WmEj8xaT17tYEQ1j_vIsZTRjxTq_13gJGTZtpUrKsz4FXpaOmvStWmaJA9ggPlr0A0K0ukU7f5Pyh2kgDepJ-M/s591/Jesue%201.jpg" alt="Kids Content 6">
+        <div class="grid-item-content">
+          <h3 class="grid-item-title">Jesue Episode 6</h3>
+          <p class="grid-item-description">A aventura continua.</p>
+        </div>
+      </a>
+    </div>
+    <div class="grid-item">
+      <a href="https://africamono.it.ao/player.html">
+        <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjCxnoe6xKsea5A5xBwoTW9LtpEJQFp6sOQAZ_OMeKzvzThEz_BhfZlusT7sRtQHS3rEJhSFpaM2ZnPyLiZcZuXo-wIPkUqRgQuYux1_WmEj8xaT17tYEQ1j_vIsZTRjxTq_13gJGTZtpUrKsz4FXpaOmvStWmaJA9ggPlr0A0K0ukU7f5Pyh2kgDepJ-M/s591/Jesue%201.jpg" alt="Kids Content 7">
+        <div class="grid-item-content">
+          <h3 class="grid-item-title">Jesue Episode 7</h3>
+          <p class="grid-item-description">Momentos especiais esperam por você.</p>
+        </div>
+      </a>
+    </div>
+    <div class="grid-item">
+      <a href="https://africamono.it.ao/player.html">
+        <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjCxnoe6xKsea5A5xBwoTW9LtpEJQFp6sOQAZ_OMeKzvzThEz_BhfZlusT7sRtQHS3rEJhSFpaM2ZnPyLiZcZuXo-wIPkUqRgQuYux1_WmEj8xaT17tYEQ1j_vIsZTRjxTq_13gJGTZtpUrKsz4FXpaOmvStWmaJA9ggPlr0A0K0ukU7f5Pyh2kgDepJ-M/s591/Jesue%201.jpg" alt="Kids Content 8">
+        <div class="grid-item-content">
+          <h3 class="grid-item-title">Jesue Episode 8</h3>
+          <p class="grid-item-description">Novas lições para aprender.</p>
+        </div>
+      </a>
+    </div>
+    <div class="grid-item">
+      <a href="https://africamono.it.ao/player.html">
+        <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjCxnoe6xKsea5A5xBwoTW9LtpEJQFp6sOQAZ_OMeKzvzThEz_BhfZlusT7sRtQHS3rEJhSFpaM2ZnPyLiZcZuXo-wIPkUqRgQuYux1_WmEj8xaT17tYEQ1j_vIsZTRjxTq_13gJGTZtpUrKsz4FXpaOmvStWmaJA9ggPlr0A0K0ukU7f5Pyh2kgDepJ-M/s591/Jesue%201.jpg" alt="Kids Content 9">
+        <div class="grid-item-content">
+          <h3 class="grid-item-title">Jesue Episode 9</h3>
+          <p class="grid-item-description">Uma história inspiradora.</p>
+        </div>
+      </a>
+    </div>
+    <div class="grid-item">
+      <a href="https://africamono.it.ao/player.html">
+        <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjCxnoe6xKsea5A5xBwoTW9LtpEJQFp6sOQAZ_OMeKzvzThEz_BhfZlusT7sRtQHS3rEJhSFpaM2ZnPyLiZcZuXo-wIPkUqRgQuYux1_WmEj8xaT17tYEQ1j_vIsZTRjxTq_13gJGTZtpUrKsz4FXpaOmvStWmaJA9ggPlr0A0K0ukU7f5Pyh2kgDepJ-M/s591/Jesue%201.jpg" alt="Kids Content 10">
+        <div class="grid-item-content">
+          <h3 class="grid-item-title">Jesue Episode 10</h3>
+          <p class="grid-item-description">O grande final da temporada.</p>
+        </div>
+      </a>
+    </div>
+  </div>
+</main>
+
+<script>
+const menuToggle = document.querySelector('.menu-toggle');
+const sidebar = document.querySelector('.sidebar');
+const content = document.querySelector('.content');
+
+menuToggle.addEventListener('click', () => {
+  sidebar.classList.toggle('closed');
+  content.classList.toggle('full-width');
+});
+
+// Hide menu toggle after 2 seconds
+setTimeout(() => {
+  menuToggle.classList.add('hidden');
+}, 2000);
+
+// Show menu toggle on mouse move
+document.addEventListener('mousemove', () => {
+  menuToggle.classList.remove('hidden');
+  
+  // Hide again after 2 seconds
+  clearTimeout(window.hideTimeout);
+  window.hideTimeout = setTimeout(() => {
+    menuToggle.classList.add('hidden');
+  }, 2000);
+});
+</script>
 
 </body>
 </html>
