@@ -13,24 +13,52 @@
     background: #000; /* Updated background to black */
   }
 
+/* Estilo geral do menu */
 .sidebar {
-  width: 250px;
-  height: 100vh;
-  background: #000; /* Preto */
+  width: 250px; /* Largura padrão para desktop */
+  height: 100vh; /* Altura total da tela */
+  background: #000; /* Fundo preto */
   position: fixed;
   left: 0;
   top: 0;
   padding: 30px;
   color: white;
-  transition: 0.3s;
-  border-right: 1px solid #333; /* Linha sutil de separação */
-  overflow-y: auto; /* Habilita a rolagem vertical */
+  transition: 0.3s ease-in-out; /* Transição suave */
+  overflow-y: scroll; /* Habilitar rolagem */
+  -ms-overflow-style: none; /* Remove barra no IE */
+  scrollbar-width: none; /* Remove barra no Firefox */
 }
 
-.menu-list {
-  list-style: none;
-  margin-top: 60px;
-  padding-right: 10px; /* Espaço extra para evitar sobreposição com a barra de rolagem */
+.sidebar::-webkit-scrollbar {
+  display: none; /* Remove barra de rolagem nos navegadores WebKit */
+}
+
+/* Estilo do menu em dispositivos móveis */
+@media (max-width: 768px) {
+  .sidebar {
+    width: 20%; /* O menu ocupa 80% da largura da tela */
+    height: 100%; /* Altura total da tela */
+    padding: 20px; /* Ajuste do espaçamento interno */
+    font-size: 14px; /* Texto um pouco menor no modo responsivo */
+  }
+
+  .menu-list {
+    margin-top: 40px; /* Ajustar margem do conteúdo */
+    padding: 0 10px; /* Evitar cortes nos itens do menu */
+  }
+}
+
+/* Para telas ainda menores (ex: celulares pequenos) */
+@media (max-width: 480px) {
+  .sidebar {
+    width: 100%; /* O menu ocupa toda a largura da tela */
+    padding: 15px; /* Espaçamento interno reduzido */
+    font-size: 10px; /* Texto ainda menor */
+  }
+
+  .menu-list {
+    margin-top: 30px; /* Ajustar margem do conteúdo */
+  }
 }
 
 
@@ -78,8 +106,8 @@
     display: flex;
     align-items: center;
     gap: 10px;
-    padding: 7px; /* Added padding */
-    border-radius: 10px; /* Added border radius */
+    padding: 0px; /* Added padding */
+    border-radius: 0px; /* Added border radius */
   }
 
   .menu-list a:hover {
