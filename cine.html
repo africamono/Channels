@@ -1,6 +1,8 @@
-<html><head><base href="." />
+<html>
+<head>
+<base href="." />
 <meta charset="utf-8">
-<title>Africa Mono Cine </title>
+<title>Africa Mono</title>
 <style>
   * {
     margin: 0;
@@ -10,29 +12,28 @@
 
   body {
     font-family: Arial, sans-serif;
-    background: #000; /* Updated background to black */
+    background: #000;
   }
 
- .sidebar {
-  width: 250px;
-  height: 100vh;
-  background: #000;
-  position: fixed;
-  left: 0;
-  top: 0;
-  padding: 30px;
-  color: white;
-  transition: 0.3s;
-  border-right: 1px solid #333;
-  overflow-y: auto; /* Permite rolagem vertical */
-  scrollbar-width: none; /* Remove barra de rolagem no Firefox */
-  -ms-overflow-style: none; /* Remove barra de rolagem no IE/Edge */
-}
+  .sidebar {
+    width: 250px;
+    height: 100vh;
+    background: #000;
+    position: fixed;
+    left: 0;
+    top: 0;
+    padding: 30px;
+    color: white;
+    transition: 0.3s;
+    border-right: 1px solid #333;
+    overflow-y: auto;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
 
-.sidebar::-webkit-scrollbar {
-  display: none; /* Remove barra de rolagem no WebKit (Chrome/Safari) */
-}
-
+  .sidebar::-webkit-scrollbar {
+    display: none;
+  }
 
   .sidebar.closed {
     left: -250px;
@@ -46,11 +47,11 @@
     cursor: pointer;
     background: none;
     border: none;
-    color: #ff6b00; /* Changed to orange */
+    color: #ff6b00;
     opacity: 1;
     transition: opacity 0.3s;
-    font-size: 1.5rem; /* Tamanho da fonte maior */
-    padding: 10px 15px; /* Maior área de clique */
+    font-size: 1.5rem;
+    padding: 10px 15px;
   }
 
   .menu-toggle.hidden {
@@ -58,7 +59,7 @@
   }
 
   .menu-toggle.menu-open {
-    color: #ff6b00; /* Changed to orange */
+    color: #ff6b00;
   }
 
   .menu-list {
@@ -78,26 +79,26 @@
     display: flex;
     align-items: center;
     gap: 10px;
-    padding: 7px; /* Added padding */
-    border-radius: 10px; /* Added border radius */
+    padding: 7px;
+    border-radius: 10px;
   }
 
   .menu-list a:hover {
-    background: rgba(255, 107, 0, 0.1); /* Add subtle orange background on hover */
-    color: #ff6b00; /* Changed from #00ff95 to orange */
+    background: rgba(255, 107, 0, 0.1);
+    color: #ff6b00;
   }
 
   .menu-list a:hover .menu-icon {
-    color: #ff6b00; /* Update icon color on hover */
+    color: #ff6b00;
   }
 
   .content {
     margin-left: 250px;
-    padding: 0; /* Remove padding */
+    padding: 0;
     transition: 0.3s;
-    background: #000; /* Added black background */
-    height: 100vh; /* Full viewport height */
-    overflow: hidden; /* Prevent scrolling */
+    background: #000;
+    height: 100vh;
+    overflow: hidden;
   }
 
   .content.full-width {
@@ -120,8 +121,8 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    margin: 0; /* Remove any margin */
-    padding: 0; /* Remove any padding */
+    margin: 0;
+    padding: 0;
   }
 
   #meuVideo {
@@ -144,7 +145,7 @@
     object-fit: contain;
     opacity: 0;
     transition: opacity 0.3s;
-    pointer-events: none; /* Ensure logo doesn't interfere with player interaction */
+    pointer-events: none;
   }
 
   #logo-overlay.visible {
@@ -236,9 +237,9 @@
       <a href="https://africamono.it.ao/kuduro">
         <i class="fas fa-tv menu-icon"></i> Kuduro
       </a>
-</li>
+    </li>
     <li>
-<a href="https://africamono.it.ao/cine">
+      <a href="https://africamono.it.ao/cine">
         <i class="fas fa-tv menu-icon"></i> Cine
       </a>
     </li>
@@ -251,23 +252,22 @@
       <a href="https://africamono.it.ao/kids">
         <i class="fas fa-tv menu-icon"></i>Kids
       </a>
-   </li>
+    </li>
     <li>
       <a href="https://africamono.it.ao/news">
         <i class="fas fa-tv menu-icon"></i> News
       </a>
     </li>
- <li>
+    <li>
       <a href="https://africamono.it.ao/sport">
         <i class="fas fa-tv menu-icon"></i> Sport
       </a>
     </li>
-
     <li>
       <a href="https://youtube.com/playlist?list=PLhKiIzi_DlrNgNPVCaNl6eb4UIQvz3yIV&si=R-RqYWZBYj7GNeHH">
         <i class="fas fa-tv menu-icon"></i>Hora da Igreja
       </a>
-   </li>
+    </li>
     <li>
       <a href="https://youtube.com/playlist?list=PLhKiIzi_DlrNK-gm0mqLMqPcy0HdKsEFJ&si=DMfb9vUfIMRrdkL7">
         <i class="fas fa-tv menu-icon"></i> No Palco
@@ -288,7 +288,7 @@
 <img id="logo-overlay" 
          src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiFz0-vKBswU84U9nccHfpHbVmANUQ_26M8zUz7AQUCA0q4fJPJ726udDuwLUyIG7X8_SvFX0w5txmOSNJcLiKBaDK_XRcCRvCLSryZc3P_9mVFRfjeFP82XMeC8SMYhhXavX5izwo1bIzT2_ZGSpEQQn1x71pyaL5ZgdBAmobdoMHAOH7hDALJN_GgcdU/s1600/Cine%204.png" 
          alt="Logo">
- 
+
     <div id="progress-circle" class="hidden"></div>
     <div id="loading-message" class="hidden">Checking the connection...</div>
     <div id="satellite-message">Adjusting the signal on the satellite...</div>
@@ -309,26 +309,26 @@ menuToggle.addEventListener('click', () => {
   menuToggle.classList.toggle('menu-open');
 });
 
-// Hide menu toggle after 2 seconds
-setTimeout(() => {
+let menuHideTimeout;
+function hideMenuToggle() {
   menuToggle.classList.add('hidden');
-}, 2000);
+}
 
-// Show menu toggle on mouse move
+function resetMenuHideTimeout() {
+  clearTimeout(menuHideTimeout);
+  menuHideTimeout = setTimeout(hideMenuToggle, 2000);
+}
+
+resetMenuHideTimeout();
 document.addEventListener('mousemove', () => {
   menuToggle.classList.remove('hidden');
-  
-  // Hide again after 2 seconds
-  clearTimeout(window.hideTimeout);
-  window.hideTimeout = setTimeout(() => {
-    menuToggle.classList.add('hidden');
-  }, 2000);
+  resetMenuHideTimeout();
 });
 
-// Your original player code starts here
+// Original player code starts here
 const streamUrl = 'https://edge1-us-newyork.picarto.tv/stream/golive%2bafricamono.mp4';
 const videoSources = [
-  'https://seed306.bitchute.com/lMC87TpFgwPv/xfaifevKAl2b.mp4',
+    'https://seed306.bitchute.com/lMC87TpFgwPv/xfaifevKAl2b.mp4',
             'https://seed171.bitchute.com/lMC87TpFgwPv/at8QcGoTIgfd.mp4',
             'https://seed128.bitchute.com/lMC87TpFgwPv/ROW95UqnLn8K.mp4',
             'https://seed163.bitchute.com/lMC87TpFgwPv/UZEgM44r4V70.mp4',
@@ -462,9 +462,9 @@ async function syncPlayback() {
 }
 
 async function preloadDurations() {
-    for (let i = 0; i < videoSources.length; i++) {
+    await Promise.all(videoSources.map(async (source, i) => {
         const tempVideo = document.createElement("video");
-        tempVideo.src = videoSources[i];
+        tempVideo.src = source;
 
         await new Promise(resolve => {
             tempVideo.addEventListener("loadedmetadata", () => {
@@ -472,7 +472,7 @@ async function preloadDurations() {
                 resolve();
             });
         });
-    }
+    }));
     syncPlayback();
 }
 
