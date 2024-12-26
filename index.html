@@ -10,9 +10,28 @@
 
   body {
     font-family: Arial, sans-serif;
+    background: #000; /* Updated background to black */
     background: #000;
   }
 
+ .sidebar {
+  width: 250px;
+  height: 100vh;
+  background: #000;
+  position: fixed;
+  left: 0;
+  top: 0;
+  padding: 30px;
+  color: white;
+  transition: 0.3s;
+  border-right: 1px solid #333;
+  overflow-y: auto; /* Permite rolagem vertical */
+  scrollbar-width: none; /* Remove barra de rolagem no Firefox */
+  -ms-overflow-style: none; /* Remove barra de rolagem no IE/Edge */
+}
+.sidebar::-webkit-scrollbar {
+  display: none; /* Remove barra de rolagem no WebKit (Chrome/Safari) */
+}
   .sidebar {
     width: 250px;
     height: 100vh;
@@ -35,19 +54,16 @@
 
   .sidebar.closed {
     left: -250px;
-  }
-
-  .menu-toggle {
-    position: fixed;
-    left: 20px;
-    top: 20px;
-    z-index: 999;
+@@ -46,19 +45,19 @@
     cursor: pointer;
     background: none;
     border: none;
+    color: #ff6b00; /* Changed to orange */
     color: #ff6b00;
     opacity: 1;
     transition: opacity 0.3s;
+    font-size: 1.5rem; /* Tamanho da fonte maior */
+    padding: 10px 15px; /* Maior área de clique */
     font-size: 1.5rem;
     padding: 10px 15px;
   }
@@ -57,108 +73,96 @@
   }
 
   .menu-toggle.menu-open {
+    color: #ff6b00; /* Changed to orange */
     color: #ff6b00;
   }
 
   .menu-list {
-    list-style: none;
-    margin-top: 60px;
-  }
-
-  .menu-list li {
-    margin: 20px 0;
-  }
-
-  .menu-list a {
-    color: #fff;
-    text-decoration: none;
-    font-size: 17px;
-    transition: 0.2s;
+@@ -78,26 +77,26 @@
     display: flex;
     align-items: center;
     gap: 10px;
+    padding: 7px; /* Added padding */
+    border-radius: 10px; /* Added border radius */
     padding: 7px;
     border-radius: 10px;
   }
 
   .menu-list a:hover {
+    background: rgba(255, 107, 0, 0.1); /* Add subtle orange background on hover */
+    color: #ff6b00; /* Changed from #00ff95 to orange */
     background: rgba(255, 107, 0, 0.1);
     color: #ff6b00;
   }
 
   .menu-list a:hover .menu-icon {
+    color: #ff6b00; /* Update icon color on hover */
     color: #ff6b00;
   }
 
   .content {
     margin-left: 250px;
+    padding: 0; /* Remove padding */
     padding: 0;
     transition: 0.3s;
+    background: #000; /* Added black background */
+    height: 100vh; /* Full viewport height */
+    overflow: hidden; /* Prevent scrolling */
     background: #000;
     height: 100vh;
     overflow: hidden;
   }
 
   .content.full-width {
-    margin-left: 0;
-  }
-
-  .menu-icon {
-    width: 24px;
-    height: 24px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  #fullscreen-container {
-    position: relative;
-    width: 100%;
-    height: 100vh;
-    background: #000;
+@@ -120,8 +119,6 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    margin: 0; /* Remove any margin */
+    padding: 0; /* Remove any padding */
   }
 
   #meuVideo {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-    max-width: 100%;
+@@ -132,25 +129,6 @@
     max-height: 100vh;
   }
 
-  #progress-circle {
+  #logo-overlay {
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 50px;
-    height: 50px;
-    border: 3px solid #fff;
-    border-top: 3px solid transparent;
-    border-radius: 50%;
-    animation: spin 1s linear infinite;
+    width: auto;
+    height: auto;
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    opacity: 0;
+    transition: opacity 0.3s;
+    pointer-events: none; /* Ensure logo doesn't interfere with player interaction */
   }
-
-  #loading-message, #satellite-message {
+  #logo-overlay.visible {
+    opacity: 1;
+  }
+  #progress-circle {
     position: absolute;
-    top: 60%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    color: white;
-    font-size: 18px;
+    top: 50%;
+@@ -174,13 +152,8 @@
     text-align: center;
   }
 
+  #satellite-message {
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+  #satellite-message.show {
+    opacity: 1;
   .hidden {
     display: none;
   }
 
   #button-container {
-    position: absolute;
-    top: 50%;
+@@ -189,6 +162,7 @@
     left: 50%;
     transform: translate(-50%, -50%);
     cursor: pointer;
@@ -166,67 +170,40 @@
   }
 
   #playButton {
-    font-size: 48px;
-    color: white;
-    opacity: 0;
-    transition: opacity 0.3s;
-  }
-
-  #playButton.visible {
+@@ -202,10 +176,6 @@
     opacity: 1;
   }
 
+  .hidden {
+    display: none;
+  }
   @keyframes spin {
     0% { transform: translate(-50%, -50%) rotate(0deg); }
     100% { transform: translate(-50%, -50%) rotate(360deg); }
-  }
-</style>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-</head>
-<body>
-
-<button class="menu-toggle">
-  <i class="fas fa-bars menu-icon"></i>
-</button>
-
-<nav class="sidebar">
-  <ul class="menu-list">
-    <li>
-      <a href="https://africamono.it.ao/">
-        <i class="fas fa-home menu-icon"></i>
-        Home
-      </a>
-    </li>
-    <li>
-      <a href="https://africamono.it.ao/music">
-        <i class="fas fa-tv menu-icon"></i> Music
-      </a>
-    </li>
-    <li>
+@@ -236,9 +206,9 @@
       <a href="https://africamono.it.ao/kuduro">
         <i class="fas fa-tv menu-icon"></i> Kuduro
       </a>
+</li>
     </li>
     <li>
+<a href="https://africamono.it.ao/cine">
       <a href="https://africamono.it.ao/cine">
         <i class="fas fa-tv menu-icon"></i> Cine
       </a>
     </li>
-    <li>
-      <a href="https://africamono.it.ao/igreja">
-        <i class="fas fa-tv menu-icon"></i> Gospel
-      </a>
-    </li>
-    <li>
+@@ -251,23 +221,22 @@
       <a href="https://africamono.it.ao/kids">
         <i class="fas fa-tv menu-icon"></i>Kids
       </a>
+   </li>
     </li>
     <li>
       <a href="https://africamono.it.ao/news">
         <i class="fas fa-tv menu-icon"></i> News
       </a>
     </li>
+ <li>
     <li>
       <a href="https://africamono.it.ao/sport">
         <i class="fas fa-tv menu-icon"></i> Sport
@@ -236,28 +213,22 @@
       <a href="https://youtube.com/playlist?list=PLhKiIzi_DlrNgNPVCaNl6eb4UIQvz3yIV&si=R-RqYWZBYj7GNeHH">
         <i class="fas fa-tv menu-icon"></i>Hora da Igreja
       </a>
+   </li>
     </li>
     <li>
       <a href="https://youtube.com/playlist?list=PLhKiIzi_DlrNK-gm0mqLMqPcy0HdKsEFJ&si=DMfb9vUfIMRrdkL7">
         <i class="fas fa-tv menu-icon"></i> No Palco
-      </a>
-    </li>
-    <li>
-      <a href="https://africamono.it.ao/Termos">
-        <i class="fas fa-cog menu-icon"></i>
-        Settings
-      </a>
-    </li>
-  </ul>
-</nav>
-
+@@ -285,17 +254,17 @@
 <main class="content">
   <div id="fullscreen-container">   
     <video id="meuVideo" playsinline preload="auto"></video>
+ 
     <div id="progress-circle" class="hidden"></div>
     <div id="loading-message" class="hidden">Checking the connection...</div>
+    <div id="satellite-message">Adjusting the signal on the satellite...</div>
     <div id="satellite-message" class="hidden">Adjusting the signal on the satellite...</div>
     <div id="button-container">
+        <i id="playButton" class="fas fa-play"></i>
       <i id="playButton" class="fas fa-play visible"></i>
     </div>
   </div>
@@ -268,29 +239,35 @@
 const menuToggle = document.querySelector('.menu-toggle');
 const sidebar = document.querySelector('.sidebar');
 const content = document.querySelector('.content');
-
-menuToggle.addEventListener('click', () => {
-  sidebar.classList.toggle('closed');
-  content.classList.toggle('full-width');
-  menuToggle.classList.toggle('menu-open');
-});
-
-// Hide menu toggle after 2 seconds
-setTimeout(() => {
-  menuToggle.classList.add('hidden');
-}, 2000);
-
-// Show menu toggle on mouse move
-document.addEventListener('mousemove', () => {
-  menuToggle.classList.remove('hidden');
-  
-  // Hide again after 2 seconds
-  clearTimeout(window.hideTimeout);
-  window.hideTimeout = setTimeout(() => {
-    menuToggle.classList.add('hidden');
+@@ -322,282 +291,235 @@
   }, 2000);
 });
 
+// Your original player code starts here
+const streamUrl = 'https://edge1-us-newyork.picarto.tv/stream/golive%2bafricamono.mp4';
+const videoSources = [
+   'https://seed128.bitchute.com/OkD3fEQ7n2eI/AFYNhCCIw6HG.mp4',
+        'https://zb10-7gsop1v78.bitchute.com/OkD3fEQ7n2eI/AYlCKdMmSMCI.mp4',
+        'https://seed163.bitchute.com/OkD3fEQ7n2eI/YMtjrcIP0rX3.mp4',
+        'https://seed167.bitchute.com/OkD3fEQ7n2eI/vY1azvISNqC8.mp4',
+        'https://seed163.bitchute.com/OkD3fEQ7n2eI/LkldJDexZkl4.mp4',
+        'https://seed125.bitchute.com/OkD3fEQ7n2eI/HLuM7tXxXnAY.mp4',
+        'https://seed306.bitchute.com/OkD3fEQ7n2eI/I302uTpVd6oI.mp4',
+        'https://seed306.bitchute.com/OkD3fEQ7n2eI/sSDc7whrv5ao.mp4',
+        'https://seed132.bitchute.com/OkD3fEQ7n2eI/irs3ZfOClBFI.mp4',
+        'https://seed307.bitchute.com/OkD3fEQ7n2eI/5VHtakgY3E5z.mp4',
+        'https://seed163.bitchute.com/OkD3fEQ7n2eI/mQtYcSY4zeg1.mp4',
+        'https://zggg98sgwbg1gh.bitchute.com/OkD3fEQ7n2eI/MBiqM5WcRddU.mp4'
+];
+const playlistStartTime = Date.UTC(2024, 11, 1, 0, 0, 0) / 1000;
+const videoPlayer = document.getElementById("meuVideo");
+const playButton = document.getElementById("playButton");
+const progressCircle = document.getElementById("progress-circle");
+const loadingMessage = document.getElementById("loading-message");
+const logoOverlay = document.getElementById('logo-overlay');
+let videoDurations = [];
+let playButtonTimeout;
+let isVideoPlaying = false;
 // Add fullscreen functionality
 function toggleFullScreen() {
     const container = document.getElementById('fullscreen-container');
@@ -298,6 +275,7 @@ function toggleFullScreen() {
     
     if (!document.fullscreenElement && !document.webkitFullscreenElement) {
         if (container.requestFullscreen) {
+            container.requestFullscreen().catch(err => {
             container.requestFullscreen().then(() => {
                 if (wasPlaying) {
                     videoPlayer.play().catch(err => console.error(err));
@@ -313,6 +291,8 @@ function toggleFullScreen() {
         }
     } else {
         if (document.exitFullscreen) {
+            document.exitFullscreen();
+        } else {
             document.exitFullscreen().then(() => {
                 if (wasPlaying) {
                     videoPlayer.play().catch(err => console.error(err));
@@ -329,9 +309,23 @@ function toggleFullScreen() {
 
 document.getElementById('fullscreen-container').addEventListener('click', toggleFullScreen);
 
+function showSatelliteMessage() {
+    hideLoading();
+    playButton.classList.remove('visible');
+    const message = document.getElementById('satellite-message');
+    message.classList.add('show');
+    setTimeout(hideSatelliteMessage, 3000);
+}
+function hideSatelliteMessage() {
+    const message = document.getElementById('satellite-message');
+    message.classList.remove('show');
+}
 // Utility functions
 function showLoading() {
     if (!isVideoPlaying) {
+        progressCircle.classList.remove("hidden");
+        loadingMessage.classList.remove("hidden");
+        playButton.classList.remove('visible');
         document.getElementById("progress-circle").classList.remove("hidden");
         document.getElementById("loading-message").classList.remove("hidden");
         document.getElementById("playButton").classList.remove('visible');
@@ -340,10 +334,33 @@ function showLoading() {
 }
 
 function hideLoading() {
+    progressCircle.classList.add("hidden");
+    loadingMessage.classList.add("hidden");
+}
+function showPlayButton() {
+    if (!isVideoPlaying) {
+        hideLoading();
+        hideSatelliteMessage();
+        playButton.classList.add('visible');
+        playButtonTimeout = setTimeout(() => {
+            playButton.classList.remove('visible');
+        }, 5000);
+    }
     document.getElementById("progress-circle").classList.add("hidden");
     document.getElementById("loading-message").classList.add("hidden");
 }
 
+async function getCurrentUTCTime() {
+    try {
+        const response = await fetch('https://worldtimeapi.org/api/timezone/Etc/UTC');
+        if (response.ok) {
+            const data = await response.json();
+            return data.unixtime;
+        }
+    } catch (error) {
+        console.warn("Failed to fetch UTC time, using local time as fallback.");
+    }
+    return Math.floor(Date.now() / 1000);
 function showSatelliteMessage() {
     hideLoading();
     document.getElementById("playButton").classList.remove('visible');
@@ -351,16 +368,36 @@ function showSatelliteMessage() {
     setTimeout(hideSatelliteMessage, 3000);
 }
 
+function calculateVideoPosition(elapsedTime) {
+    const totalDuration = videoDurations.reduce((a, b) => a + b, 0);
+    const elapsedInPlaylist = elapsedTime % totalDuration;
+    let accumulatedTime = 0;
+    for (let i = 0; i < videoSources.length; i++) {
+        accumulatedTime += videoDurations[i];
+        if (elapsedInPlaylist < accumulatedTime) {
+            const startTime = videoDurations[i] - (accumulatedTime - elapsedInPlaylist);
+            return { index: i, startTime };
+        }
+    }
+    return { index: 0, startTime: 0 };
 function hideSatelliteMessage() {
     document.getElementById('satellite-message').classList.add('hidden');
 }
 
+async function syncPlayback() {
+    const currentUTC = await getCurrentUTCTime();
+    const elapsedTime = currentUTC - playlistStartTime;
+    if (elapsedTime < 0) {
+        console.error("Playlist has not started yet.");
+        return;
+    }
 // Core video handling
 const videoSources = [
   'https://seed128.bitchute.com/OkD3fEQ7n2eI/AFYNhCCIw6HG.mp4',
   'https://zb10-7gsop1v78.bitchute.com/OkD3fEQ7n2eI/AYlCKdMmSMCI.mp4'
 ];
 
+    const { index, startTime } = calculateVideoPosition(elapsedTime);
 const videoPlayer = document.getElementById("meuVideo");
 const playButton = document.getElementById("playButton");
 let videoDurations = [];
@@ -368,17 +405,40 @@ let isVideoPlaying = false;
 let lastSyncTime = 0;
 const SYNC_INTERVAL = 10000;
 
+    if (videoPlayer.src !== videoSources[index]) {
+        showSatelliteMessage();
+        videoPlayer.src = videoSources[index];
+        playButton.classList.remove('visible');
+        clearTimeout(playButtonTimeout);
+        videoPlayer.load();
+    }
 // Time handling with caching
 let cachedUTCTime = null;
 let lastUTCFetch = 0;
 const TIME_CACHE_DURATION = 60000;
 
+    videoPlayer.addEventListener("loadedmetadata", function onMetadataLoaded() {
+        videoPlayer.currentTime = startTime;
+        videoPlayer.play().catch(console.error);
+        videoPlayer.removeEventListener("loadedmetadata", onMetadataLoaded);
+    });
+}
 async function getCurrentUTCTime() {
   const now = Date.now();
   if (cachedUTCTime && (now - lastUTCFetch) < TIME_CACHE_DURATION) {
     return Math.floor(cachedUTCTime + (now - lastUTCFetch) / 1000);
   }
 
+async function preloadDurations() {
+    for (let i = 0; i < videoSources.length; i++) {
+        const tempVideo = document.createElement("video");
+        tempVideo.src = videoSources[i];
+        await new Promise(resolve => {
+            tempVideo.addEventListener("loadedmetadata", () => {
+                videoDurations[i] = tempVideo.duration;
+                resolve();
+            });
+        });
   try {
     const response = await fetch('https://worldtimeapi.org/api/timezone/Etc/UTC');
     if (response.ok) {
@@ -387,6 +447,7 @@ async function getCurrentUTCTime() {
       lastUTCFetch = now;
       return cachedUTCTime;
     }
+    syncPlayback();
   } catch (error) {
     console.warn("Using local time fallback");
   }
@@ -394,6 +455,12 @@ async function getCurrentUTCTime() {
   return Math.floor(now / 1000);
 }
 
+async function checkStreamAvailability() {
+    try {
+        const response = await fetch(streamUrl, { method: 'HEAD' });
+        return response.ok;
+    } catch {
+        return false;
 // Video position calculation
 function calculateVideoPosition(elapsedTime) {
   const totalDuration = videoDurations.reduce((a, b) => a + b, 0);
@@ -412,6 +479,27 @@ function calculateVideoPosition(elapsedTime) {
   return { index: 0, startTime: 0 };
 }
 
+async function syncStreamOrPlaylist() {
+    if (!isVideoPlaying) {
+        showLoading();
+        playButton.classList.remove('visible');
+        hideSatelliteMessage();
+    }
+    const isStreamAvailable = await checkStreamAvailability();
+    if (isStreamAvailable) {
+        if (videoPlayer.src !== streamUrl) {
+            hideLoading();
+            showSatelliteMessage();
+            setTimeout(hideSatelliteMessage, 3000);
+            videoPlayer.src = streamUrl;
+            videoPlayer.load();
+            videoPlayer.play().catch(console.error);
+        }
+    } else {
+        syncPlayback();
+    }
+    hideLoading();
+}
 // Initialize
 window.addEventListener("load", async () => {
   showLoading();
@@ -421,15 +509,32 @@ window.addEventListener("load", async () => {
 
 // Event listeners
 videoPlayer.addEventListener("playing", () => {
+    isVideoPlaying = true;
+    hideLoading();
+    playButton.classList.remove('visible');
+    logoOverlay.classList.add('visible');
+    setTimeout(() => {
+        hideSatelliteMessage();
+    }, 500);
   isVideoPlaying = true;
   hideLoading();
   playButton.classList.remove('visible');
 });
 
 videoPlayer.addEventListener("pause", () => {
+    isVideoPlaying = false;
+    logoOverlay.classList.remove('visible');
   isVideoPlaying = false;
 });
 
+videoPlayer.addEventListener("ended", () => {
+    logoOverlay.classList.remove('visible');
+});
+videoPlayer.addEventListener("loadedmetadata", function() {
+    if (!isVideoPlaying) {
+        hideLoading();
+        hideSatelliteMessage();
+        showPlayButton();
 videoPlayer.addEventListener("click", function() {
     if (videoPlayer.paused) {
         videoPlayer.play().catch(console.error);
@@ -438,12 +543,30 @@ videoPlayer.addEventListener("click", function() {
     }
 });
 
+playButton.addEventListener("click", function(e) {
 playButton.addEventListener("click", async function(e) {
     e.stopPropagation();
+    if (videoPlayer.paused) {
+        showLoading();
+        videoPlayer.play()
+            .then(() => {
+                isVideoPlaying = true;
+                playButton.classList.remove('visible');
+                clearTimeout(playButtonTimeout);
+            })
+            .catch(error => {
+                console.error("Error starting video:", error);
+                hideLoading();
+            });
+    }
     playButton.classList.add('hidden');
     await videoPlayer.play().catch(console.error);
 });
 
+videoPlayer.addEventListener("loadeddata", hideLoading);
+videoPlayer.addEventListener("waiting", () => {
+    if (!isVideoPlaying) showLoading();
+});
 // Preload video durations
 async function preloadDurations() {
   const loadPromises = videoSources.map(src => new Promise(resolve => {
@@ -458,6 +581,12 @@ async function preloadDurations() {
   syncPlayback();
 }
 
+window.addEventListener("load", async () => {
+    showLoading();
+    await preloadDurations();
+    await syncStreamOrPlaylist();
+    if (!isVideoPlaying) hideLoading();
+});
 // Playback synchronization
 async function syncPlayback() {
   const currentTime = Date.now();
@@ -467,7 +596,6 @@ async function syncPlayback() {
   const currentUTC = await getCurrentUTCTime();
   const playlistStartTime = Math.floor(Date.UTC(2024, 0, 1) / 1000);
   const { index, startTime } = calculateVideoPosition(currentUTC - playlistStartTime);
-
   if (videoPlayer.src !== videoSources[index]) {
     showSatelliteMessage();
     videoPlayer.src = videoSources[index];
@@ -478,43 +606,53 @@ async function syncPlayback() {
   }
 }
 
+setInterval(syncStreamOrPlaylist, 10000);
 setInterval(syncPlayback, SYNC_INTERVAL);
 
+document.addEventListener('fullscreenchange', function() {
 // Add fullscreen change handlers
 document.addEventListener('fullscreenchange', () => {
     const container = document.getElementById('fullscreen-container');
     if (document.fullscreenElement) {
         container.style.width = '100vw';
         container.style.height = '100vh';
+        if (isVideoPlaying) {
+            logoOverlay.classList.add('visible');
         if (!videoPlayer.paused) {
             videoPlayer.play().catch(err => console.error(err));
         }
     } else {
         container.style.width = '100%';
         container.style.height = '100vh';
+        if (isVideoPlaying) {
+            logoOverlay.classList.add('visible');
         if (!videoPlayer.paused) {
             videoPlayer.play().catch(err => console.error(err));
         }
     }
 });
 
+document.addEventListener('webkitfullscreenchange', function() {
 document.addEventListener('webkitfullscreenchange', () => {
     const container = document.getElementById('fullscreen-container');
     if (document.webkitFullscreenElement) {
         container.style.width = '100vw';
         container.style.height = '100vh';
+        if (isVideoPlaying) {
+            logoOverlay.classList.add('visible');
         if (!videoPlayer.paused) {
             videoPlayer.play().catch(err => console.error(err));
         }
     } else {
         container.style.width = '100%';
         container.style.height = '100vh';
+        if (isVideoPlaying) {
+            logoOverlay.classList.add('visible');
         if (!videoPlayer.paused) {
             videoPlayer.play().catch(err => console.error(err));
         }
     }
 });
-
 document.getElementById('fullscreen-container').addEventListener('click', (e) => {
     if (e.target === document.getElementById('fullscreen-container')) {
         toggleFullScreen();
@@ -523,4 +661,3 @@ document.getElementById('fullscreen-container').addEventListener('click', (e) =>
 </script>
 
 </body>
-</html>
