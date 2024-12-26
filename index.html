@@ -1,296 +1,73 @@
-<html>
-<head>
-<base href="." />
-<meta charset="utf-8">
-<title>Africa Mono</title>
-<style>
-  * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-  }
-
-  body {
-    font-family: Arial, sans-serif;
-    background: #000;
-  }
-
-  .sidebar {
-    width: 250px;
-    height: 100vh;
-    background: #000;
-    position: fixed;
-    left: 0;
-    top: 0;
-    padding: 30px;
-    color: white;
-    transition: 0.3s;
-    border-right: 1px solid #333;
-    overflow-y: auto;
-    scrollbar-width: none;
-    -ms-overflow-style: none;
-  }
-
-  .sidebar::-webkit-scrollbar {
-    display: none;
-  }
-
-  .sidebar.closed {
-    left: -250px;
-  }
-
-  .menu-toggle {
-    position: fixed;
-    left: 20px;
-    top: 20px;
-    z-index: 999;
-    cursor: pointer;
-    background: none;
-    border: none;
-    color: #ff6b00;
-    opacity: 1;
-    transition: opacity 0.3s;
-    font-size: 1.5rem;
-    padding: 10px 15px;
-  }
-
-  .menu-toggle.hidden {
-    opacity: 0;
-  }
-
-  .menu-toggle.menu-open {
-    color: #ff6b00;
-  }
-
-  .menu-list {
-    list-style: none;
-    margin-top: 60px;
-  }
-
-  .menu-list li {
-    margin: 20px 0;
-  }
-
-  .menu-list a {
-    color: #fff;
-    text-decoration: none;
-    font-size: 17px;
-    transition: 0.2s;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 7px;
-    border-radius: 10px;
-  }
-
-  .menu-list a:hover {
-    background: rgba(255, 107, 0, 0.1);
-    color: #ff6b00;
-  }
-
-  .menu-list a:hover .menu-icon {
-    color: #ff6b00;
-  }
-
-  .content {
-    margin-left: 250px;
-    padding: 0;
-    transition: 0.3s;
-    background: #000;
-    height: 100vh;
-    overflow: hidden;
-  }
-
-  .content.full-width {
-    margin-left: 0;
-  }
-
-  .menu-icon {
-    width: 24px;
-    height: 24px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  #fullscreen-container {
-    position: relative;
-    width: 100%;
-    height: 100vh;
-    background: #000;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin: 0;
-    padding: 0;
-  }
-
-  #meuVideo {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-    max-width: 100%;
-    max-height: 100vh;
-  }
-
-  #logo-overlay {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: auto;
-    height: auto;
-    max-width: 100%;
-    max-height: 100%;
-    object-fit: contain;
-    opacity: 0;
-    transition: opacity 0.3s;
-    pointer-events: none;
-  }
-
-  #logo-overlay.visible {
-    opacity: 1;
-  }
-
-  #progress-circle {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 50px;
-    height: 50px;
-    border: 3px solid #fff;
-    border-top: 3px solid transparent;
-    border-radius: 50%;
-    animation: spin 1s linear infinite;
-  }
-
-  #loading-message, #satellite-message {
-    position: absolute;
-    top: 60%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    color: white;
-    font-size: 18px;
-    text-align: center;
-  }
-
-  #satellite-message {
-    opacity: 0;
-    transition: opacity 0.3s;
-  }
-
-  #satellite-message.show {
-    opacity: 1;
-  }
-
-  #button-container {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    cursor: pointer;
-  }
-
-  #playButton {
-    font-size: 48px;
-    color: white;
-    opacity: 0;
-    transition: opacity 0.3s;
-  }
-
-  #playButton.visible {
-    opacity: 1;
-  }
-
-  .hidden {
-    display: none;
-  }
-
-  @keyframes spin {
-    0% { transform: translate(-50%, -50%) rotate(0deg); }
-    100% { transform: translate(-50%, -50%) rotate(360deg); }
-  }
-</style>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-</head>
-<body>
-
-<button class="menu-toggle">
-  <i class="fas fa-bars menu-icon"></i>
-</button>
-
-<nav class="sidebar">
-  <ul class="menu-list">
-    <li>
-      <a href="https://africamono.it.ao/">
-        <i class="fas fa-home menu-icon"></i>
-        Home
+href="https://africamono.it.ao/player.html">
+        <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEi_lt83Uqi1zAKWs9fyKpJHJ9Y_rA_R4YhKc-78UKeNrDg0l_xXDQ7ZOz9Uc71V-rh-br36QUdFy8qqIUesD2DOyxRJA1Nni6Qk5eFljwqRhkZzl9wOuR2xX9NFIN53ngU7-AudCinnv1XKUyaQDkwMHTxZaEoJiEEEOochc_Delpn28x2uX2qfq8hVO7E/s1600/Backdrop.jpg" alt="Kids Content 3">
+        <div class="grid-item-content">
+          <h3 class="grid-item-title">CHANNEL AFRICA MONO CINE </h3>
+          <p class="grid-item-description">Mais aventuras emocionantes aguardam.</p>
+        </div>
       </a>
-    </li>
-    <li>
-      <a href="https://africamono.it.ao/music">
-        <i class="fas fa-tv menu-icon"></i> Music
+    </div>
+    <div class="grid-item">
+      <a href="https://africamono.it.ao/player.html">
+        <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEi_lt83Uqi1zAKWs9fyKpJHJ9Y_rA_R4YhKc-78UKeNrDg0l_xXDQ7ZOz9Uc71V-rh-br36QUdFy8qqIUesD2DOyxRJA1Nni6Qk5eFljwqRhkZzl9wOuR2xX9NFIN53ngU7-AudCinnv1XKUyaQDkwMHTxZaEoJiEEEOochc_Delpn28x2uX2qfq8hVO7E/s1600/Backdrop.jpg" alt="Kids Content 4">
+        <div class="grid-item-content">
+          <h3 class="grid-item-title">CHANNEL AFRICA MONO MUSIC</h3>
+          <p class="grid-item-description">Uma nova missão começa.</p>
+        </div>
       </a>
-    </li>
-    <li>
-      <a href="https://africamono.it.ao/kuduro">
-        <i class="fas fa-tv menu-icon"></i> Kuduro
+    </div>
+    <div class="grid-item">
+      <a href="https://africamono.it.ao/player.html">
+        <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjCxnoe6xKsea5A5xBwoTW9LtpEJQFp6sOQAZ_OMeKzvzThEz_BhfZlusT7sRtQHS3rEJhSFpaM2ZnPyLiZcZuXo-wIPkUqRgQuYux1_WmEj8xaT17tYEQ1j_vIsZTRjxTq_13gJGTZtpUrKsz4FXpaOmvStWmaJA9ggPlr0A0K0ukU7f5Pyh2kgDepJ-M/s591/Jesue%201.jpg" alt="Kids Content 5">
+        <div class="grid-item-content">
+          <h3 class="grid-item-title">Jesue Episode 5</h3>
+          <p class="grid-item-description">Descubra novos mistérios.</p>
+        </div>
       </a>
-    </li>
-    <li>
-      <a href="https://africamono.it.ao/cine">
-        <i class="fas fa-tv menu-icon"></i> Cine
+    </div>
+    <div class="grid-item">
+      <a href="https://africamono.it.ao/player.html">
+        <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjCxnoe6xKsea5A5xBwoTW9LtpEJQFp6sOQAZ_OMeKzvzThEz_BhfZlusT7sRtQHS3rEJhSFpaM2ZnPyLiZcZuXo-wIPkUqRgQuYux1_WmEj8xaT17tYEQ1j_vIsZTRjxTq_13gJGTZtpUrKsz4FXpaOmvStWmaJA9ggPlr0A0K0ukU7f5Pyh2kgDepJ-M/s591/Jesue%201.jpg" alt="Kids Content 6">
+        <div class="grid-item-content">
+          <h3 class="grid-item-title">Jesue Episode 6</h3>
+          <p class="grid-item-description">A aventura continua.</p>
+        </div>
       </a>
-    </li>
-    <li>
-      <a href="https://africamono.it.ao/igreja">
-        <i class="fas fa-tv menu-icon"></i> Gospel
+    </div>
+    <div class="grid-item">
+      <a href="https://africamono.it.ao/player.html">
+        <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjCxnoe6xKsea5A5xBwoTW9LtpEJQFp6sOQAZ_OMeKzvzThEz_BhfZlusT7sRtQHS3rEJhSFpaM2ZnPyLiZcZuXo-wIPkUqRgQuYux1_WmEj8xaT17tYEQ1j_vIsZTRjxTq_13gJGTZtpUrKsz4FXpaOmvStWmaJA9ggPlr0A0K0ukU7f5Pyh2kgDepJ-M/s591/Jesue%201.jpg" alt="Kids Content 7">
+        <div class="grid-item-content">
+          <h3 class="grid-item-title">Jesue Episode 7</h3>
+          <p class="grid-item-description">Momentos especiais esperam por você.</p>
+        </div>
       </a>
-    </li>
-    <li>
-      <a href="https://africamono.it.ao/kids">
-        <i class="fas fa-tv menu-icon"></i>Kids
+    </div>
+    <div class="grid-item">
+      <a href="https://africamono.it.ao/player.html">
+        <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjCxnoe6xKsea5A5xBwoTW9LtpEJQFp6sOQAZ_OMeKzvzThEz_BhfZlusT7sRtQHS3rEJhSFpaM2ZnPyLiZcZuXo-wIPkUqRgQuYux1_WmEj8xaT17tYEQ1j_vIsZTRjxTq_13gJGTZtpUrKsz4FXpaOmvStWmaJA9ggPlr0A0K0ukU7f5Pyh2kgDepJ-M/s591/Jesue%201.jpg" alt="Kids Content 8">
+        <div class="grid-item-content">
+          <h3 class="grid-item-title">Jesue Episode 8</h3>
+          <p class="grid-item-description">Novas lições para aprender.</p>
+        </div>
       </a>
-    </li>
-    <li>
-      <a href="https://africamono.it.ao/news">
-        <i class="fas fa-tv menu-icon"></i> News
+    </div>
+    <div class="grid-item">
+      <a href="https://africamono.it.ao/player.html">
+        <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjCxnoe6xKsea5A5xBwoTW9LtpEJQFp6sOQAZ_OMeKzvzThEz_BhfZlusT7sRtQHS3rEJhSFpaM2ZnPyLiZcZuXo-wIPkUqRgQuYux1_WmEj8xaT17tYEQ1j_vIsZTRjxTq_13gJGTZtpUrKsz4FXpaOmvStWmaJA9ggPlr0A0K0ukU7f5Pyh2kgDepJ-M/s591/Jesue%201.jpg" alt="Kids Content 9">
+        <div class="grid-item-content">
+          <h3 class="grid-item-title">Jesue Episode 9</h3>
+          <p class="grid-item-description">Uma história inspiradora.</p>
+        </div>
       </a>
-    </li>
-    <li>
-      <a href="https://africamono.it.ao/sport">
-        <i class="fas fa-tv menu-icon"></i> Sport
+    </div>
+    <div class="grid-item">
+      <a href="https://africamono.it.ao/player.html">
+        <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjCxnoe6xKsea5A5xBwoTW9LtpEJQFp6sOQAZ_OMeKzvzThEz_BhfZlusT7sRtQHS3rEJhSFpaM2ZnPyLiZcZuXo-wIPkUqRgQuYux1_WmEj8xaT17tYEQ1j_vIsZTRjxTq_13gJGTZtpUrKsz4FXpaOmvStWmaJA9ggPlr0A0K0ukU7f5Pyh2kgDepJ-M/s591/Jesue%201.jpg" alt="Kids Content 10">
+        <div class="grid-item-content">
+          <h3 class="grid-item-title">Jesue Episode 10</h3>
+          <p class="grid-item-description">O grande final da temporada.</p>
+        </div>
       </a>
-    </li>
-    <li>
-      <a href="https://youtube.com/playlist?list=PLhKiIzi_DlrNgNPVCaNl6eb4UIQvz3yIV&si=R-RqYWZBYj7GNeHH">
-        <i class="fas fa-tv menu-icon"></i>Hora da Igreja
-      </a>
-    </li>
-    <li>
-      <a href="https://youtube.com/playlist?list=PLhKiIzi_DlrNK-gm0mqLMqPcy0HdKsEFJ&si=DMfb9vUfIMRrdkL7">
-        <i class="fas fa-tv menu-icon"></i> No Palco
-      </a>
-    </li>
-    <li>
-      <a href="https://africamono.it.ao/Termos">
-        <i class="fas fa-cog menu-icon"></i>
-        Settings
-      </a>
-    </li>
-  </ul>
-</nav>
-
-<main class="content">
-  <div id="fullscreen-container">   
-    <video id="meuVideo" playsinline preload="auto"></video>
-
-    <div id="progress-circle" class="hidden"></div>
-    <div id="loading-message" class="hidden">Checking the connection...</div>
-    <div id="satellite-message">Adjusting the signal on the satellite...</div>
-    <div id="button-container">
-        <i id="playButton" class="fas fa-play"></i>
     </div>
   </div>
 </main>
@@ -300,303 +77,26 @@ const menuToggle = document.querySelector('.menu-toggle');
 const sidebar = document.querySelector('.sidebar');
 const content = document.querySelector('.content');
 
+// Initially hide the menu toggle after 2 seconds
+setTimeout(() => {
+  menuToggle.classList.add('hidden');
+}, 2000);
+
 menuToggle.addEventListener('click', () => {
-  sidebar.classList.toggle('closed');
-  content.classList.toggle('full-width');
+  sidebar.classList.toggle('open');
+  content.classList.toggle('shifted');
   menuToggle.classList.toggle('menu-open');
 });
 
-let menuHideTimeout;
-function hideMenuToggle() {
-  menuToggle.classList.add('hidden');
-}
-
-function resetMenuHideTimeout() {
-  clearTimeout(menuHideTimeout);
-  menuHideTimeout = setTimeout(hideMenuToggle, 2000);
-}
-
-resetMenuHideTimeout();
+// Show menu toggle on mouse move
 document.addEventListener('mousemove', () => {
   menuToggle.classList.remove('hidden');
-  resetMenuHideTimeout();
-});
-
-// Original player code starts here
-const streamUrl = 'https://edge1-us-newyork.picarto.tv/stream/golive%2bafricamono.mp4';
-const videoSources = [
-    'https://seed128.bitchute.com/OkD3fEQ7n2eI/AFYNhCCIw6HG.mp4',
-    'https://zb10-7gsop1v78.bitchute.com/OkD3fEQ7n2eI/AYlCKdMmSMCI.mp4',
-    'https://seed163.bitchute.com/OkD3fEQ7n2eI/YMtjrcIP0rX3.mp4',
-    'https://seed167.bitchute.com/OkD3fEQ7n2eI/vY1azvISNqC8.mp4',
-    'https://seed163.bitchute.com/OkD3fEQ7n2eI/LkldJDexZkl4.mp4',
-    'https://seed125.bitchute.com/OkD3fEQ7n2eI/HLuM7tXxXnAY.mp4',
-    'https://seed306.bitchute.com/OkD3fEQ7n2eI/I302uTpVd6oI.mp4',
-    'https://seed306.bitchute.com/OkD3fEQ7n2eI/sSDc7whrv5ao.mp4',
-    'https://seed132.bitchute.com/OkD3fEQ7n2eI/irs3ZfOClBFI.mp4',
-    'https://seed307.bitchute.com/OkD3fEQ7n2eI/5VHtakgY3E5z.mp4',
-    'https://seed163.bitchute.com/OkD3fEQ7n2eI/mQtYcSY4zeg1.mp4',
-    'https://zggg98sgwbg1gh.bitchute.com/OkD3fEQ7n2eI/MBiqM5WcRddU.mp4'
-];
-
-const playlistStartTime = Date.UTC(2024, 11, 1, 0, 0, 0) / 1000;
-const videoPlayer = document.getElementById("meuVideo");
-const playButton = document.getElementById("playButton");
-const progressCircle = document.getElementById("progress-circle");
-const loadingMessage = document.getElementById("loading-message");
-const logoOverlay = document.getElementById('logo-overlay');
-let videoDurations = [];
-let playButtonTimeout;
-let isVideoPlaying = false;
-
-function toggleFullScreen() {
-    const container = document.getElementById('fullscreen-container');
-    if (!document.fullscreenElement && !document.webkitFullscreenElement) {
-        if (container.requestFullscreen) {
-            container.requestFullscreen().catch(err => {
-                console.log(`Error attempting to enable fullscreen: ${err.message}`);
-            });
-        } else if (container.webkitRequestFullscreen) {
-            container.webkitRequestFullscreen();
-        }
-    } else {
-        if (document.exitFullscreen) {
-            document.exitFullscreen();
-        } else {
-            document.webkitExitFullscreen();
-        }
-    }
-}
-
-document.getElementById('fullscreen-container').addEventListener('click', toggleFullScreen);
-
-function showSatelliteMessage() {
-    hideLoading();
-    playButton.classList.remove('visible');
-    const message = document.getElementById('satellite-message');
-    message.classList.add('show');
-    setTimeout(hideSatelliteMessage, 3000);
-}
-
-function hideSatelliteMessage() {
-    const message = document.getElementById('satellite-message');
-    message.classList.remove('show');
-}
-
-function showLoading() {
-    if (!isVideoPlaying) {
-        progressCircle.classList.remove("hidden");
-        loadingMessage.classList.remove("hidden");
-        playButton.classList.remove('visible');
-        hideSatelliteMessage();
-    }
-}
-
-function hideLoading() {
-    progressCircle.classList.add("hidden");
-    loadingMessage.classList.add("hidden");
-}
-
-function showPlayButton() {
-    if (!isVideoPlaying) {
-        hideLoading();
-        hideSatelliteMessage();
-        playButton.classList.add('visible');
-        playButtonTimeout = setTimeout(() => {
-            playButton.classList.remove('visible');
-        }, 5000);
-    }
-}
-
-async function getCurrentUTCTime() {
-    try {
-        const response = await fetch('https://worldtimeapi.org/api/timezone/Etc/UTC');
-        if (response.ok) {
-            const data = await response.json();
-            return data.unixtime;
-        }
-    } catch (error) {
-        console.warn("Failed to fetch UTC time, using local time as fallback.");
-    }
-    return Math.floor(Date.now() / 1000);
-}
-
-function calculateVideoPosition(elapsedTime) {
-    const totalDuration = videoDurations.reduce((a, b) => a + b, 0);
-    const elapsedInPlaylist = elapsedTime % totalDuration;
-    let accumulatedTime = 0;
-
-    for (let i = 0; i < videoSources.length; i++) {
-        accumulatedTime += videoDurations[i];
-        if (elapsedInPlaylist < accumulatedTime) {
-            const startTime = videoDurations[i] - (accumulatedTime - elapsedInPlaylist);
-            return { index: i, startTime };
-        }
-    }
-    return { index: 0, startTime: 0 };
-}
-
-async function syncPlayback() {
-    const currentUTC = await getCurrentUTCTime();
-    const elapsedTime = currentUTC - playlistStartTime;
-    if (elapsedTime < 0) {
-        console.error("Playlist has not started yet.");
-        return;
-    }
-
-    const { index, startTime } = calculateVideoPosition(elapsedTime);
-
-    if (videoPlayer.src !== videoSources[index]) {
-        showSatelliteMessage();
-        videoPlayer.src = videoSources[index];
-        playButton.classList.remove('visible');
-        clearTimeout(playButtonTimeout);
-        videoPlayer.load();
-    }
-
-    videoPlayer.addEventListener("loadedmetadata", function onMetadataLoaded() {
-        videoPlayer.currentTime = startTime;
-        videoPlayer.play().catch(console.error);
-        videoPlayer.removeEventListener("loadedmetadata", onMetadataLoaded);
-    });
-}
-
-async function preloadDurations() {
-    await Promise.all(videoSources.map(async (source, i) => {
-        const tempVideo = document.createElement("video");
-        tempVideo.src = source;
-
-        await new Promise(resolve => {
-            tempVideo.addEventListener("loadedmetadata", () => {
-                videoDurations[i] = tempVideo.duration;
-                resolve();
-            });
-        });
-    }));
-    syncPlayback();
-}
-
-async function checkStreamAvailability() {
-    try {
-        const response = await fetch(streamUrl, { method: 'HEAD' });
-        return response.ok;
-    } catch {
-        return false;
-    }
-}
-
-async function syncStreamOrPlaylist() {
-    if (!isVideoPlaying) {
-        showLoading();
-        playButton.classList.remove('visible');
-        hideSatelliteMessage();
-    }
-    const isStreamAvailable = await checkStreamAvailability();
-    if (isStreamAvailable) {
-        if (videoPlayer.src !== streamUrl) {
-            hideLoading();
-            showSatelliteMessage();
-            setTimeout(hideSatelliteMessage, 3000);
-            videoPlayer.src = streamUrl;
-            videoPlayer.load();
-            videoPlayer.play().catch(console.error);
-        }
-    } else {
-        syncPlayback();
-    }
-    hideLoading();
-}
-
-videoPlayer.addEventListener("playing", () => {
-    isVideoPlaying = true;
-    hideLoading();
-    playButton.classList.remove('visible');
-    logoOverlay.classList.add('visible');
-    setTimeout(() => {
-        hideSatelliteMessage();
-    }, 500);
-});
-
-videoPlayer.addEventListener("pause", () => {
-    isVideoPlaying = false;
-    logoOverlay.classList.remove('visible');
-});
-
-videoPlayer.addEventListener("ended", () => {
-    logoOverlay.classList.remove('visible');
-});
-
-videoPlayer.addEventListener("loadedmetadata", function() {
-    if (!isVideoPlaying) {
-        hideLoading();
-        hideSatelliteMessage();
-        showPlayButton();
-    }
-});
-
-playButton.addEventListener("click", function(e) {
-    e.stopPropagation();
-    if (videoPlayer.paused) {
-        showLoading();
-        videoPlayer.play()
-            .then(() => {
-                isVideoPlaying = true;
-                playButton.classList.remove('visible');
-                clearTimeout(playButtonTimeout);
-            })
-            .catch(error => {
-                console.error("Error starting video:", error);
-                hideLoading();
-            });
-    }
-});
-
-videoPlayer.addEventListener("loadeddata", hideLoading);
-videoPlayer.addEventListener("waiting", () => {
-    if (!isVideoPlaying) showLoading();
-});
-
-window.addEventListener("load", async () => {
-    showLoading();
-    await preloadDurations();
-    await syncStreamOrPlaylist();
-    if (!isVideoPlaying) hideLoading();
-});
-
-setInterval(syncStreamOrPlaylist, 10000);
-
-document.addEventListener('fullscreenchange', function() {
-    const container = document.getElementById('fullscreen-container');
-    if (document.fullscreenElement) {
-        container.style.width = '100vw';
-        container.style.height = '100vh';
-        if (isVideoPlaying) {
-            logoOverlay.classList.add('visible');
-        }
-    } else {
-        container.style.width = '100%';
-        container.style.height = '100vh';
-        if (isVideoPlaying) {
-            logoOverlay.classList.add('visible');
-        }
-    }
-});
-
-document.addEventListener('webkitfullscreenchange', function() {
-    const container = document.getElementById('fullscreen-container');
-    if (document.webkitFullscreenElement) {
-        container.style.width = '100vw';
-        container.style.height = '100vh';
-        if (isVideoPlaying) {
-            logoOverlay.classList.add('visible');
-        }
-    } else {
-        container.style.width = '100%';
-        container.style.height = '100vh';
-        if (isVideoPlaying) {
-            logoOverlay.classList.add('visible');
-        }
-    }
+  
+  // Hide again after 2 seconds
+  clearTimeout(window.hideTimeout);
+  window.hideTimeout = setTimeout(() => {
+    menuToggle.classList.add('hidden');
+  }, 2000);
 });
 </script>
 
