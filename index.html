@@ -1,6 +1,6 @@
 <html><head><base href="." />
 <meta charset="utf-8">
-<title>Africa Mono </title>
+<title>Africa Mono  </title>
 <style>
   * {
     margin: 0;
@@ -11,6 +11,7 @@
   body {
     font-family: Arial, sans-serif;
     background: #000;
+    font-size: 16px; /* Base font size */
   }
 
 .sidebar {
@@ -104,10 +105,9 @@
     margin-left: 250px;
   }
 
-  /* Rest of the CSS remains the same as in the original code */
   .grid-container {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); /* Slightly wider grid items */
     gap: 30px;
     padding: 20px;
   }
@@ -141,21 +141,36 @@
   }
 
   .grid-item-title {
-    font-size: 16px;
+    font-size: clamp(14px, 4vw, 18px); /* Responsive font size with min and max limits */
     font-weight: bold;
     margin-bottom: 8px;
     color: #ff6b00;
   }
 
   .grid-item-description {
-    font-size: 14px;
-    color: #ccc;
+    font-size: clamp(12px, 3.5vw, 15px); /* Responsive font size with min and max limits */
     line-height: 1.4;
+    color: #ccc;
+  }
+
+  @media (max-width: 480px) {
+    .grid-container {
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); /* Tighter grid for small screens */
+      gap: 15px; /* Reduce gap between grid items */
+    }
+
+    .grid-item img {
+      height: 120px; /* Slightly smaller image height on mobile */
+    }
   }
 
   @media (max-width: 768px) {
-    .grid-container {
-      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    .grid-item-title {
+      font-size: clamp(13px, 4vw, 16px);
+    }
+
+    .grid-item-description {
+      font-size: clamp(11px, 3.5vw, 14px);
     }
   }
 </style>
