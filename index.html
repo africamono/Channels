@@ -1,5 +1,6 @@
 <html><head><base href="." />
 <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Africa Mono  </title>
 <style>
   * {
@@ -18,7 +19,7 @@
   height: 100vh;
   background: #000;
   position: fixed;
-  left: 0;
+  left: -250px;
   top: 0;
   padding: 30px;
   color: white;
@@ -27,156 +28,184 @@
   overflow-y: auto;
   scrollbar-width: none;
   -ms-overflow-style: none;
+  z-index: 1000;
 }
 
 .sidebar::-webkit-scrollbar {
   display: none;
 }
 
-.sidebar.closed {
-  left: -250px;
+.sidebar.open {
+  left: 0;
 }
 
-.menu-toggle {
-  position: fixed;
-  left: 20px;
-  top: 20px;
-  z-index: 999;
-  cursor: pointer;
-  background: none;
-  border: none;
-  color: #ff6b00;
-  opacity: 1;
-  transition: opacity 0.3s;
-  font-size: 1.5rem;
-  padding: 10px 15px;
-}
+  .menu-toggle {
+    position: fixed;
+    left: 20px;
+    top: 20px;
+    z-index: 1001;
+    cursor: pointer;
+    background: none;
+    border: none;
+    color: #ff6b00;
+    opacity: 1;
+    transition: opacity 0.3s;
+    font-size: 1.5rem;
+    padding: 10px 15px;
+  }
 
-.menu-toggle.hidden {
-  opacity: 0;
-}
+  .menu-toggle.hidden {
+    opacity: 0;
+    pointer-events: none;
+  }
 
-.menu-toggle.menu-open {
-  color: #ff6b00;
-}
+  .menu-toggle.menu-open {
+    color: #ff6b00;
+  }
 
-.menu-list {
-  list-style: none;
-  margin-top: 60px;
-}
+  .menu-list {
+    list-style: none;
+    margin-top: 60px;
+  }
 
-.menu-list li {
-  margin: 20px 0;
-}
+  .menu-list li {
+    margin: 20px 0;
+  }
 
-.menu-list a {
-  color: #fff;
-  text-decoration: none;
-  font-size: 17px;
-  transition: 0.2s;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 7px;
-  border-radius: 10px;
-}
+  .menu-list a {
+    color: #fff;
+    text-decoration: none;
+    font-size: 17px;
+    transition: 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 7px;
+    border-radius: 10px;
+  }
 
-.menu-list a:hover {
-  background: rgba(255, 107, 0, 0.1);
-  color: #ff6b00;
-}
+  .menu-list a:hover {
+    background: rgba(255, 107, 0, 0.1);
+    color: #ff6b00;
+  }
 
-.menu-list a:hover .menu-icon {
-  color: #ff6b00;
-}
-
-.content {
-  margin-left: 250px;
-  transition: 0.3s;
-  background: #000;
-  min-height: 100vh;
-  padding: 20px;
-}
-
-.content.full-width {
-  margin-left: 0;
-}
-
-.grid-container {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 30px;
-  padding: 20px;
-}
-
-.grid-item {
-  position: relative;
-  overflow: hidden;
-  border-radius: 10px;
-  background: #111;
-  padding-bottom: 15px;
-}
-
-.grid-item a {
-  text-decoration: none;
-}
-
-.grid-item img {
-  width: 100%;
-  height: 150px;
-  object-fit: cover;
-  transition: transform 0.3s ease;
-}
-
-.grid-item:hover img {
-  transform: scale(1.1);
-}
-
-.grid-item-content {
-  padding: 15px;
-  color: white;
-}
-
-.grid-item-title {
-  font-size: clamp(12px, 3vw, 16px);
-  font-weight: bold;
-  margin-bottom: 8px;
-  color: #ff6b00;
-}
-
-.grid-item-description {
-  font-size: clamp(10px, 2.5vw, 14px);
-  color: #ccc;
-  line-height: 1.4;
-}
-
-@media (max-width: 768px) {
-  .grid-container {
-    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  .menu-list a:hover .menu-icon {
+    color: #ff6b00;
   }
 
   .content {
     margin-left: 0;
+    transition: 0.3s;
+    background: #000;
+    min-height: 100vh;
+    padding: 20px;
+    width: 100%;
+  }
+
+  .content.shifted {
+    margin-left: 250px;
+  }
+
+  .grid-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    padding: 10px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .grid-item {
+    position: relative;
+    overflow: hidden;
+    border-radius: 10px;
+    background: #111;
+    padding-bottom: 15px;
+    width: 100%;
+  }
+
+  .grid-item a {
+    text-decoration: none;
+    display: block;
+  }
+
+  .grid-item img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+  }
+
+  .grid-item:hover img {
+    transform: scale(1.1);
+  }
+
+  .grid-item-content {
+    padding: 15px;
+    color: white;
   }
 
   .grid-item-title {
-    font-size: clamp(10px, 3vw, 14px);
+    font-size: 16px;
+    font-weight: bold;
+    margin-bottom: 8px;
+    color: #ff6b00;
   }
 
   .grid-item-description {
-    font-size: clamp(8px, 2.5vw, 12px);
-  }
-}
-
-@media (max-width: 480px) {
-  .grid-item-title {
-    font-size: clamp(8px, 2.5vw, 12px);
+    font-size: 14px;
+    color: #ccc;
+    line-height: 1.4;
   }
 
-  .grid-item-description {
-    font-size: clamp(6px, 2vw, 10px);
+  @media (max-width: 768px) {
+    .sidebar {
+      width: 100%;
+      left: -100%;
+    }
+    
+    .sidebar.open {
+      left: 0;
+    }
+    
+    .content.shifted {
+      margin-left: 0;
+      opacity: 0.3;
+    }
+    
+    .grid-container {
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 15px;
+      padding: 10px;
+    }
+    
+    .grid-item img {
+      height: 150px;
+    }
+    
+    .grid-item-content {
+      padding: 10px;
+    }
+    
+    .grid-item-title {
+      font-size: 14px;
+    }
+    
+    .grid-item-description {
+      font-size: 12px;
+    }
   }
-}
+
+  @media (max-width: 480px) {
+    .grid-container {
+      grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+      gap: 10px;
+    }
+    
+    .grid-item img {
+      height: 130px;
+    }
+  }
 </style>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 </head>
@@ -185,6 +214,7 @@
 <button class="menu-toggle">
   <i class="fas fa-bars menu-icon"></i>
 </button>
+
 <nav class="sidebar">
   <ul class="menu-list">
     <li>
@@ -259,83 +289,83 @@
       </a>
     </div>
     <div class="grid-item">
-      <a href="https://africamono.it.ao/player.html">
-        <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEi_lt83Uqi1zAKWs9fyKpJHJ9Y_rA_R4YhKc-78UKeNrDg0l_xXDQ7ZOz9Uc71V-rh-br36QUdFy8qqIUesD2DOyxRJA1Nni6Qk5eFljwqRhkZzl9wOuR2xX9NFIN53ngU7-AudCinnv1XKUyaQDkwMHTxZaEoJiEEEOochc_Delpn28x2uX2qfq8hVO7E/s1600/Backdrop.jpg" alt="Kids Content 2">
+      <a href="https://africamono.it.ao/player2.html">
+        <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhkLaAv_SFZlqvgMRRwYLN9bw42U4GqkJdATPjPuzGv6fdJCJPJgiN1VF1x9XlRX3ilQ0xzlFDlI0_9vwUSufmQfgqn464znC0qOHGIypNOXsr_bWfrh4eBJMBuspRkTtlFHWLnS1F77lcAwuz0Qqyc9TcY5R53E9zbQfTMQdItvkjdmlG_HP-OX34Vttg/s1600/5974387491597305266_121.jpg" alt="Kids Content 2">
         <div class="grid-item-content">
-          <h3 class="grid-item-title">CHANNEL AFRICA MONO KUDURO</h3>
-          <p class="grid-item-description">Continue a jornada com novas descobertas.</p>
+          <h3 class="grid-item-title"> IPS TV 2 </h3>
+          <p class="grid-item-description">Viana Ponte Partida junto a cantina amarela 2</p>
         </div>
       </a>
     </div>
     <div class="grid-item">
-      <a href="https://africamono.it.ao/player.html">
-        <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEi_lt83Uqi1zAKWs9fyKpJHJ9Y_rA_R4YhKc-78UKeNrDg0l_xXDQ7ZOz9Uc71V-rh-br36QUdFy8qqIUesD2DOyxRJA1Nni6Qk5eFljwqRhkZzl9wOuR2xX9NFIN53ngU7-AudCinnv1XKUyaQDkwMHTxZaEoJiEEEOochc_Delpn28x2uX2qfq8hVO7E/s1600/Backdrop.jpg" alt="Kids Content 3">
+      <a href="https://africamono.it.ao/player3.html">
+        <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhkLaAv_SFZlqvgMRRwYLN9bw42U4GqkJdATPjPuzGv6fdJCJPJgiN1VF1x9XlRX3ilQ0xzlFDlI0_9vwUSufmQfgqn464znC0qOHGIypNOXsr_bWfrh4eBJMBuspRkTtlFHWLnS1F77lcAwuz0Qqyc9TcY5R53E9zbQfTMQdItvkjdmlG_HP-OX34Vttg/s1600/5974387491597305267_121.jpg" alt="Kids Content 3">
         <div class="grid-item-content">
-          <h3 class="grid-item-title">CHANNEL AFRICA MONO CINE </h3>
-          <p class="grid-item-description">Mais aventuras emocionantes aguardam.</p>
+          <h3 class="grid-item-title"> IPS TV 3 </h3>
+          <p class="grid-item-description">Viana Ponte Partida junto a cantina amarela 3</p>
         </div>
       </a>
     </div>
     <div class="grid-item">
-      <a href="https://africamono.it.ao/player.html">
-        <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEi_lt83Uqi1zAKWs9fyKpJHJ9Y_rA_R4YhKc-78UKeNrDg0l_xXDQ7ZOz9Uc71V-rh-br36QUdFy8qqIUesD2DOyxRJA1Nni6Qk5eFljwqRhkZzl9wOuR2xX9NFIN53ngU7-AudCinnv1XKUyaQDkwMHTxZaEoJiEEEOochc_Delpn28x2uX2qfq8hVO7E/s1600/Backdrop.jpg" alt="Kids Content 4">
+      <a href="https://africamono.it.ao/player4.html">
+        <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhkLaAv_SFZlqvgMRRwYLN9bw42U4GqkJdATPjPuzGv6fdJCJPJgiN1VF1x9XlRX3ilQ0xzlFDlI0_9vwUSufmQfgqn464znC0qOHGIypNOXsr_bWfrh4eBJMBuspRkTtlFHWLnS1F77lcAwuz0Qqyc9TcY5R53E9zbQfTMQdItvkjdmlG_HP-OX34Vttg/s1600/5974387491597305268_121.jpg" alt="Kids Content 4">
         <div class="grid-item-content">
-          <h3 class="grid-item-title">CHANNEL AFRICA MONO MUSIC</h3>
-          <p class="grid-item-description">Uma nova missão começa.</p>
+          <h3 class="grid-item-title"> IPS TV 4 </h3>
+          <p class="grid-item-description">Viana Ponte Partida junto a cantina amarela 4</p>
         </div>
       </a>
     </div>
     <div class="grid-item">
-      <a href="https://africamono.it.ao/player.html">
-        <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjCxnoe6xKsea5A5xBwoTW9LtpEJQFp6sOQAZ_OMeKzvzThEz_BhfZlusT7sRtQHS3rEJhSFpaM2ZnPyLiZcZuXo-wIPkUqRgQuYux1_WmEj8xaT17tYEQ1j_vIsZTRjxTq_13gJGTZtpUrKsz4FXpaOmvStWmaJA9ggPlr0A0K0ukU7f5Pyh2kgDepJ-M/s591/Jesue%201.jpg" alt="Kids Content 5">
+      <a href="https://africamono.it.ao/player5.html">
+        <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhkLaAv_SFZlqvgMRRwYLN9bw42U4GqkJdATPjPuzGv6fdJCJPJgiN1VF1x9XlRX3ilQ0xzlFDlI0_9vwUSufmQfgqn464znC0qOHGIypNOXsr_bWfrh4eBJMBuspRkTtlFHWLnS1F77lcAwuz0Qqyc9TcY5R53E9zbQfTMQdItvkjdmlG_HP-OX34Vttg/s1600/5974387491597305269_121.jpg" alt="Kids Content 5">
         <div class="grid-item-content">
-          <h3 class="grid-item-title">Jesue Episode 5</h3>
-          <p class="grid-item-description">Descubra novos mistérios.</p>
+          <h3 class="grid-item-title"> IPS TV 5 </h3>
+          <p class="grid-item-description">Viana Ponte Partida junto a cantina amarela 5</p>
         </div>
       </a>
     </div>
     <div class="grid-item">
-      <a href="https://africamono.it.ao/player.html">
-        <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjCxnoe6xKsea5A5xBwoTW9LtpEJQFp6sOQAZ_OMeKzvzThEz_BhfZlusT7sRtQHS3rEJhSFpaM2ZnPyLiZcZuXo-wIPkUqRgQuYux1_WmEj8xaT17tYEQ1j_vIsZTRjxTq_13gJGTZtpUrKsz4FXpaOmvStWmaJA9ggPlr0A0K0ukU7f5Pyh2kgDepJ-M/s591/Jesue%201.jpg" alt="Kids Content 6">
+      <a href="https://africamono.it.ao/player6.html">
+        <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhkLaAv_SFZlqvgMRRwYLN9bw42U4GqkJdATPjPuzGv6fdJCJPJgiN1VF1x9XlRX3ilQ0xzlFDlI0_9vwUSufmQfgqn464znC0qOHGIypNOXsr_bWfrh4eBJMBuspRkTtlFHWLnS1F77lcAwuz0Qqyc9TcY5R53E9zbQfTMQdItvkjdmlG_HP-OX34Vttg/s1600/5974387491597305270_121.jpg" alt="Kids Content 6">
         <div class="grid-item-content">
-          <h3 class="grid-item-title">Jesue Episode 6</h3>
-          <p class="grid-item-description">A aventura continua.</p>
+          <h3 class="grid-item-title"> IPS TV 6 </h3>
+          <p class="grid-item-description">Viana Ponte Partida junto a cantina amarela 6</p>
         </div>
       </a>
     </div>
     <div class="grid-item">
-      <a href="https://africamono.it.ao/player.html">
-        <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjCxnoe6xKsea5A5xBwoTW9LtpEJQFp6sOQAZ_OMeKzvzThEz_BhfZlusT7sRtQHS3rEJhSFpaM2ZnPyLiZcZuXo-wIPkUqRgQuYux1_WmEj8xaT17tYEQ1j_vIsZTRjxTq_13gJGTZtpUrKsz4FXpaOmvStWmaJA9ggPlr0A0K0ukU7f5Pyh2kgDepJ-M/s591/Jesue%201.jpg" alt="Kids Content 7">
+      <a href="https://africamono.it.ao/player7.html">
+        <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhkLaAv_SFZlqvgMRRwYLN9bw42U4GqkJdATPjPuzGv6fdJCJPJgiN1VF1x9XlRX3ilQ0xzlFDlI0_9vwUSufmQfgqn464znC0qOHGIypNOXsr_bWfrh4eBJMBuspRkTtlFHWLnS1F77lcAwuz0Qqyc9TcY5R53E9zbQfTMQdItvkjdmlG_HP-OX34Vttg/s1600/5974387491597305271_121.jpg" alt="Kids Content 7">
         <div class="grid-item-content">
-          <h3 class="grid-item-title">Jesue Episode 7</h3>
-          <p class="grid-item-description">Momentos especiais esperam por você.</p>
+          <h3 class="grid-item-title"> IPS TV 7 </h3>
+          <p class="grid-item-description">Viana Ponte Partida junto a cantina amarela 7</p>
         </div>
       </a>
     </div>
     <div class="grid-item">
-      <a href="https://africamono.it.ao/player.html">
-        <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjCxnoe6xKsea5A5xBwoTW9LtpEJQFp6sOQAZ_OMeKzvzThEz_BhfZlusT7sRtQHS3rEJhSFpaM2ZnPyLiZcZuXo-wIPkUqRgQuYux1_WmEj8xaT17tYEQ1j_vIsZTRjxTq_13gJGTZtpUrKsz4FXpaOmvStWmaJA9ggPlr0A0K0ukU7f5Pyh2kgDepJ-M/s591/Jesue%201.jpg" alt="Kids Content 8">
+      <a href="https://africamono.it.ao/player8.html">
+        <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhkLaAv_SFZlqvgMRRwYLN9bw42U4GqkJdATPjPuzGv6fdJCJPJgiN1VF1x9XlRX3ilQ0xzlFDlI0_9vwUSufmQfgqn464znC0qOHGIypNOXsr_bWfrh4eBJMBuspRkTtlFHWLnS1F77lcAwuz0Qqyc9TcY5R53E9zbQfTMQdItvkjdmlG_HP-OX34Vttg/s1600/5974387491597305272_121.jpg" alt="Kids Content 8">
         <div class="grid-item-content">
-          <h3 class="grid-item-title">Jesue Episode 8</h3>
-          <p class="grid-item-description">Novas lições para aprender.</p>
+          <h3 class="grid-item-title"> IPS TV 8 </h3>
+          <p class="grid-item-description">Viana Ponte Partida junto a cantina amarela 8</p>
         </div>
       </a>
     </div>
     <div class="grid-item">
-      <a href="https://africamono.it.ao/player.html">
-        <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjCxnoe6xKsea5A5xBwoTW9LtpEJQFp6sOQAZ_OMeKzvzThEz_BhfZlusT7sRtQHS3rEJhSFpaM2ZnPyLiZcZuXo-wIPkUqRgQuYux1_WmEj8xaT17tYEQ1j_vIsZTRjxTq_13gJGTZtpUrKsz4FXpaOmvStWmaJA9ggPlr0A0K0ukU7f5Pyh2kgDepJ-M/s591/Jesue%201.jpg" alt="Kids Content 9">
+      <a href="https://africamono.it.ao/player9.html">
+        <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhkLaAv_SFZlqvgMRRwYLN9bw42U4GqkJdATPjPuzGv6fdJCJPJgiN1VF1x9XlRX3ilQ0xzlFDlI0_9vwUSufmQfgqn464znC0qOHGIypNOXsr_bWfrh4eBJMBuspRkTtlFHWLnS1F77lcAwuz0Qqyc9TcY5R53E9zbQfTMQdItvkjdmlG_HP-OX34Vttg/s1600/5974387491597305273_121.jpg" alt="Kids Content 9">
         <div class="grid-item-content">
-          <h3 class="grid-item-title">Jesue Episode 9</h3>
-          <p class="grid-item-description">Uma história inspiradora.</p>
+          <h3 class="grid-item-title"> IPS TV 9 </h3>
+          <p class="grid-item-description">Viana Ponte Partida junto a cantina amarela 9</p>
         </div>
       </a>
     </div>
     <div class="grid-item">
-      <a href="https://africamono.it.ao/player.html">
-        <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjCxnoe6xKsea5A5xBwoTW9LtpEJQFp6sOQAZ_OMeKzvzThEz_BhfZlusT7sRtQHS3rEJhSFpaM2ZnPyLiZcZuXo-wIPkUqRgQuYux1_WmEj8xaT17tYEQ1j_vIsZTRjxTq_13gJGTZtpUrKsz4FXpaOmvStWmaJA9ggPlr0A0K0ukU7f5Pyh2kgDepJ-M/s591/Jesue%201.jpg" alt="Kids Content 10">
+      <a href="https://africamono.it.ao/player10.html">
+        <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhkLaAv_SFZlqvgMRRwYLN9bw42U4GqkJdATPjPuzGv6fdJCJPJgiN1VF1x9XlRX3ilQ0xzlFDlI0_9vwUSufmQfgqn464znC0qOHGIypNOXsr_bWfrh4eBJMBuspRkTtlFHWLnS1F77lcAwuz0Qqyc9TcY5R53E9zbQfTMQdItvkjdmlG_HP-OX34Vttg/s1600/5974387491597305274_121.jpg" alt="Kids Content 10">
         <div class="grid-item-content">
-          <h3 class="grid-item-title">Jesue Episode 10</h3>
-          <p class="grid-item-description">O grande final da temporada.</p>
+          <h3 class="grid-item-title"> IPS TV 10 </h3>
+          <p class="grid-item-description">Viana Ponte Partida junto a cantina amarela 10</p>
         </div>
       </a>
     </div>
@@ -347,21 +377,19 @@ const menuToggle = document.querySelector('.menu-toggle');
 const sidebar = document.querySelector('.sidebar');
 const content = document.querySelector('.content');
 
-menuToggle.addEventListener('click', () => {
-  sidebar.classList.toggle('closed');
-  content.classList.toggle('full-width');
-});
-
-// Hide menu toggle after 2 seconds
 setTimeout(() => {
   menuToggle.classList.add('hidden');
 }, 2000);
 
-// Show menu toggle on mouse move
+menuToggle.addEventListener('click', () => {
+  sidebar.classList.toggle('open');
+  content.classList.toggle('shifted');
+  menuToggle.classList.toggle('menu-open');
+});
+
 document.addEventListener('mousemove', () => {
   menuToggle.classList.remove('hidden');
   
-  // Hide again after 2 seconds
   clearTimeout(window.hideTimeout);
   window.hideTimeout = setTimeout(() => {
     menuToggle.classList.add('hidden');
