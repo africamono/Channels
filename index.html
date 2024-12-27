@@ -1,4 +1,257 @@
-href="https://africamono.it.ao/player.html">
+<html><head><base href="." />
+<meta charset="utf-8">
+<title>Africa Mono </title>
+<style>
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  body {
+    font-family: Arial, sans-serif;
+    background: #000;
+  }
+
+.sidebar {
+  width: 250px;
+  height: 100vh;
+  background: #000;
+  position: fixed;
+  left: -250px; /* Initially hidden */
+  top: 0;
+  padding: 30px;
+  color: white;
+  transition: 0.3s;
+  border-right: 1px solid #333;
+  overflow-y: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  z-index: 1000; /* Ensure it's above other content */
+}
+
+.sidebar::-webkit-scrollbar {
+  display: none;
+}
+
+.sidebar.open {
+  left: 0; /* Slide in when open class is added */
+}
+
+  .menu-toggle {
+    position: fixed;
+    left: 20px;
+    top: 20px;
+    z-index: 1001;
+    cursor: pointer;
+    background: none;
+    border: none;
+    color: #ff6b00;
+    opacity: 1;
+    transition: opacity 0.3s;
+    font-size: 1.5rem;
+    padding: 10px 15px;
+  }
+
+  .menu-toggle.hidden {
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .menu-toggle.menu-open {
+    color: #ff6b00;
+  }
+
+  .menu-list {
+    list-style: none;
+    margin-top: 60px;
+  }
+
+  .menu-list li {
+    margin: 20px 0;
+  }
+
+  .menu-list a {
+    color: #fff;
+    text-decoration: none;
+    font-size: 17px;
+    transition: 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 7px;
+    border-radius: 10px;
+  }
+
+  .menu-list a:hover {
+    background: rgba(255, 107, 0, 0.1);
+    color: #ff6b00;
+  }
+
+  .menu-list a:hover .menu-icon {
+    color: #ff6b00;
+  }
+
+  .content {
+    margin-left: 0; /* Initially full width */
+    transition: 0.3s;
+    background: #000;
+    min-height: 100vh;
+    padding: 20px;
+  }
+
+  .content.shifted {
+    margin-left: 250px;
+  }
+
+  /* Rest of the CSS remains the same as in the original code */
+  .grid-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 30px;
+    padding: 20px;
+  }
+
+  .grid-item {
+    position: relative;
+    overflow: hidden;
+    border-radius: 10px;
+    background: #111;
+    padding-bottom: 15px;
+  }
+
+  .grid-item a {
+    text-decoration: none;
+  }
+
+  .grid-item img {
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+  }
+
+  .grid-item:hover img {
+    transform: scale(1.1);
+  }
+
+  .grid-item-content {
+    padding: 15px;
+    color: white;
+  }
+
+  .grid-item-title {
+    font-size: 16px;
+    font-weight: bold;
+    margin-bottom: 8px;
+    color: #ff6b00;
+  }
+
+  .grid-item-description {
+    font-size: 14px;
+    color: #ccc;
+    line-height: 1.4;
+  }
+
+  @media (max-width: 768px) {
+    .grid-container {
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    }
+  }
+</style>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+</head>
+<body>
+
+<button class="menu-toggle">
+  <i class="fas fa-bars menu-icon"></i>
+</button>
+
+<nav class="sidebar">
+  <ul class="menu-list">
+    <li>
+      <a href="https://africamono.it.ao/">
+        <i class="fas fa-home menu-icon"></i>
+        Home
+      </a>
+    </li>
+    <li>
+      <a href="https://africamono.it.ao/music">
+        <i class="fas fa-tv menu-icon"></i> Music
+      </a>
+    </li>
+    <li>
+      <a href="https://africamono.it.ao/kuduro">
+        <i class="fas fa-tv menu-icon"></i> Kuduro
+      </a>
+    </li>
+    <li>
+      <a href="https://africamono.it.ao/cine">
+        <i class="fas fa-tv menu-icon"></i> Cine
+      </a>
+    </li>
+    <li>
+      <a href="https://africamono.it.ao/igreja">
+        <i class="fas fa-tv menu-icon"></i> Gospel
+      </a>
+    </li>
+    <li>
+      <a href="https://africamono.it.ao/kids">
+        <i class="fas fa-tv menu-icon"></i>Kids
+      </a>
+    </li>
+    <li>
+      <a href="https://africamono.it.ao/news">
+        <i class="fas fa-tv menu-icon"></i> News
+      </a>
+    </li>
+    <li>
+      <a href="https://africamono.it.ao/sport">
+        <i class="fas fa-tv menu-icon"></i> Sport
+      </a>
+    </li>
+    <li>
+      <a href="https://youtube.com/playlist?list=PLhKiIzi_DlrNgNPVCaNl6eb4UIQvz3yIV&si=R-RqYWZBYj7GNeHH">
+        <i class="fas fa-tv menu-icon"></i>Hora da Igreja
+      </a>
+    </li>
+    <li>
+      <a href="https://youtube.com/playlist?list=PLhKiIzi_DlrNK-gm0mqLMqPcy0HdKsEFJ&si=DMfb9vUfIMRrdkL7">
+        <i class="fas fa-tv menu-icon"></i> No Palco
+      </a>
+    </li>
+    <li>
+      <a href="https://africamono.it.ao/Termos">
+        <i class="fas fa-cog menu-icon"></i>
+        Settings
+      </a>
+    </li>
+  </ul>
+</nav>
+
+<main class="content">
+  <!-- Grid content remains the same as in the original code -->
+  <div class="grid-container">
+    <div class="grid-item">
+      <a href="https://africamono.it.ao/player.html">
+        <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhkLaAv_SFZlqvgMRRwYLN9bw42U4GqkJdATPjPuzGv6fdJCJPJgiN1VF1x9XlRX3ilQ0xzlFDlI0_9vwUSufmQfgqn464znC0qOHGIypNOXsr_bWfrh4eBJMBuspRkTtlFHWLnS1F77lcAwuz0Qqyc9TcY5R53E9zbQfTMQdItvkjdmlG_HP-OX34Vttg/s1600/5974387491597305265_121.jpg" alt="Kids Content 1">
+        <div class="grid-item-content">
+          <h3 class="grid-item-title"> IPS TV </h3>
+          <p class="grid-item-description">Viana Ponte Partida junto a cantina amarela</p>
+        </div>
+      </a>
+    </div>
+    <div class="grid-item">
+      <a href="https://africamono.it.ao/player.html">
+        <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEi_lt83Uqi1zAKWs9fyKpJHJ9Y_rA_R4YhKc-78UKeNrDg0l_xXDQ7ZOz9Uc71V-rh-br36QUdFy8qqIUesD2DOyxRJA1Nni6Qk5eFljwqRhkZzl9wOuR2xX9NFIN53ngU7-AudCinnv1XKUyaQDkwMHTxZaEoJiEEEOochc_Delpn28x2uX2qfq8hVO7E/s1600/Backdrop.jpg" alt="Kids Content 2">
+        <div class="grid-item-content">
+          <h3 class="grid-item-title">CHANNEL AFRICA MONO KUDURO</h3>
+          <p class="grid-item-description">Continue a jornada com novas descobertas.</p>
+        </div>
+      </a>
+    </div>
+    <div class="grid-item">
+      <a href="https://africamono.it.ao/player.html">
         <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEi_lt83Uqi1zAKWs9fyKpJHJ9Y_rA_R4YhKc-78UKeNrDg0l_xXDQ7ZOz9Uc71V-rh-br36QUdFy8qqIUesD2DOyxRJA1Nni6Qk5eFljwqRhkZzl9wOuR2xX9NFIN53ngU7-AudCinnv1XKUyaQDkwMHTxZaEoJiEEEOochc_Delpn28x2uX2qfq8hVO7E/s1600/Backdrop.jpg" alt="Kids Content 3">
         <div class="grid-item-content">
           <h3 class="grid-item-title">CHANNEL AFRICA MONO CINE </h3>
