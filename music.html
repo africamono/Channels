@@ -1,8 +1,4 @@
-<html>
-<head>
-<base href="." />
-<meta charset="utf-8">
-<title>Africa Mono</title>
+<html><head><base href="." /><meta charset="utf-8"><title>Africa Mono</title>
 <style>
   * {
     margin: 0;
@@ -213,6 +209,17 @@
   }
 </style>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+<script>
+// Add this at the start of your JavaScript code, right after document.ready or window.onload
+window.addEventListener('load', function() {
+  // Initially hide the menu
+  const sidebar = document.querySelector('.sidebar');
+  const content = document.querySelector('.content');
+  
+  sidebar.classList.add('closed');
+  content.classList.add('full-width');
+});
+</script>
 </head>
 <body>
 
